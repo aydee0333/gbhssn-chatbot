@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GBHSSNaudero AI Assistant</title>
-  <script src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js"></script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
@@ -23,20 +22,12 @@
 
     /* ── SETUP ── */
     #setup{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:200;padding:16px;overflow-y:auto}
-    .sbox{width:100%;max-width:640px;background:var(--sur);border:1px solid var(--bdr2);border-radius:22px;overflow:hidden;box-shadow:var(--sh);position:relative;z-index:1}
+    .sbox{width:100%;max-width:520px;background:var(--sur);border:1px solid var(--bdr2);border-radius:22px;overflow:hidden;box-shadow:var(--sh);position:relative;z-index:1}
     .shdr{padding:28px 36px 22px;background:linear-gradient(135deg,rgba(59,130,246,0.08),rgba(139,92,246,0.08));border-bottom:1px solid var(--bdr);text-align:center}
     .slogo{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 12px;box-shadow:0 0 24px rgba(59,130,246,0.3)}
     .shdr h1{font-size:21px;font-weight:800;margin-bottom:4px;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .shdr p{font-size:12.5px;color:var(--mut)}
     .sbody{padding:24px 36px 30px}
-    .slbl{font-size:11px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:1.1px;margin-bottom:9px}
-
-    /* Provider tabs */
-    .ptabs{display:flex;gap:0;margin-bottom:20px;background:var(--sur2);border:1px solid var(--bdr2);border-radius:10px;padding:4px;flex-wrap:wrap;gap:3px}
-    .ptab{flex:1;min-width:100px;padding:8px 6px;border:none;border-radius:7px;background:transparent;color:var(--dim);font-family:var(--fn);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.18s;text-align:center;line-height:1.3}
-    .ptab:hover{color:var(--txt)}
-    .ptab.on{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;box-shadow:0 2px 10px rgba(59,130,246,0.3)}
-
     .flbl{display:block;font-size:12px;font-weight:600;color:var(--dim);margin-bottom:6px}
     .kwrap{display:flex;gap:6px;background:var(--sur2);border:1px solid var(--bdr2);border-radius:9px;padding:3px 3px 3px 11px;margin-bottom:14px;transition:border-color 0.2s}
     .kwrap:focus-within{border-color:var(--acc);box-shadow:0 0 0 3px var(--glow)}
@@ -46,23 +37,14 @@
     #kVis:hover{color:var(--txt)}
     #mSel{width:100%;background:var(--sur2);border:1px solid var(--bdr2);border-radius:9px;color:var(--txt);font-family:var(--fn);font-size:13px;padding:9px 11px;outline:none;cursor:pointer;margin-bottom:14px}
     #mSel option{background:var(--sur2)}
-
     .ibox{display:flex;gap:8px;background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.18);border-radius:9px;padding:10px 12px;margin-bottom:16px;font-size:12px;color:var(--dim);line-height:1.55}
     .ibox a{color:var(--acc);text-decoration:none}.ibox a:hover{text-decoration:underline}
-
-    /* Tips panel */
-    .tips{background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:9px;padding:11px 13px;margin-bottom:16px;font-size:12px;color:#fbbf24;line-height:1.6}
-    .tips strong{color:var(--warn);display:block;margin-bottom:4px}
-    .tips ul{margin-left:16px}.tips li{margin:2px 0;color:var(--dim)}
-    .tips a{color:var(--acc);text-decoration:none}.tips a:hover{text-decoration:underline}
-
     #sErr{display:none;border-radius:9px;margin-bottom:14px;overflow:hidden}
     #sErr.on{display:block}
     .seHead{display:flex;justify-content:space-between;align-items:center;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);border-bottom:none;padding:8px 12px;border-radius:9px 9px 0 0}
     .seHead strong{color:var(--err);font-size:12px}
     .seHead button{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;font-size:11px;padding:2px 9px;border-radius:5px;cursor:pointer;font-family:var(--fn)}
     #sErrTxt{background:rgba(0,0,0,0.2);border:1px solid rgba(239,68,68,0.15);border-top:none;padding:9px 12px;border-radius:0 0 9px 9px;font-family:var(--mono);font-size:11.5px;color:#f9a8a8;white-space:pre-wrap;word-break:break-all;max-height:130px;overflow-y:auto;user-select:all;cursor:text;line-height:1.5}
-
     #goBtn{width:100%;padding:13px;background:linear-gradient(135deg,var(--acc),var(--acc2));border:none;border-radius:9px;color:#fff;font-family:var(--fn);font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(59,130,246,0.3)}
     #goBtn:hover:not(:disabled){opacity:.9;transform:translateY(-1px)}
     #goBtn:disabled{opacity:.45;cursor:not-allowed;transform:none}
@@ -70,8 +52,7 @@
 
     /* ── INIT ── */
     #initOv{position:fixed;inset:0;background:rgba(7,11,20,0.94);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:150;transition:opacity 0.4s}
-    #initOv.on{display:flex}
-    #initOv.fade{opacity:0}
+    #initOv.on{display:flex}#initOv.fade{opacity:0}
     .icard{background:var(--sur);border:1px solid var(--bdr2);border-radius:20px;padding:36px 40px;max-width:420px;width:90%;text-align:center;box-shadow:var(--sh)}
     .iico{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px;animation:glow 2s ease-in-out infinite}
     @keyframes glow{0%,100%{box-shadow:0 0 14px rgba(59,130,246,0.3)}50%{box-shadow:0 0 30px rgba(59,130,246,0.6)}}
@@ -91,10 +72,9 @@
     #app.on{display:flex}
     #hdr{display:flex;align-items:center;gap:11px;padding:12px 20px;background:rgba(14,20,32,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--bdr);flex-shrink:0}
     .hlogo{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
-    .htxt h1{font-size:15px;font-weight:800}
-    .htxt p{font-size:11px;color:var(--mut);margin-top:1px}
+    .htxt h1{font-size:15px;font-weight:800}.htxt p{font-size:11px;color:var(--mut);margin-top:1px}
     .hrgt{margin-left:auto;display:flex;align-items:center;gap:8px}
-    #ppill{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;background:var(--sur2);border:1px solid var(--bdr2);font-size:11px;color:var(--dim);max-width:220px;overflow:hidden}
+    #ppill{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;background:var(--sur2);border:1px solid var(--bdr2);font-size:11px;color:var(--dim);max-width:240px;overflow:hidden}
     #pdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:var(--ok);box-shadow:0 0 6px var(--ok)}
     #pName{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
     #swBtn{padding:4px 12px;border-radius:99px;font-size:11.5px;font-weight:600;background:var(--sur2);border:1px solid var(--bdr2);color:var(--mut);cursor:pointer;font-family:var(--fn);transition:all 0.18s;white-space:nowrap}
@@ -106,16 +86,15 @@
     .mrow.u{flex-direction:row-reverse}
     @keyframes fup{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
     .av{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;align-self:flex-end}
-    .av.b{background:linear-gradient(135deg,var(--acc),var(--acc2))}
-    .av.u{background:var(--ubg);border:1px solid rgba(59,130,246,0.35)}
+    .av.b{background:linear-gradient(135deg,var(--acc),var(--acc2))}.av.u{background:var(--ubg);border:1px solid rgba(59,130,246,0.35)}
     .bw{max-width:78%;display:flex;flex-direction:column;gap:4px}
     .mrow.u .bw{align-items:flex-end}
     .bbl{padding:10px 14px;border-radius:15px;font-size:13.5px;line-height:1.7;word-break:break-word}
     .bbl.b{background:var(--sur);border:1px solid var(--bdr2);border-bottom-left-radius:3px}
     .bbl.u{background:var(--ubg);border:1px solid rgba(59,130,246,0.28);border-bottom-right-radius:3px;color:#cce0ff}
-    .bbl strong{color:#93c5fd;font-weight:700}.bbl em{color:#c4b5fd;font-style:italic}
+    .bbl strong{color:#93c5fd;font-weight:700}.bbl em{color:#c4b5fd}
     .bbl code{background:rgba(255,255,255,0.07);padding:1px 5px;border-radius:4px;font-family:var(--mono);font-size:12px;color:#86efac}
-    .bbl pre{background:#090d18;border:1px solid var(--bdr2);border-radius:8px;padding:11px;overflow-x:auto;margin:7px 0}
+    .bbl pre{background:#090d18;border:1px solid var(--bdr2);border-radius:8px;padding:11px;overflow-x:auto;margin:7px 0;position:relative}
     .bbl pre code{background:none;padding:0}
     .bbl h1,.bbl h2,.bbl h3{color:#93c5fd;margin:7px 0 3px}
     .bbl h1{font-size:17px}.bbl h2{font-size:15px}.bbl h3{font-size:13.5px}
@@ -125,34 +104,57 @@
     .bmeta{font-size:10px;color:var(--mut);padding:0 3px}
     .cur::after{content:'\u258B';animation:bl 0.7s step-end infinite;color:var(--acc);margin-left:1px}
     @keyframes bl{50%{opacity:0}}
-    .srcs{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
-    .src{font-size:10.5px;padding:2px 8px;border-radius:99px;background:rgba(59,130,246,0.09);border:1px solid rgba(59,130,246,0.22);color:var(--acc)}
-    .wel{text-align:center;padding:40px 18px;background:var(--sur);border:1px solid var(--bdr2);border-radius:18px;margin:auto 0}
-    .wico{font-size:48px;margin-bottom:12px;display:block}
-    .wel h3{font-size:19px;font-weight:800;margin-bottom:6px;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .wel p{font-size:13px;color:var(--mut);line-height:1.6;max-width:400px;margin:0 auto}
-    .sugs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:16px}
-    .sug{padding:7px 14px;background:var(--sur2);border:1px solid var(--bdr2);border-radius:99px;color:var(--dim);font-size:12px;cursor:pointer;transition:all 0.18s;font-family:var(--fn)}
-    .sug:hover{border-color:var(--acc);color:var(--acc);background:rgba(59,130,246,0.07)}
     .dots{display:flex;gap:4px;padding:3px 0}
     .dots span{width:6px;height:6px;border-radius:50%;background:var(--mut);animation:bn 1.2s infinite}
     .dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
     @keyframes bn{0%,80%,100%{transform:scale(.65);opacity:.4}40%{transform:scale(1);opacity:1}}
 
-    /* retry badge */
-    .retry-badge{font-size:11px;color:var(--warn);padding:3px 8px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);border-radius:99px;margin-top:5px;display:inline-block}
+    /* Copy button for HTML code blocks */
+    .copy-html-btn{
+      position:absolute;top:6px;right:6px;
+      background:var(--acc);color:#fff;border:none;border-radius:6px;
+      padding:4px 12px;font-size:11px;font-weight:600;font-family:var(--fn);
+      cursor:pointer;transition:all 0.18s;z-index:5;
+      box-shadow:0 2px 8px rgba(59,130,246,0.4)
+    }
+    .copy-html-btn:hover{opacity:.85;transform:scale(1.04)}
+    .copy-html-btn.copied{background:var(--ok)}
 
-    /* ── ERROR BAR ── */
-    #errBar{display:none;flex-shrink:0}
-    #errBar.on{display:block}
+    /* Full HTML copy bar (for entire HTML output) */
+    .html-copy-bar{
+      display:flex;gap:8px;margin-top:6px;
+    }
+    .html-copy-bar button{
+      padding:6px 16px;border-radius:8px;font-size:12px;font-weight:600;
+      font-family:var(--fn);cursor:pointer;transition:all 0.18s;border:none
+    }
+    .copy-all-btn{background:var(--acc);color:#fff;box-shadow:0 2px 8px rgba(59,130,246,0.3)}
+    .copy-all-btn:hover{opacity:.88}
+    .copy-all-btn.copied{background:var(--ok)}
+    .preview-btn{background:var(--sur3);color:var(--dim);border:1px solid var(--bdr2)!important}
+    .preview-btn:hover{color:var(--txt);border-color:var(--acc)!important}
+
+    /* Welcome */
+    .wel{text-align:center;padding:40px 18px;background:var(--sur);border:1px solid var(--bdr2);border-radius:18px;margin:auto 0}
+    .wico{font-size:48px;margin-bottom:12px;display:block}
+    .wel h3{font-size:19px;font-weight:800;margin-bottom:6px;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .wel p{font-size:13px;color:var(--mut);line-height:1.6;max-width:420px;margin:0 auto}
+    .sugs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:16px}
+    .sug{padding:7px 14px;background:var(--sur2);border:1px solid var(--bdr2);border-radius:99px;color:var(--dim);font-size:12px;cursor:pointer;transition:all 0.18s;font-family:var(--fn)}
+    .sug:hover{border-color:var(--acc);color:var(--acc);background:rgba(59,130,246,0.07)}
+    .kb-stats{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+    .kb-stat{padding:4px 10px;background:var(--sur2);border:1px solid var(--bdr);border-radius:99px;font-size:11px;color:var(--dim)}
+
+    /* Error bar */
+    #errBar{display:none;flex-shrink:0}#errBar.on{display:block}
     .ehd{display:flex;justify-content:space-between;align-items:center;background:rgba(239,68,68,0.09);border-top:1px solid rgba(239,68,68,0.25);padding:8px 14px}
     .ehd strong{color:var(--err);font-size:12.5px}
     .eacts{display:flex;gap:6px}
-    .eacts button{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;font-size:11px;padding:3px 10px;border-radius:5px;cursor:pointer;font-family:var(--fn);transition:all 0.15s}
+    .eacts button{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;font-size:11px;padding:3px 10px;border-radius:5px;cursor:pointer;font-family:var(--fn)}
     .eacts button:hover{background:rgba(239,68,68,0.2)}
     #errTxt{background:rgba(0,0,0,0.18);border-bottom:1px solid rgba(239,68,68,0.12);padding:9px 14px;font-family:var(--mono);font-size:11.5px;color:#f9a8a8;white-space:pre-wrap;word-break:break-all;max-height:160px;overflow-y:auto;user-select:all;cursor:text;line-height:1.5}
 
-    /* ── INPUT ── */
+    /* Input */
     #inpArea{padding:13px 18px 16px;background:rgba(14,20,32,0.92);backdrop-filter:blur(12px);border-top:1px solid var(--bdr);flex-shrink:0}
     .iform{display:flex;gap:8px;align-items:flex-end;background:var(--sur2);border:1px solid var(--bdr2);border-radius:14px;padding:8px 10px;transition:border-color 0.2s}
     .iform:focus-within{border-color:var(--acc);box-shadow:0 0 0 3px var(--glow)}
@@ -163,86 +165,91 @@
     #sndBtn:disabled{opacity:.3;cursor:not-allowed;transform:none}
     .ifoot{display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding:0 1px}
     .ifoot span{font-size:11px;color:var(--mut)}
-    #clrBtn{font-size:11px;color:var(--mut);background:none;border:none;cursor:pointer;font-family:var(--fn);padding:2px 5px;border-radius:4px;transition:color 0.18s}
+    #clrBtn{font-size:11px;color:var(--mut);background:none;border:none;cursor:pointer;font-family:var(--fn);padding:2px 5px;border-radius:4px}
     #clrBtn:hover{color:var(--err)}
+
+    /* Preview modal */
+    #previewModal{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.8);backdrop-filter:blur(4px);padding:20px}
+    #previewModal.on{display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .prev-close{position:absolute;top:16px;right:20px;background:var(--err);color:#fff;border:none;border-radius:8px;padding:6px 16px;font-size:13px;cursor:pointer;font-family:var(--fn);font-weight:600;z-index:5}
+    .prev-frame{width:100%;max-width:800px;height:80vh;border:2px solid var(--bdr2);border-radius:12px;overflow:hidden;background:#fff}
+    .prev-frame iframe{width:100%;height:100%;border:none}
 
     @media(max-width:580px){
       .shdr{padding:22px 20px 18px}.sbody{padding:18px 20px 24px}
       #hdr{padding:10px 13px}#msgs{padding:13px 11px}#inpArea{padding:11px 13px 14px}
-      .bw{max-width:90%}.icard{padding:26px 20px}.ptab{font-size:11px;padding:7px 4px}
+      .bw{max-width:92%}.icard{padding:26px 20px}
     }
   </style>
 </head>
 <body>
 
-<!-- ═══ SETUP ═══ -->
+<!-- SETUP -->
 <div id="setup">
   <div class="sbox">
     <div class="shdr">
       <div class="slogo">&#x1F916;</div>
       <h1>GBHSSNaudero AI Assistant</h1>
-      <p>RAG chatbot &#183; free AI APIs &#183; no backend required</p>
+      <p>Social Media Post Generator &#183; Groq AI</p>
     </div>
     <div class="sbody">
-      <div class="slbl">Select AI Provider</div>
-      <div class="ptabs" id="ptabs">
-        <button class="ptab on" data-p="groq"      onclick="pick('groq')">&#x26A1; Groq</button>
-        <button class="ptab"    data-p="google"    onclick="pick('google')">&#x1F535; Google</button>
-        <button class="ptab"    data-p="together"  onclick="pick('together')">&#x1F91D; Together</button>
-        <button class="ptab"    data-p="cohere"    onclick="pick('cohere')">&#x1F300; Cohere</button>
-        <button class="ptab"    data-p="mistral"   onclick="pick('mistral')">&#x1F32B; Mistral</button>
-        <button class="ptab"    data-p="openrouter" onclick="pick('openrouter')">&#x1F310; OpenRouter</button>
-      </div>
-
-      <label class="flbl" id="kLbl">API Key</label>
+      <label class="flbl">Groq API Key (free, no card needed)</label>
       <div class="kwrap">
-        <input type="password" id="kInput" placeholder="" autocomplete="off" spellcheck="false"/>
+        <input type="password" id="kInput" placeholder="gsk_..." autocomplete="off" spellcheck="false"/>
         <button id="kVis" onclick="toggleVis()">&#x1F441;</button>
       </div>
 
       <label class="flbl">Model</label>
-      <select id="mSel"></select>
+      <select id="mSel">
+        <option value="llama-3.3-70b-versatile">Llama 3.3 70B Versatile (Best)</option>
+        <option value="llama3-70b-8192">Llama 3 70B 8192</option>
+        <option value="llama-3.1-8b-instant">Llama 3.1 8B Instant (Fastest)</option>
+        <option value="mixtral-8x7b-32768">Mixtral 8x7B 32K</option>
+        <option value="gemma2-9b-it">Gemma 2 9B IT</option>
+      </select>
 
-      <div class="ibox"><span>&#x2139;&#xFE0F;</span><span id="iTxt"></span></div>
-      <div class="tips" id="tipBox" style="display:none"></div>
+      <div class="ibox">
+        <span>&#x2139;&#xFE0F;</span>
+        <span>Get a free key at <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a>. No credit card needed. 14,400 req/day free.</span>
+      </div>
 
       <div id="sErr">
         <div class="seHead">
-          <strong>&#x26A0; Error &#8212; click text to select &amp; copy</strong>
+          <strong>&#x26A0; Error</strong>
           <button onclick="cpSErr()">&#x1F4CB; Copy</button>
         </div>
         <div id="sErrTxt"></div>
       </div>
 
       <button id="goBtn" onclick="go()">&#x1F680; Start Chat</button>
-      <div class="snote">&#x1F512; Key stored in sessionStorage only &#8212; sent only to the chosen AI provider</div>
+      <div class="snote">&#x1F512; Key stored in sessionStorage only</div>
     </div>
   </div>
 </div>
 
-<!-- ═══ INIT ═══ -->
+<!-- INIT OVERLAY -->
 <div id="initOv">
   <div class="icard">
     <div class="iico">&#x1F9E0;</div>
-    <h2>Building Knowledge Base</h2>
-    <p>Downloading &amp; indexing files from GitHub&#8230;</p>
+    <h2>Loading Knowledge Base</h2>
+    <p>Downloading instructions, templates, mapping &amp; database&#8230;</p>
     <div class="ptrack"><div id="pBar"></div></div>
     <div id="pLbl">Starting&#8230;</div>
     <div class="flist" id="fList"></div>
   </div>
 </div>
 
-<!-- ═══ CHAT ═══ -->
+<!-- CHAT -->
 <div id="app">
   <div id="hdr">
     <div class="hlogo">&#x1F916;</div>
     <div class="htxt">
-      <h1>GBHSSNaudero AI Assistant</h1>
-      <p id="hSub">RAG &#183; Knowledge-Grounded</p>
+      <h1>GBHSSNaudero Post Generator</h1>
+      <p id="hSub">Loading&#8230;</p>
     </div>
     <div class="hrgt">
-      <div id="ppill"><div id="pdot"></div><span id="pName">Ready</span></div>
-      <button id="swBtn" onclick="switchP()">Switch</button>
+      <div id="ppill"><div id="pdot"></div><span id="pName">Groq</span></div>
+      <button id="swBtn" onclick="switchP()">&#x2699; Switch</button>
     </div>
   </div>
 
@@ -250,7 +257,7 @@
 
   <div id="errBar">
     <div class="ehd">
-      <strong>&#x26A0; Error &#8212; full details below (click text to select, or Copy)</strong>
+      <strong>&#x26A0; Error</strong>
       <div class="eacts">
         <button id="cpErrBtn" onclick="cpErr()">&#x1F4CB; Copy</button>
         <button onclick="hideErr()">&#x2715; Dismiss</button>
@@ -271,184 +278,41 @@
   </div>
 </div>
 
+<!-- PREVIEW MODAL -->
+<div id="previewModal">
+  <button class="prev-close" onclick="closePreview()">&#x2715; Close Preview</button>
+  <div class="prev-frame"><iframe id="prevIframe"></iframe></div>
+</div>
+
 <script>
 "use strict";
 
 /* ════════════════════════════════════════════════
-   PROVIDER DEFINITIONS
-   Fixes applied per observed errors:
-   - Google: updated model IDs to v1beta-compatible names
-   - GitHub: smaller chunk/topK to stay under 8000 token limit
-   - OpenRouter: auto-rotate models on 429
-   - Groq: primary recommended (most reliable free CORS API)
-════════════════════════════════════════════════ */
-var PROVIDERS = {
-
-  /* ── GROQ — fastest, most reliable, full CORS, generous free tier ── */
-  groq: {
-    name: "Groq",
-    label: "Groq API Key",
-    ph: "gsk_...",
-    info: 'Free key (no card): <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a>. '
-        + '14,400 req/day · 30 req/min. Fastest inference available.',
-    tips: null,
-    models: [
-      { id: "llama-3.3-70b-versatile",  l: "Llama 3.3 70B Versatile (Free ★ Recommended)" },
-      { id: "llama-3.1-8b-instant",     l: "Llama 3.1 8B Instant (Free · Fastest)" },
-      { id: "llama3-70b-8192",          l: "Llama 3 70B 8192 (Free)" },
-      { id: "llama3-8b-8192",           l: "Llama 3 8B 8192 (Free)" },
-      { id: "gemma2-9b-it",             l: "Gemma 2 9B IT (Free)" },
-      { id: "mixtral-8x7b-32768",       l: "Mixtral 8x7B 32K (Free)" }
-    ],
-    def: "llama-3.3-70b-versatile",
-    maxCtxChars: 12000,   // generous context window
-    call: callGroq
-  },
-
-  /* ── GOOGLE — fixed model IDs for v1beta generateContent ── */
-  google: {
-    name: "Google AI Studio",
-    label: "Google AI Studio API Key",
-    ph: "AIza...",
-    info: 'Free key (no card): <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a>. '
-        + '15 req/min · 1500 req/day on Flash models.',
-    tips: '<strong>&#x26A0; Model naming changed in 2025:</strong> Use exact IDs shown below.\n'
-        + '<ul><li>If you see 404 → the model ID is wrong; switch to another in the list</li>'
-        + '<li>If you see 429 → quota hit; wait 1 min or switch model</li></ul>',
-    models: [
-      // Confirmed working model IDs as of May 2025 for v1beta generateContent
-      { id: "gemini-1.5-flash-latest",  l: "Gemini 1.5 Flash Latest (Free ★ Most reliable)" },
-      { id: "gemini-1.5-flash-8b",      l: "Gemini 1.5 Flash 8B (Free · Fastest)" },
-      { id: "gemini-1.5-pro-latest",    l: "Gemini 1.5 Pro Latest (Free · Limited)" },
-      { id: "gemini-2.0-flash-lite",    l: "Gemini 2.0 Flash Lite (Free)" },
-      { id: "gemini-2.0-flash",         l: "Gemini 2.0 Flash (Free · may hit quota)" }
-    ],
-    def: "gemini-1.5-flash-latest",
-    maxCtxChars: 10000,
-    call: callGoogle
-  },
-
-  /* ── TOGETHER AI — $5 free credit, some models FREE forever ── */
-  together: {
-    name: "Together AI",
-    label: "Together AI API Key",
-    ph: "togetherapi-...",
-    info: 'Free $5 credit (no card): <a href="https://api.together.xyz/settings/api-keys" target="_blank">api.together.xyz</a>. '
-        + 'Models marked FREE never consume credit.',
-    tips: null,
-    models: [
-      { id: "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",       l: "Llama 3.3 70B Turbo (FREE forever ★)" },
-      { id: "deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free",     l: "DeepSeek R1 Distill 70B (FREE forever)" },
-      { id: "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",        l: "Llama 3.1 8B Turbo (Credit)" },
-      { id: "mistralai/Mixtral-8x7B-Instruct-v0.1",               l: "Mixtral 8x7B (Credit)" },
-      { id: "google/gemma-2-27b-it",                              l: "Gemma 2 27B (Credit)" }
-    ],
-    def: "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
-    maxCtxChars: 12000,
-    call: callTogether
-  },
-
-  /* ── COHERE — 1000 req/month free trial ── */
-  cohere: {
-    name: "Cohere",
-    label: "Cohere API Key",
-    ph: "...",
-    info: 'Free trial key (no card): <a href="https://dashboard.cohere.com/api-keys" target="_blank">dashboard.cohere.com/api-keys</a>. '
-        + '20 req/min · 1000 req/month.',
-    tips: null,
-    models: [
-      { id: "command-r-08-2024",      l: "Command R 08-2024 (★ Recommended)" },
-      { id: "command-r-plus-08-2024", l: "Command R+ 08-2024 (Best quality)" },
-      { id: "command-r7b-12-2024",    l: "Command R7B (Fastest)" }
-    ],
-    def: "command-r-08-2024",
-    maxCtxChars: 10000,
-    call: callCohere
-  },
-
-  /* ── MISTRAL — 500K tokens/month free ── */
-  mistral: {
-    name: "Mistral AI",
-    label: "Mistral API Key",
-    ph: "...",
-    info: 'Free key (no card): <a href="https://console.mistral.ai/api-keys/" target="_blank">console.mistral.ai</a>. '
-        + '1 req/sec · 500K tokens/month.',
-    tips: null,
-    models: [
-      { id: "mistral-small-latest",  l: "Mistral Small Latest (★ Recommended)" },
-      { id: "open-mistral-7b",       l: "Mistral 7B Open (Free tier)" },
-      { id: "open-mixtral-8x7b",     l: "Mixtral 8x7B Open (Free tier)" }
-    ],
-    def: "mistral-small-latest",
-    maxCtxChars: 10000,
-    call: callMistral
-  },
-
-  /* ── OPENROUTER — free :free models with auto-rotation on 429 ── */
-  openrouter: {
-    name: "OpenRouter",
-    label: "OpenRouter API Key",
-    ph: "sk-or-v1-...",
-    info: 'Free key (no card): <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai/keys</a>. '
-        + 'If one free model hits rate limits, it auto-rotates to the next.',
-    tips: '<strong>&#x26A0; OpenRouter free models:</strong>\n'
-        + '<ul><li>Rate limits are per-model and can be low (3-10 req/min)</li>'
-        + '<li>The chatbot will automatically try the next model if you hit a 429</li>'
-        + '<li>If all fail, wait 1 minute and try again</li></ul>',
-    models: [
-      // Confirmed working free endpoints as of May 2025
-      { id: "meta-llama/llama-3.3-70b-instruct:free",        l: "Llama 3.3 70B (Free ★)" },
-      { id: "google/gemma-3-27b-it:free",                    l: "Gemma 3 27B (Free)" },
-      { id: "google/gemma-3-12b-it:free",                    l: "Gemma 3 12B (Free)" },
-      { id: "qwen/qwen3-8b:free",                            l: "Qwen3 8B (Free)" },
-      { id: "qwen/qwen3-14b:free",                           l: "Qwen3 14B (Free)" },
-      { id: "mistralai/mistral-7b-instruct:free",            l: "Mistral 7B (Free)" },
-      { id: "microsoft/phi-3-mini-128k-instruct:free",       l: "Phi-3 Mini 128K (Free)" },
-      { id: "deepseek/deepseek-r1-distill-llama-70b:free",   l: "DeepSeek R1 Distill 70B (Free)" }
-    ],
-    def: "meta-llama/llama-3.3-70b-instruct:free",
-    maxCtxChars: 8000,
-    call: callOpenRouter
-  }
-};
-
-/* ════════════════════════════════════════════════
    CONFIG
 ════════════════════════════════════════════════ */
-var CFG = {
-  base: "https://raw.githubusercontent.com/aydee0333/gbhss-templates/main/",
-  files: ["templates.json", "mapping.txt", "instructions.txt", "database.txt"],
-  chunkSize: 500,     // reduced from 750 — fixes GitHub 413 error
-  overlap:   80,      // reduced proportionally
-  topK:      4,       // reduced from 6 — fewer chunks = smaller context = no 413
-  persona: [
-    "You are a knowledgeable AI assistant and Social Media Manager for GBHSSNaudero.",
-    "Answer questions and create HTML social-media posts based ONLY on the provided knowledge-base context.",
-    "",
-    "RULES:",
-    "- Base every answer solely on the CONTEXT below.",
-    "- If creating HTML posts: use only templates/styles found in the context.",
-    "- If information is absent from context: say exactly \"I don't have that information in my knowledge base.\"",
-    "- Be concise, accurate, and professional.",
-    "- Quote templates and database entries exactly as they appear in the context."
-  ].join("\n"),
-  suggs: [
-    "What templates are available?",
-    "Show me the posting instructions",
-    "List all database entries",
-    "Create an HTML post using the first template"
-  ]
+var BASE = "https://raw.githubusercontent.com/aydee0333/gbhss-templates/main/";
+
+// Files to load — ALL content sent to AI, not just search snippets
+var FILES = {
+  instructions: "instructions.txt",
+  mapping:      "mapping.txt",
+  templates:    "templates.json",
+  database:     "database.txt"
 };
 
 /* ════════════════════════════════════════════════
    STATE
 ════════════════════════════════════════════════ */
 var S = {
-  p: "groq", key: "", mdl: "",
-  ms: null, chunks: [], ready: false, busy: false,
-  hist: [], lastErr: "", n: 0,
-  // For OpenRouter model rotation on 429
-  orModelIndex: 0
+  key: "", mdl: "",
+  // Full file contents — sent entirely to AI
+  instructions: "",
+  mapping: "",
+  templates: "",
+  database: "",
+  ready: false, busy: false, n: 0,
+  lastErr: "",
+  history: [] // conversation history for multi-turn
 };
 
 /* ════════════════════════════════════════════════
@@ -458,467 +322,338 @@ function g(id) { return document.getElementById(id); }
 function now() { return new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}); }
 function ar(el) { el.style.height="auto"; el.style.height=Math.min(el.scrollHeight,120)+"px"; }
 function sb() { g("msgs").scrollTop = g("msgs").scrollHeight; }
-function esc(t) { return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
-
-/* Parse readable message from API error response body */
-function parseErrMsg(rawText, status) {
-  try {
-    var j = JSON.parse(rawText);
-    return j.error && j.error.message ? j.error.message
-         : j.message                  ? j.message
-         : rawText;
-  } catch(e) { return rawText; }
-}
 
 /* ════════════════════════════════════════════════
-   ERROR DISPLAYS
+   ERRORS
 ════════════════════════════════════════════════ */
-function showErr(msg) {
-  S.lastErr = msg;
-  g("errTxt").textContent = msg;
-  g("errBar").classList.add("on");
-}
+function showErr(msg) { S.lastErr=msg; g("errTxt").textContent=msg; g("errBar").classList.add("on"); }
 function hideErr() { g("errBar").classList.remove("on"); }
 function cpErr() {
-  navigator.clipboard.writeText(S.lastErr).then(function() {
-    var b = g("cpErrBtn"); b.textContent = "Copied!";
-    setTimeout(function() { b.innerHTML = "&#x1F4CB; Copy"; }, 1500);
-  }).catch(function() {
-    var r = document.createRange();
-    r.selectNodeContents(g("errTxt"));
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(r);
-  });
+  navigator.clipboard.writeText(S.lastErr).then(function(){
+    var b=g("cpErrBtn"); b.textContent="Copied!";
+    setTimeout(function(){ b.innerHTML="&#x1F4CB; Copy"; },1500);
+  }).catch(function(){});
 }
-function showSErr(msg) {
-  g("sErrTxt").textContent = msg;
-  g("sErr").classList.add("on");
-}
+function showSErr(msg) { g("sErrTxt").textContent=msg; g("sErr").classList.add("on"); }
 function hideSErr() { g("sErr").classList.remove("on"); }
-function cpSErr() {
-  navigator.clipboard.writeText(g("sErrTxt").textContent).catch(function() {
-    var r = document.createRange();
-    r.selectNodeContents(g("sErrTxt"));
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(r);
-  });
-}
+function cpSErr() { navigator.clipboard.writeText(g("sErrTxt").textContent).catch(function(){}); }
 
 /* ════════════════════════════════════════════════
    SETUP
 ════════════════════════════════════════════════ */
-function pick(id) {
-  S.p = id;
-  S.orModelIndex = 0;
-  g("ptabs").querySelectorAll(".ptab").forEach(function(t) {
-    t.classList.toggle("on", t.dataset.p === id);
-  });
-  var prov = PROVIDERS[id];
-  g("kLbl").textContent = prov.label;
-  g("kInput").placeholder = prov.ph;
-  g("iTxt").innerHTML = prov.info;
-
-  // Show/hide tips
-  var tb = g("tipBox");
-  if (prov.tips) {
-    tb.innerHTML = prov.tips;
-    tb.style.display = "block";
-  } else {
-    tb.style.display = "none";
-  }
-
-  var sel = g("mSel");
-  sel.innerHTML = "";
-  prov.models.forEach(function(m) {
-    var o = document.createElement("option");
-    o.value = m.id; o.textContent = m.l; sel.appendChild(o);
-  });
-  sel.value = prov.def;
-  g("kInput").value = sessionStorage.getItem("k_" + id) || "";
-  hideSErr();
+function toggleVis() {
+  var i=g("kInput"); i.type=i.type==="password"?"text":"password";
 }
 
-function toggleVis() {
-  var i = g("kInput"); i.type = i.type === "password" ? "text" : "password";
+// Restore saved key
+g("kInput").value = sessionStorage.getItem("groq_key") || "";
+
+/* ════════════════════════════════════════════════
+   LOAD ALL KNOWLEDGE FILES (full content, not chunks)
+════════════════════════════════════════════════ */
+function buildFUI() {
+  var names = Object.keys(FILES);
+  g("fList").innerHTML = names.map(function(k) {
+    return '<div class="fitem" id="fi_'+k+'"><span>&#x1F4C4;</span><span>'+FILES[k]+'</span></div>';
+  }).join("");
+}
+
+function fst(k, s) {
+  var el = g("fi_"+k); if (!el) return;
+  el.className = "fitem " + s;
+  var icons = { act:"\u23F3", ok:"\u2705", no:"\u274C" };
+  el.querySelector("span").textContent = icons[s] || "";
+}
+
+async function loadAllFiles() {
+  buildFUI();
+  var keys = Object.keys(FILES);
+  var loaded = 0;
+
+  for (var i = 0; i < keys.length; i++) {
+    var k = keys[i];
+    fst(k, "act");
+    g("pBar").style.width = Math.round((i/keys.length)*100) + "%";
+    g("pLbl").textContent = "Fetching " + FILES[k] + "...";
+
+    try {
+      var r = await fetch(BASE + FILES[k]);
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      S[k] = await r.text();
+      fst(k, "ok");
+      loaded++;
+    } catch(e) {
+      console.error("Failed to load " + k, e);
+      fst(k, "no");
+      S[k] = "[COULD NOT LOAD " + FILES[k] + ": " + e.message + "]";
+    }
+  }
+
+  g("pBar").style.width = "100%";
+  g("pLbl").textContent = "Loaded " + loaded + "/" + keys.length + " files";
+  await new Promise(function(r) { setTimeout(r, 400); });
+
+  if (loaded === 0) throw new Error("Could not load any knowledge files from GitHub.");
 }
 
 /* ════════════════════════════════════════════════
-   START
+   BUILD SYSTEM PROMPT — sends FULL file contents
+════════════════════════════════════════════════ */
+function buildSystemPrompt() {
+  return [
+    "You are GBHSSNaudero Social Media Manager AI. You create HTML social media posts for Government Boys Higher Secondary School Naudero.",
+    "",
+    "═══════════════════════════════════════",
+    "YOUR INSTRUCTIONS (FOLLOW THESE EXACTLY):",
+    "═══════════════════════════════════════",
+    S.instructions,
+    "",
+    "═══════════════════════════════════════",
+    "WORD MAPPING (English → Sindhi translation):",
+    "═══════════════════════════════════════",
+    "When creating Sindhi posts, use these translations:",
+    S.mapping,
+    "",
+    "═══════════════════════════════════════",
+    "HTML TEMPLATES (use these exactly, replace only the dummy text):",
+    "═══════════════════════════════════════",
+    S.templates,
+    "",
+    "═══════════════════════════════════════",
+    "STAFF DATABASE (look up names here):",
+    "═══════════════════════════════════════",
+    S.database,
+    "",
+    "═══════════════════════════════════════",
+    "CRITICAL RULES:",
+    "═══════════════════════════════════════",
+    "1. ALWAYS follow the instructions above exactly.",
+    "2. When user asks for a template, pick the correct one from the 16 templates based on their criteria (language: Sindhi/English, type of post).",
+    "3. Replace ONLY the dummy/placeholder text in the template with user-provided information.",
+    "4. Keep ALL HTML structure, CSS styling, classes, and layout from the template EXACTLY as-is.",
+    "5. When user mentions a staff name, look it up in the database and use the correct full details.",
+    "6. Use the mapping.txt for English→Sindhi word translations when creating Sindhi posts.",
+    "7. Output the complete HTML code inside a code block marked as ```html ... ```",
+    "8. Never invent information — only use data from the database and user input.",
+    "9. If user asks something not related to post creation, answer based on the instructions and database above.",
+    "10. If you cannot find a name in the database, tell the user it was not found and ask them to provide details."
+  ].join("\n");
+}
+
+/* ════════════════════════════════════════════════
+   START CHAT
 ════════════════════════════════════════════════ */
 async function go() {
   var key = g("kInput").value.trim();
-  if (!key) { showSErr("Please enter your API key."); return; }
+  if (!key) { showSErr("Please enter your Groq API key."); return; }
   hideSErr();
   S.key = key;
   S.mdl = g("mSel").value;
-  S.orModelIndex = 0;
-  sessionStorage.setItem("k_" + S.p, key);
+  sessionStorage.setItem("groq_key", key);
 
-  var btn = g("goBtn");
-  btn.disabled = true;
-  btn.textContent = "Loading knowledge base\u2026";
+  g("goBtn").disabled = true;
+  g("goBtn").textContent = "Loading...";
   g("setup").style.display = "none";
   g("initOv").classList.add("on");
 
   try {
-    await loadKB();
+    await loadAllFiles();
     g("initOv").classList.add("fade");
-    setTimeout(function() { g("initOv").classList.remove("on", "fade"); }, 400);
+    setTimeout(function() { g("initOv").classList.remove("on","fade"); }, 400);
+
     g("app").classList.add("on");
-    g("pName").textContent = PROVIDERS[S.p].name + " | " + S.mdl;
-    g("hSub").textContent  = "RAG | " + S.chunks.length + " chunks | " + S.mdl;
-    g("mLbl").textContent  = PROVIDERS[S.p].name + " | " + S.mdl;
+    g("pName").textContent = "Groq | " + S.mdl;
+    g("mLbl").textContent  = "Groq | " + S.mdl;
+
+    // Show file sizes in subtitle
+    var sizes = [
+      "Instructions:" + Math.round(S.instructions.length/1024) + "KB",
+      "Templates:" + Math.round(S.templates.length/1024) + "KB",
+      "Mapping:" + Math.round(S.mapping.length/1024) + "KB",
+      "Database:" + Math.round(S.database.length/1024) + "KB"
+    ];
+    g("hSub").textContent = sizes.join(" | ");
+
     S.ready = true;
+    S.history = []; // Reset conversation
     renderWel();
-    g("uInp").placeholder = "Ask me anything about GBHSSNaudero\u2026";
+    g("uInp").placeholder = "Tell me what post to create...";
     g("uInp").disabled = false;
     g("sndBtn").disabled = false;
     g("uInp").focus();
   } catch(e) {
     console.error(e);
-    g("initOv").classList.remove("on", "fade");
+    g("initOv").classList.remove("on","fade");
     g("setup").style.display = "flex";
-    btn.disabled = false;
-    btn.textContent = "\u{1F680} Start Chat";
-    showSErr("Knowledge base loading failed:\n" + (e.message || String(e)));
+    g("goBtn").disabled = false;
+    g("goBtn").textContent = "\u{1F680} Start Chat";
+    showSErr(e.message || String(e));
   }
 }
 
 function switchP() {
-  S.ready = false; S.busy = false; hideErr();
+  S.ready=false; S.busy=false; hideErr();
   g("app").classList.remove("on");
   g("setup").style.display = "flex";
-  var btn = g("goBtn");
-  btn.disabled = false;
-  btn.textContent = "\u{1F680} Start Chat";
-  pick(S.p);
+  g("goBtn").disabled = false;
+  g("goBtn").textContent = "\u{1F680} Start Chat";
 }
 
 /* ════════════════════════════════════════════════
-   KNOWLEDGE BASE
+   GROQ API CALL
 ════════════════════════════════════════════════ */
-function buildFUI() {
-  g("fList").innerHTML = CFG.files.map(function(f) {
-    return '<div class="fitem" id="fi_' + f.replace(/\W/g,"_") + '"><span>&#x1F4C4;</span><span>' + f + '</span></div>';
-  }).join("");
-}
-function fst(f, s) {
-  var el = g("fi_" + f.replace(/\W/g,"_")); if (!el) return;
-  el.className = "fitem " + s;
-  var icons = { act:"\u23F3", ok:"\u2705", no:"\u274C" };
-  el.querySelector("span").textContent = icons[s] || "\u1F4C4";
-}
-function prog(d, t, l) {
-  g("pBar").style.width = Math.round(d/t*100) + "%";
-  g("pLbl").textContent = l;
-}
-function mkChunks(text, path) {
-  if (path.endsWith(".json")) {
-    try { text = JSON.stringify(JSON.parse(text), null, 2); } catch(e) {}
-  }
-  var out = [], i = 0, n = 0;
-  while (i < text.length) {
-    var c = text.slice(i, i + CFG.chunkSize).trim();
-    if (c.length > 20) out.push({ id: path + "::" + n++, file: path, content: c });
-    i += CFG.chunkSize - CFG.overlap;
-  }
-  return out;
-}
-async function loadKB() {
-  buildFUI();
-  prog(0, CFG.files.length, "Starting\u2026");
-  S.ms = new MiniSearch({
-    fields: ["content"],
-    storeFields: ["file", "content"],
-    searchOptions: { fuzzy: 0.25, prefix: true }
-  });
-  var all = [], done = 0;
-  for (var i = 0; i < CFG.files.length; i++) {
-    var f = CFG.files[i];
-    fst(f, "act");
-    prog(done, CFG.files.length, "Fetching " + f + "\u2026");
-    try {
-      var r = await fetch(CFG.base + f);
-      if (!r.ok) throw new Error("HTTP " + r.status);
-      var t = await r.text();
-      all = all.concat(mkChunks(t, f));
-      fst(f, "ok");
-    } catch(e) {
-      console.warn(f, e); fst(f, "no");
-    }
-    done++;
-    prog(done, CFG.files.length,
-      done === CFG.files.length
-        ? "Indexed " + all.length + " chunks from " + done + " files"
-        : "Loaded " + done + "/" + CFG.files.length);
-  }
-  if (all.length) S.ms.addAll(all);
-  S.chunks = all;
-  await new Promise(function(r) { setTimeout(r, 400); });
-}
-
-/* ════════════════════════════════════════════════
-   RAG
-════════════════════════════════════════════════ */
-function srch(q) {
-  if (!S.ms || !S.chunks.length) return [];
-  var res = S.ms.search(q, { limit: CFG.topK });
-  if (!res.length) {
-    var ws = q.trim().split(/\s+/);
-    for (var i = 0; i < ws.length; i++) {
-      if (ws[i].length < 3) continue;
-      res = S.ms.search(ws[i], { limit: CFG.topK });
-      if (res.length) break;
-    }
-  }
-  return res;
-}
-
-function mkPrompt(q, hits, maxChars) {
-  maxChars = maxChars || 8000;
-  var ctxParts = [];
-  var used = 0;
-  for (var i = 0; i < hits.length; i++) {
-    var part = "[Source " + (i+1) + ": " + hits[i].file + "]\n" + hits[i].content;
-    if (used + part.length > maxChars) break;
-    ctxParts.push(part);
-    used += part.length;
-  }
-  var ctx = ctxParts.length
-    ? ctxParts.join("\n\n---\n\n")
-    : "No matching context found in knowledge base.";
-  return "KNOWLEDGE BASE CONTEXT:\n" + ctx + "\n\nUSER QUESTION: " + q + "\n\nANSWER:";
-}
-
-/* ════════════════════════════════════════════════
-   AI PROVIDER CALLS
-════════════════════════════════════════════════ */
-
-/* shared OpenAI-compatible POST */
-async function oaiPost(url, headers, mdl, sys, usr) {
-  var body = JSON.stringify({
-    model: mdl,
-    temperature: 0.3,
-    max_tokens: 2048,
-    messages: [
-      { role: "system", content: sys },
-      { role: "user",   content: usr }
-    ]
-  });
-  var r = await fetch(url, { method: "POST", headers: headers, body: body });
-  var txt = await r.text();
-  if (!r.ok) throw new Error(parseErrMsg(txt, r.status) + "\n[HTTP " + r.status + "]");
-  var j = JSON.parse(txt);
-  try { return j.choices[0].message.content; }
-  catch(e) { throw new Error("Unexpected response format:\n" + JSON.stringify(j).slice(0, 300)); }
-}
-
-/* ── Groq ── */
-async function callGroq(sys, usr) {
-  return oaiPost(
-    "https://api.groq.com/openai/v1/chat/completions",
-    { "Content-Type": "application/json", "Authorization": "Bearer " + S.key },
-    S.mdl, sys, usr
-  );
-}
-
-/* ── Google AI Studio ──
-   Fixed: use -latest suffix models and correct URL format */
-async function callGoogle(sys, usr) {
-  // Build model path — strip any leading "models/" if present
-  var mdlId = S.mdl.replace(/^models\//, "");
-  var url = "https://generativelanguage.googleapis.com/v1beta/models/"
-           + mdlId + ":generateContent?key=" + S.key;
-  var body = JSON.stringify({
-    system_instruction: { parts: [{ text: sys }] },
-    contents: [{ role: "user", parts: [{ text: usr }] }],
-    generationConfig: {
-      temperature: 0.3,
-      maxOutputTokens: 2048,
-      candidateCount: 1
-    }
-  });
-  var r = await fetch(url, {
+async function callGroq(messages) {
+  var r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: body
-  });
-  var txt = await r.text();
-  if (!r.ok) {
-    var msg = parseErrMsg(txt, r.status);
-    // Give specific advice for common Google errors
-    if (r.status === 404) {
-      msg += "\n\n[FIX] The model ID '" + mdlId + "' is not available in v1beta.\n"
-           + "Try switching to: gemini-1.5-flash-latest or gemini-1.5-flash-8b";
-    } else if (r.status === 429) {
-      msg += "\n\n[FIX] Quota exceeded. Wait 1 minute or switch to another model/provider.";
-    } else if (r.status === 400) {
-      msg += "\n\n[FIX] Bad request — the model may not support system instructions.\n"
-           + "Try gemini-1.5-flash-latest instead.";
-    }
-    throw new Error("Google " + r.status + "\n" + msg);
-  }
-  var j = JSON.parse(txt);
-  try {
-    return j.candidates[0].content.parts[0].text;
-  } catch(e) {
-    // Check for safety blocks
-    if (j.candidates && j.candidates[0] && j.candidates[0].finishReason) {
-      throw new Error("Google blocked response: " + j.candidates[0].finishReason
-                    + "\n" + JSON.stringify(j).slice(0, 300));
-    }
-    throw new Error("Google: unexpected response format\n" + JSON.stringify(j).slice(0, 300));
-  }
-}
-
-/* ── Together AI ── */
-async function callTogether(sys, usr) {
-  return oaiPost(
-    "https://api.together.xyz/v1/chat/completions",
-    { "Content-Type": "application/json", "Authorization": "Bearer " + S.key },
-    S.mdl, sys, usr
-  );
-}
-
-/* ── Cohere v2 ── */
-async function callCohere(sys, usr) {
-  var r = await fetch("https://api.cohere.com/v2/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + S.key },
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + S.key
+    },
     body: JSON.stringify({
       model: S.mdl,
-      messages: [
-        { role: "system", content: sys },
-        { role: "user",   content: usr }
-      ]
+      temperature: 0.2,
+      max_tokens: 8000,
+      messages: messages
     })
   });
+
   var txt = await r.text();
-  if (!r.ok) throw new Error("Cohere " + r.status + "\n" + parseErrMsg(txt, r.status));
+  if (!r.ok) {
+    var msg = txt;
+    try { var j = JSON.parse(txt); msg = j.error && j.error.message ? j.error.message : txt; } catch(e) {}
+    throw new Error("Groq " + r.status + "\n" + msg);
+  }
+
   var j = JSON.parse(txt);
-  try {
-    var content = j.message && j.message.content;
-    if (Array.isArray(content) && content.length) {
-      return content.map(function(c) { return c.text || ""; }).join("");
-    }
-    if (j.text) return j.text;
-    throw new Error("no content field");
-  } catch(e) {
-    throw new Error("Cohere: unexpected format\n" + JSON.stringify(j).slice(0, 300));
-  }
-}
-
-/* ── Mistral ── */
-async function callMistral(sys, usr) {
-  return oaiPost(
-    "https://api.mistral.ai/v1/chat/completions",
-    { "Content-Type": "application/json", "Authorization": "Bearer " + S.key },
-    S.mdl, sys, usr
-  );
-}
-
-/* ── OpenRouter with model rotation on 429 ── */
-async function callOpenRouter(sys, usr) {
-  var models = PROVIDERS.openrouter.models;
-  var startIdx = S.orModelIndex;
-  var lastErr = null;
-
-  // Try current model first, then rotate through others on 429/404
-  for (var attempt = 0; attempt < models.length; attempt++) {
-    var idx = (startIdx + attempt) % models.length;
-    var mdl = models[idx].id;
-
-    var r = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + S.key,
-        "HTTP-Referer": window.location.href,
-        "X-Title": "GBHSSNaudero Assistant"
-      },
-      body: JSON.stringify({
-        model: mdl,
-        temperature: 0.3,
-        max_tokens: 2048,
-        messages: [
-          { role: "system", content: sys },
-          { role: "user",   content: usr }
-        ]
-      })
-    });
-
-    var txt = await r.text();
-
-    if (r.ok) {
-      // Success — save this model index for next call
-      S.orModelIndex = idx;
-      S.mdl = mdl;  // update displayed model
-      g("pName").textContent = "OpenRouter | " + mdl;
-      g("mLbl").textContent  = "OpenRouter | " + mdl;
-      try { return JSON.parse(txt).choices[0].message.content; }
-      catch(e) { throw new Error("OpenRouter: unexpected format\n" + txt.slice(0, 300)); }
-    }
-
-    var msg = parseErrMsg(txt, r.status);
-    lastErr = "OpenRouter " + r.status + " [" + mdl + "]\n" + msg;
-
-    // Only rotate on rate-limit or model-not-found errors
-    if (r.status === 429 || r.status === 404 || r.status === 503) {
-      console.warn("OpenRouter " + r.status + " on " + mdl + " — trying next model");
-      continue;
-    }
-    // Other errors (401, 400) — don't rotate, fail immediately
-    break;
-  }
-
-  throw new Error(lastErr + "\n\n[All " + models.length + " free models tried. Wait 1 min and try again.]");
+  try { return j.choices[0].message.content; }
+  catch(e) { throw new Error("Unexpected Groq response:\n" + JSON.stringify(j).slice(0,300)); }
 }
 
 /* ════════════════════════════════════════════════
-   MARKDOWN
+   MARKDOWN RENDERING with HTML code extraction
 ════════════════════════════════════════════════ */
-function md(t) {
-  var h = esc(t);
+function escHtml(t) { return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function renderMd(t) {
+  var h = escHtml(t);
+  // Handle ```html blocks specially — add copy button
+  h = h.replace(/```html\n?([\s\S]*?)```/g, function(_, code) {
+    var id = "code_" + (++S.n);
+    return '<div style="position:relative">'
+      + '<button class="copy-html-btn" onclick="copyHtmlBlock(\'' + id + '\',this)">&#x1F4CB; Copy HTML</button>'
+      + '<pre id="' + id + '"><code>' + code.trim() + '</code></pre>'
+      + '</div>';
+  });
+  // Other code blocks
   h = h.replace(/```[\w]*\n?([\s\S]*?)```/g, function(_,c) { return "<pre><code>"+c.trim()+"</code></pre>"; });
   h = h.replace(/`([^`]+)`/g, "<code>$1</code>");
   h = h.replace(/^### (.+)$/gm, "<h3>$1</h3>");
-  h = h.replace(/^## (.+)$/gm,  "<h2>$1</h2>");
-  h = h.replace(/^# (.+)$/gm,   "<h1>$1</h1>");
+  h = h.replace(/^## (.+)$/gm, "<h2>$1</h2>");
+  h = h.replace(/^# (.+)$/gm, "<h1>$1</h1>");
   h = h.replace(/\*\*\*(.+?)\*\*\*/g, "<strong><em>$1</em></strong>");
-  h = h.replace(/\*\*(.+?)\*\*/g,     "<strong>$1</strong>");
-  h = h.replace(/\*(.+?)\*/g,         "<em>$1</em>");
+  h = h.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  h = h.replace(/\*(.+?)\*/g, "<em>$1</em>");
   h = h.replace(/^---$/gm, "<hr>");
   h = h.replace(/^\s*[-*] (.+)$/gm, "<li>$1</li>");
-  h = h.replace(/^\d+\. (.+)$/gm,   "<li>$1</li>");
+  h = h.replace(/^\d+\. (.+)$/gm, "<li>$1</li>");
   h = h.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
-  var parts = h.split(/(<pre>[\s\S]*?<\/pre>)/g);
+  var parts = h.split(/(<pre[\s\S]*?<\/pre>|<div[\s\S]*?<\/pre><\/div>)/g);
   h = parts.map(function(x,i) { return i%2===0 ? x.replace(/\n/g,"<br>") : x; }).join("");
   return h;
 }
+
+/* Extract raw HTML code from AI response (unescaped) */
+function extractHtmlFromResponse(responseText) {
+  var match = responseText.match(/```html\n?([\s\S]*?)```/);
+  if (match) return match[1].trim();
+  return null;
+}
+
+/* ════════════════════════════════════════════════
+   COPY & PREVIEW FUNCTIONS
+════════════════════════════════════════════════ */
+// Copy from rendered code block by ID
+function copyHtmlBlock(id, btn) {
+  var el = g(id);
+  if (!el) return;
+  // Decode HTML entities back to real HTML
+  var code = el.textContent || el.innerText;
+  navigator.clipboard.writeText(code).then(function() {
+    btn.textContent = "\u2705 Copied!";
+    btn.classList.add("copied");
+    setTimeout(function() {
+      btn.innerHTML = "&#x1F4CB; Copy HTML";
+      btn.classList.remove("copied");
+    }, 2000);
+  }).catch(function() {
+    // Fallback: select text
+    var r = document.createRange();
+    r.selectNodeContents(el);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(r);
+  });
+}
+// Make this available globally
+window.copyHtmlBlock = copyHtmlBlock;
+
+// Copy full HTML from last response stored on the button
+function copyFullHtml(btn, html) {
+  navigator.clipboard.writeText(html).then(function() {
+    btn.textContent = "\u2705 Copied!";
+    btn.classList.add("copied");
+    setTimeout(function() {
+      btn.innerHTML = "&#x1F4CB; Copy Full HTML";
+      btn.classList.remove("copied");
+    }, 2000);
+  }).catch(function() {});
+}
+
+// Preview HTML in iframe modal
+function previewHtml(html) {
+  g("previewModal").classList.add("on");
+  var iframe = g("prevIframe");
+  iframe.srcdoc = html;
+}
+function closePreview() {
+  g("previewModal").classList.remove("on");
+  g("prevIframe").srcdoc = "";
+}
+window.closePreview = closePreview;
 
 /* ════════════════════════════════════════════════
    CHAT UI
 ════════════════════════════════════════════════ */
 function renderWel() {
-  var h = '<div class="wel"><span class="wico">&#x1F4AC;</span>'
-    + '<h3>Knowledge Base Ready!</h3>'
-    + '<p>Indexed <strong>' + S.chunks.length + '</strong> chunks from '
-    + CFG.files.length + ' files. Ask about templates, instructions, mapping, or database.</p>'
-    + '<div class="sugs">';
-  CFG.suggs.forEach(function(s) {
-    h += '<button class="sug" data-q="' + s.replace(/"/g,"&quot;") + '">' + s + '</button>';
-  });
-  h += '</div></div>';
-  g("msgs").innerHTML = h;
-  g("msgs").querySelectorAll(".sug").forEach(function(b) {
-    b.addEventListener("click", function() { g("uInp").value = b.dataset.q; send(); });
-  });
+  g("msgs").innerHTML =
+    '<div class="wel"><span class="wico">&#x1F4AC;</span>'
+    + '<h3>Ready to Create Posts!</h3>'
+    + '<p>All knowledge files loaded. Tell me what social media post to create, '
+    + 'and I\'ll use the correct template, mapping, and database.</p>'
+    + '<div class="sugs">'
+    + '<button class="sug" onclick="quickQ(this)">Create English appreciation post</button>'
+    + '<button class="sug" onclick="quickQ(this)">Create Sindhi announcement post</button>'
+    + '<button class="sug" onclick="quickQ(this)">Show all available templates</button>'
+    + '<button class="sug" onclick="quickQ(this)">List staff from database</button>'
+    + '<button class="sug" onclick="quickQ(this)">What are the posting instructions?</button>'
+    + '</div>'
+    + '<div class="kb-stats">'
+    + '<span class="kb-stat">Instructions: ' + Math.round(S.instructions.length/1024) + 'KB</span>'
+    + '<span class="kb-stat">Templates: ' + Math.round(S.templates.length/1024) + 'KB</span>'
+    + '<span class="kb-stat">Mapping: ' + Math.round(S.mapping.length/1024) + 'KB</span>'
+    + '<span class="kb-stat">Database: ' + Math.round(S.database.length/1024) + 'KB</span>'
+    + '</div></div>';
 }
+
+function quickQ(btn) {
+  g("uInp").value = btn.textContent;
+  send();
+}
+window.quickQ = quickQ;
 
 function addU(text) {
   var row = document.createElement("div"); row.className = "mrow u";
-  row.innerHTML = '<div class="bw"><div class="bbl u">' + md(text) + '</div><div class="bmeta">' + now() + '</div></div>'
-                + '<div class="av u">&#x1F9D1;</div>';
+  row.innerHTML = '<div class="bw"><div class="bbl u">' + escHtml(text) + '</div><div class="bmeta">'+ now() +'</div></div>'
+    + '<div class="av u">&#x1F9D1;</div>';
   g("msgs").appendChild(row); sb();
 }
 
@@ -927,48 +662,59 @@ function addBot() {
   var bid = "b" + S.n, mid = "m" + S.n;
   var row = document.createElement("div"); row.className = "mrow";
   row.innerHTML = '<div class="av b">&#x1F916;</div>'
-    + '<div class="bw"><div class="bbl b" id="' + bid + '">'
+    + '<div class="bw" id="bw'+S.n+'"><div class="bbl b" id="'+bid+'">'
     + '<div class="dots"><span></span><span></span><span></span></div>'
-    + '</div><div class="bmeta" id="' + mid + '"></div></div>';
+    + '</div><div class="bmeta" id="'+mid+'"></div></div>';
   g("msgs").appendChild(row); sb();
 
-  var bel = g(bid), mel = g(mid), raw = "";
+  var bel = g(bid), mel = g(mid), bwEl = g("bw"+S.n), raw = "";
 
   function type(full, done) {
     bel.innerHTML = ""; bel.classList.add("cur");
     var i = 0;
     (function step() {
-      var e = Math.min(i + 6, full.length);
+      var e = Math.min(i + 8, full.length);
       raw = full.slice(0, e);
-      bel.innerHTML = md(raw); sb(); i = e;
-      if (i < full.length) setTimeout(step, 8);
+      bel.innerHTML = renderMd(raw); sb(); i = e;
+      if (i < full.length) setTimeout(step, 6);
       else { bel.classList.remove("cur"); done(); }
     })();
   }
 
-  function setErr(msg) {
-    raw = msg;
-    bel.innerHTML = '<em style="color:var(--err)">Error — see details in the bar below.</em>';
+  function setErr() {
+    bel.innerHTML = '<em style="color:var(--err)">Error &#8212; see details below.</em>';
     bel.classList.remove("cur");
   }
 
-  function close(hits, retryNote) {
+  function close(fullText) {
     mel.textContent = now();
-    if (retryNote) {
-      var rb = document.createElement("span");
-      rb.className = "retry-badge"; rb.textContent = retryNote;
-      row.querySelector(".bw").appendChild(rb);
+    // If response contains HTML code, add copy-all and preview buttons
+    if (fullText) {
+      var html = extractHtmlFromResponse(fullText);
+      if (html) {
+        var bar = document.createElement("div");
+        bar.className = "html-copy-bar";
+
+        var cpBtn = document.createElement("button");
+        cpBtn.className = "copy-all-btn";
+        cpBtn.innerHTML = "&#x1F4CB; Copy Full HTML";
+        cpBtn.onclick = function() { copyFullHtml(cpBtn, html); };
+
+        var pvBtn = document.createElement("button");
+        pvBtn.className = "preview-btn";
+        pvBtn.innerHTML = "&#x1F441; Preview";
+        pvBtn.onclick = function() { previewHtml(html); };
+
+        bar.appendChild(cpBtn);
+        bar.appendChild(pvBtn);
+        bwEl.appendChild(bar);
+      }
     }
-    if (hits && hits.length) {
-      var fs = []; hits.forEach(function(h) { if (fs.indexOf(h.file)<0) fs.push(h.file); });
-      var d = document.createElement("div"); d.className = "srcs";
-      d.innerHTML = fs.map(function(f) { return '<span class="src">&#x1F4CE; ' + f + '</span>'; }).join("");
-      row.querySelector(".bw").appendChild(d);
-    }
-    sb(); return raw;
+    sb();
+    return raw;
   }
 
-  return { type: type, setErr: setErr, close: close };
+  return { type:type, setErr:setErr, close:close };
 }
 
 /* ════════════════════════════════════════════════
@@ -976,41 +722,51 @@ function addBot() {
 ════════════════════════════════════════════════ */
 async function send() {
   if (!S.ready || S.busy) return;
-  var txt = g("uInp").value.trim(); if (!txt) return;
+  var txt = g("uInp").value.trim();
+  if (!txt) return;
+
   hideErr();
   g("uInp").value = ""; ar(g("uInp"));
   var wc = g("msgs").querySelector(".wel"); if (wc) wc.remove();
   S.busy = true; g("sndBtn").disabled = true; g("uInp").disabled = true;
 
   addU(txt);
-  var prov  = PROVIDERS[S.p];
-  var hits  = srch(txt);
-  var prompt = mkPrompt(txt, hits, prov.maxCtxChars);
-  var ph    = addBot();
-  var retryNote = null;
+  var ph = addBot();
+
+  // Build messages array
+  // System prompt has ALL knowledge files
+  var messages = [
+    { role: "system", content: buildSystemPrompt() }
+  ];
+
+  // Add conversation history (last 6 turns max to stay within token limits)
+  var histSlice = S.history.slice(-6);
+  for (var i = 0; i < histSlice.length; i++) {
+    messages.push(histSlice[i]);
+  }
+
+  // Add current user message
+  messages.push({ role: "user", content: txt });
 
   try {
-    var answer = await prov.call(CFG.persona, prompt);
-
-    // If OpenRouter rotated to a different model, note it
-    if (S.p === "openrouter" && S.mdl !== g("mSel").value) {
-      retryNote = "Auto-switched to: " + S.mdl;
-    }
+    var answer = await callGroq(messages);
 
     await new Promise(function(res) { ph.type(answer, res); });
-    ph.close(hits, retryNote);
+    ph.close(answer);
 
-    S.hist.push({ role:"user", content:txt }, { role:"assistant", content:answer });
-    if (S.hist.length > 12) S.hist.splice(0, 2);
+    // Save to history
+    S.history.push({ role: "user", content: txt });
+    S.history.push({ role: "assistant", content: answer });
+    // Keep history manageable
+    if (S.history.length > 12) S.history.splice(0, 2);
 
   } catch(err) {
     console.error(err);
-    ph.setErr("error"); ph.close([], null);
+    ph.setErr(); ph.close(null);
     showErr([
-      "Provider : " + prov.name,
-      "Model    : " + S.mdl,
-      "Time     : " + new Date().toISOString(),
-      "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+      "Model : " + S.mdl,
+      "Time  : " + new Date().toISOString(),
+      "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
       err.message || String(err)
     ].join("\n"));
   }
@@ -1019,8 +775,8 @@ async function send() {
 }
 
 function clrChat() {
-  if (!confirm("Clear conversation? KB stays indexed.")) return;
-  S.hist = []; hideErr(); renderWel();
+  if (!confirm("Clear conversation?")) return;
+  S.history = []; hideErr(); renderWel();
 }
 
 /* ════════════════════════════════════════════════
@@ -1031,9 +787,6 @@ g("uInp").addEventListener("keydown", function(e) {
 });
 g("uInp").addEventListener("input", function() { ar(g("uInp")); });
 g("sndBtn").addEventListener("click", send);
-
-/* Boot */
-pick("groq");
 </script>
 </body>
 </html>
