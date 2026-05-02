@@ -4,618 +4,714 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GBHSSNaudero AI Assistant</title>
-
-  <!-- Puter.js – free AI, no API key needed -->
-  <script src="https://js.puter.com/v2/"></script>
-
-  <!-- MiniSearch – tiny full-text search engine, runs in the browser -->
   <script src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js"></script>
-
   <style>
-    /* ─── Reset & Variables ─────────────────────────────────────────── */
+    /* ── Reset & Variables ─────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:          #0f1117;
-      --surface:     #1a1d27;
-      --surface2:    #22263a;
-      --border:      #2e3350;
-      --accent:      #4f8ef7;
-      --accent-glow: rgba(79,142,247,0.25);
-      --accent2:     #7c5cbf;
-      --user-bg:     #1e3a5f;
-      --bot-bg:      #1a1d27;
-      --text:        #e2e8f0;
-      --text-muted:  #8892a4;
-      --success:     #22c55e;
-      --warn:        #f59e0b;
-      --error:       #ef4444;
-      --radius:      14px;
-      --radius-sm:   8px;
-      --shadow:      0 4px 24px rgba(0,0,0,0.4);
-      --font:        'Inter', system-ui, -apple-system, sans-serif;
+      --bg:           #070b14;
+      --surface:      #0e1420;
+      --surface2:     #151d2e;
+      --surface3:     #1c2640;
+      --border:       #1e2d4a;
+      --border2:      #263552;
+      --accent:       #3b82f6;
+      --accent2:      #8b5cf6;
+      --accent3:      #06b6d4;
+      --glow:         rgba(59,130,246,0.2);
+      --glow2:        rgba(139,92,246,0.15);
+      --text:         #e2e8f0;
+      --text-muted:   #64748b;
+      --text-dim:     #94a3b8;
+      --success:      #10b981;
+      --warn:         #f59e0b;
+      --error:        #ef4444;
+      --user-bg:      #1e3a5f;
+      --radius:       16px;
+      --radius-sm:    10px;
+      --radius-xs:    6px;
+      --font:         'Inter', system-ui, -apple-system, sans-serif;
+      --mono:         'Fira Code', 'Courier New', monospace;
+      --shadow:       0 8px 32px rgba(0,0,0,0.5);
+      --shadow-sm:    0 2px 12px rgba(0,0,0,0.3);
     }
 
-    html, body {
-      height: 100%;
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--text);
-      overflow: hidden;
+    html, body { height: 100%; font-family: var(--font); background: var(--bg); color: var(--text); overflow: hidden; }
+
+    /* ── Animated Background ───────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 20%, rgba(59,130,246,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(139,92,246,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 30% at 50% 50%, rgba(6,182,212,0.03) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
     }
 
-    /* ─── Layout ────────────────────────────────────────────────────── */
-    #app {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      max-width: 900px;
-      margin: 0 auto;
+    /* ════════════════════════════════════════════════════════════════
+       SETUP SCREEN
+    ════════════════════════════════════════════════════════════════ */
+    #setup-screen {
+      position: fixed; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 200; padding: 20px;
+      overflow-y: auto;
     }
 
-    /* ─── Header ────────────────────────────────────────────────────── */
-    #header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px 24px;
+    .setup-container {
+      width: 100%; max-width: 580px;
       background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      border: 1px solid var(--border2);
+      border-radius: 24px;
+      padding: 0;
+      box-shadow: var(--shadow), 0 0 80px rgba(59,130,246,0.08);
+      overflow: hidden;
+      position: relative; z-index: 1;
     }
 
-    .logo-wrap {
-      width: 44px; height: 44px;
-      border-radius: 12px;
+    .setup-header {
+      padding: 36px 40px 28px;
+      background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.08));
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .setup-logo {
+      width: 72px; height: 72px;
+      border-radius: 20px;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       display: flex; align-items: center; justify-content: center;
-      font-size: 22px;
-      flex-shrink: 0;
-      box-shadow: 0 0 16px var(--accent-glow);
+      font-size: 34px; margin: 0 auto 16px;
+      box-shadow: 0 0 32px rgba(59,130,246,0.35);
     }
 
-    .header-text h1 {
-      font-size: 17px;
-      font-weight: 700;
-      letter-spacing: 0.3px;
-      color: var(--text);
-    }
+    .setup-header h1 { font-size: 24px; font-weight: 800; margin-bottom: 6px;
+      background: linear-gradient(135deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-    .header-text p {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 1px;
-    }
+    .setup-header p { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
 
-    #status-badge {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 5px 12px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
+    .setup-body { padding: 32px 40px 36px; }
+
+    /* Provider Cards */
+    .provider-label { font-size: 13px; font-weight: 700; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 14px; }
+
+    .provider-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+
+    .provider-card {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 18px; border-radius: var(--radius-sm);
+      border: 2px solid var(--border);
       background: var(--surface2);
-      transition: all 0.3s;
-      white-space: nowrap;
+      cursor: pointer; transition: all 0.22s;
+      position: relative; overflow: hidden;
     }
 
-    #status-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--warn);
-      transition: background 0.3s;
+    .provider-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--p-color1, transparent), var(--p-color2, transparent));
+      opacity: 0; transition: opacity 0.22s;
     }
 
-    #status-badge.ready   { border-color: var(--success); color: var(--success); }
-    #status-badge.ready   #status-dot { background: var(--success); box-shadow: 0 0 8px var(--success); }
-    #status-badge.error   { border-color: var(--error);   color: var(--error);   }
-    #status-badge.error   #status-dot { background: var(--error); }
-    #status-badge.loading { border-color: var(--warn);    color: var(--warn);    }
+    .provider-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+    .provider-card:hover::before { opacity: 1; }
 
-    /* ─── Init Overlay ──────────────────────────────────────────────── */
+    .provider-card.selected {
+      border-color: var(--p-accent, var(--accent));
+      background: var(--surface3);
+      box-shadow: 0 0 20px var(--p-glow, var(--glow));
+    }
+    .provider-card.selected::before { opacity: 1; }
+
+    .provider-card[data-id="google"]   { --p-color1: rgba(234,67,53,0.04);  --p-color2: rgba(251,188,4,0.04);  --p-accent: #ea4335; --p-glow: rgba(234,67,53,0.15); }
+    .provider-card[data-id="github"]   { --p-color1: rgba(255,255,255,0.03);--p-color2: rgba(255,255,255,0.01);--p-accent: #e2e8f0; --p-glow: rgba(255,255,255,0.08); }
+    .provider-card[data-id="openrouter"]{ --p-color1: rgba(99,102,241,0.06); --p-color2: rgba(139,92,246,0.06); --p-accent: #6366f1; --p-glow: rgba(99,102,241,0.2); }
+
+    .provider-icon {
+      width: 42px; height: 42px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+      background: var(--surface3); border: 1px solid var(--border2);
+      position: relative; z-index: 1;
+    }
+
+    .provider-info { flex: 1; position: relative; z-index: 1; }
+    .provider-info h3 { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+    .provider-info p  { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+
+    .provider-badge {
+      font-size: 10px; font-weight: 700; padding: 3px 8px;
+      border-radius: 99px; background: rgba(16,185,129,0.15);
+      border: 1px solid rgba(16,185,129,0.3); color: var(--success);
+      position: relative; z-index: 1;
+    }
+
+    .provider-radio {
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 2px solid var(--border2); background: var(--surface);
+      flex-shrink: 0; position: relative; z-index: 1;
+      transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+    }
+
+    .provider-card.selected .provider-radio {
+      border-color: var(--p-accent, var(--accent));
+      background: var(--p-accent, var(--accent));
+    }
+
+    .provider-card.selected .provider-radio::after {
+      content: ''; width: 6px; height: 6px; border-radius: 50%; background: white;
+    }
+
+    /* Key Input Section */
+    .key-section { margin-bottom: 24px; }
+    .key-section label { display: block; font-size: 13px; font-weight: 600;
+      color: var(--text-dim); margin-bottom: 8px; }
+
+    .key-input-wrap {
+      display: flex; gap: 8px;
+      background: var(--surface2); border: 1px solid var(--border2);
+      border-radius: var(--radius-sm); padding: 4px 4px 4px 14px;
+      transition: border-color 0.2s;
+    }
+    .key-input-wrap:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+
+    #api-key-input {
+      flex: 1; background: transparent; border: none; outline: none;
+      color: var(--text); font-family: var(--mono); font-size: 13px;
+      padding: 8px 0; letter-spacing: 0.5px;
+    }
+    #api-key-input::placeholder { color: var(--text-muted); font-family: var(--font); letter-spacing: 0; }
+
+    #toggle-key-vis {
+      background: var(--surface3); border: 1px solid var(--border);
+      border-radius: var(--radius-xs); color: var(--text-muted);
+      padding: 6px 10px; cursor: pointer; font-size: 14px;
+      transition: all 0.2s;
+    }
+    #toggle-key-vis:hover { color: var(--text); border-color: var(--border2); }
+
+    /* Model selector */
+    .model-section { margin-bottom: 28px; }
+    .model-section label { display: block; font-size: 13px; font-weight: 600;
+      color: var(--text-dim); margin-bottom: 8px; }
+
+    #model-select {
+      width: 100%; background: var(--surface2); border: 1px solid var(--border2);
+      border-radius: var(--radius-sm); color: var(--text); font-family: var(--font);
+      font-size: 13.5px; padding: 11px 14px; outline: none; cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    #model-select:focus { border-color: var(--accent); }
+
+    /* Info box */
+    .info-box {
+      display: flex; gap: 10px; align-items: flex-start;
+      background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.2);
+      border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 24px;
+      font-size: 12.5px; color: var(--text-dim); line-height: 1.55;
+    }
+    .info-box .i-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .info-box a { color: var(--accent); text-decoration: none; }
+    .info-box a:hover { text-decoration: underline; }
+
+    /* Start Button */
+    #start-btn {
+      width: 100%; padding: 15px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none; border-radius: var(--radius-sm);
+      color: white; font-family: var(--font); font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s; letter-spacing: 0.3px;
+      box-shadow: 0 4px 20px rgba(59,130,246,0.35);
+    }
+    #start-btn:hover { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 6px 28px rgba(59,130,246,0.45); }
+    #start-btn:active { transform: translateY(0); }
+    #start-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .setup-footer { text-align: center; margin-top: 18px;
+      font-size: 12px; color: var(--text-muted); }
+    .setup-footer span { color: var(--success); }
+
+    /* ════════════════════════════════════════════════════════════════
+       INIT OVERLAY
+    ════════════════════════════════════════════════════════════════ */
     #init-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(15,17,23,0.92);
-      backdrop-filter: blur(6px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-      transition: opacity 0.5s;
+      position: fixed; inset: 0;
+      background: rgba(7,11,20,0.93);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 150; transition: opacity 0.5s;
     }
-
     #init-overlay.hidden { opacity: 0; pointer-events: none; }
 
     .init-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 40px 44px;
-      max-width: 440px;
-      width: 90%;
-      text-align: center;
+      background: var(--surface); border: 1px solid var(--border2);
+      border-radius: 22px; padding: 44px 48px;
+      max-width: 460px; width: 90%; text-align: center;
       box-shadow: var(--shadow);
     }
 
-    .init-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
-      display: block;
+    .init-spinner {
+      width: 60px; height: 60px; border-radius: 18px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; margin: 0 auto 20px;
+      animation: pulse-glow 2s ease-in-out infinite;
     }
 
-    .init-card h2 {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 8px;
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(59,130,246,0.3); }
+      50%       { box-shadow: 0 0 40px rgba(59,130,246,0.6); }
     }
 
-    .init-card p {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 28px;
-    }
+    .init-card h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+    .init-card p  { font-size: 14px; color: var(--text-muted); margin-bottom: 28px; line-height: 1.6; }
 
-    /* Progress Bar */
-    .progress-wrap {
-      background: var(--surface2);
-      border-radius: 99px;
-      height: 8px;
-      overflow: hidden;
-      margin-bottom: 10px;
-    }
-
-    #progress-bar {
-      height: 100%;
-      width: 0%;
-      border-radius: 99px;
+    .progress-track { background: var(--surface2); border-radius: 99px; height: 6px; overflow: hidden; margin-bottom: 10px; }
+    #progress-bar { height: 100%; width: 0%; border-radius: 99px;
       background: linear-gradient(90deg, var(--accent), var(--accent2));
-      transition: width 0.4s ease;
-      box-shadow: 0 0 10px var(--accent-glow);
-    }
+      transition: width 0.4s ease; box-shadow: 0 0 12px var(--glow); }
+    #progress-label { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; min-height: 16px; }
 
-    #progress-label {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 18px;
-      min-height: 16px;
-    }
-
-    .file-list {
-      text-align: left;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
+    .file-list { display: flex; flex-direction: column; gap: 7px; text-align: left; }
     .file-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      padding: 8px 12px;
-      border-radius: var(--radius-sm);
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      transition: all 0.3s;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; padding: 9px 13px; border-radius: var(--radius-xs);
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--text-muted); transition: all 0.3s;
+    }
+    .file-item.active { color: var(--accent); border-color: rgba(59,130,246,0.3); }
+    .file-item.done   { color: var(--success); border-color: rgba(16,185,129,0.3); background: rgba(16,185,129,0.05); }
+    .file-item.fail   { color: var(--error);   border-color: rgba(239,68,68,0.3);  background: rgba(239,68,68,0.05); }
+    .file-icon { font-size: 14px; }
+
+    /* ════════════════════════════════════════════════════════════════
+       CHAT APP
+    ════════════════════════════════════════════════════════════════ */
+    #app {
+      display: none; flex-direction: column; height: 100vh;
+      max-width: 960px; margin: 0 auto; position: relative; z-index: 1;
+    }
+    #app.visible { display: flex; }
+
+    /* Header */
+    #header {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 24px;
+      background: rgba(14,20,32,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border); flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
     }
 
-    .file-item.done  { color: var(--success); border-color: rgba(34,197,94,0.3); }
-    .file-item.fail  { color: var(--error);   border-color: rgba(239,68,68,0.3); }
-    .file-item.active { color: var(--accent); border-color: rgba(79,142,247,0.3); }
+    .hdr-logo {
+      width: 40px; height: 40px; border-radius: 11px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 19px; flex-shrink: 0;
+      box-shadow: 0 0 18px rgba(59,130,246,0.35);
+    }
 
-    .file-icon { font-size: 15px; flex-shrink: 0; }
+    .hdr-info h1 { font-size: 16px; font-weight: 800; }
+    .hdr-info p  { font-size: 11.5px; color: var(--text-muted); margin-top: 1px; }
 
-    /* ─── Messages Area ─────────────────────────────────────────────── */
+    .hdr-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+
+    #provider-pill {
+      display: flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 99px;
+      background: var(--surface2); border: 1px solid var(--border2);
+      font-size: 12px; font-weight: 600; color: var(--text-dim);
+    }
+    #provider-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success);
+      box-shadow: 0 0 8px var(--success); }
+
+    #switch-btn {
+      padding: 6px 14px; border-radius: 99px; font-size: 12px; font-weight: 600;
+      background: var(--surface2); border: 1px solid var(--border2);
+      color: var(--text-muted); cursor: pointer; font-family: var(--font);
+      transition: all 0.2s;
+    }
+    #switch-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Messages */
     #messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 24px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      scroll-behavior: smooth;
+      flex: 1; overflow-y: auto; padding: 28px 22px;
+      display: flex; flex-direction: column; gap: 20px;
     }
+    #messages::-webkit-scrollbar { width: 4px; }
+    #messages::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
 
-    #messages::-webkit-scrollbar { width: 5px; }
-    #messages::-webkit-scrollbar-track { background: transparent; }
-    #messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
-
-    /* ─── Message Bubbles ───────────────────────────────────────────── */
-    .msg-row {
-      display: flex;
-      gap: 12px;
-      animation: fadeUp 0.3s ease;
-    }
-
+    /* Bubbles */
+    .msg-row { display: flex; gap: 12px; animation: fadeUp 0.3s ease; }
     .msg-row.user { flex-direction: row-reverse; }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
+      from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
     .avatar {
-      width: 36px; height: 36px;
-      border-radius: 10px;
+      width: 34px; height: 34px; border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 17px;
-      flex-shrink: 0;
-      align-self: flex-end;
+      font-size: 16px; flex-shrink: 0; align-self: flex-end;
     }
-
     .avatar.bot  { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
-    .avatar.user { background: var(--user-bg); border: 1px solid rgba(79,142,247,0.4); }
+    .avatar.user { background: var(--user-bg); border: 1px solid rgba(59,130,246,0.4); }
 
-    .bubble-wrap { max-width: 75%; display: flex; flex-direction: column; gap: 4px; }
+    .bubble-wrap { max-width: 76%; display: flex; flex-direction: column; gap: 5px; }
     .msg-row.user .bubble-wrap { align-items: flex-end; }
 
     .bubble {
-      padding: 12px 16px;
-      border-radius: 16px;
-      font-size: 14.5px;
-      line-height: 1.65;
-      word-break: break-word;
-      position: relative;
+      padding: 13px 17px; border-radius: 18px;
+      font-size: 14px; line-height: 1.7; word-break: break-word;
     }
+    .bubble.bot  { background: var(--surface); border: 1px solid var(--border2); border-bottom-left-radius: 4px; }
+    .bubble.user { background: var(--user-bg); border: 1px solid rgba(59,130,246,0.3); border-bottom-right-radius: 4px; color: #cce0ff; }
 
-    .bubble.bot {
-      background: var(--bot-bg);
-      border: 1px solid var(--border);
-      border-bottom-left-radius: 4px;
-    }
-
-    .bubble.user {
-      background: var(--user-bg);
-      border: 1px solid rgba(79,142,247,0.35);
-      border-bottom-right-radius: 4px;
-      color: #cce0ff;
-    }
-
-    /* Markdown-ish rendering */
-    .bubble strong { font-weight: 700; color: #a5c8ff; }
+    /* Markdown */
+    .bubble strong { font-weight: 700; color: #93c5fd; }
     .bubble em     { font-style: italic; color: #c4b5fd; }
-    .bubble code {
-      background: rgba(255,255,255,0.08);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-family: 'Fira Code', 'Courier New', monospace;
-      font-size: 13px;
-      color: #86efac;
-    }
+    .bubble code   { background: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 4px;
+                     font-family: var(--mono); font-size: 12.5px; color: #86efac; }
+    .bubble pre    { background: #090d18; border: 1px solid var(--border2); border-radius: 10px;
+                     padding: 14px; overflow-x: auto; margin: 10px 0; }
+    .bubble pre code { background: none; padding: 0; font-size: 12.5px; }
+    .bubble h1     { font-size: 18px; color: #93c5fd; margin: 10px 0 4px; }
+    .bubble h2     { font-size: 16px; color: #93c5fd; margin: 8px 0 4px; }
+    .bubble h3     { font-size: 14.5px; color: #93c5fd; margin: 6px 0 4px; }
+    .bubble ul, .bubble ol { padding-left: 20px; margin: 6px 0; }
+    .bubble li     { margin: 3px 0; }
+    .bubble hr     { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+    .bubble a      { color: var(--accent); text-decoration: underline; }
+    .bubble table  { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 13px; }
+    .bubble th     { background: var(--surface2); padding: 7px 12px; border: 1px solid var(--border2); color: #93c5fd; }
+    .bubble td     { padding: 6px 12px; border: 1px solid var(--border); }
 
-    .bubble pre {
-      background: #0d1117;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px;
-      overflow-x: auto;
-      margin: 8px 0;
-    }
+    .bubble-meta { font-size: 11px; color: var(--text-muted); padding: 0 4px; }
 
-    .bubble pre code {
-      background: none;
-      padding: 0;
-      font-size: 13px;
-    }
-
-    .bubble ul, .bubble ol {
-      padding-left: 20px;
-      margin: 6px 0;
-    }
-
-    .bubble li { margin: 3px 0; }
-
-    .bubble h1, .bubble h2, .bubble h3 {
-      margin: 8px 0 4px;
-      color: #a5c8ff;
-    }
-
-    .bubble h1 { font-size: 18px; }
-    .bubble h2 { font-size: 16px; }
-    .bubble h3 { font-size: 14.5px; }
-
-    .bubble hr {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 8px 0;
-    }
-
-    .bubble a { color: var(--accent); text-decoration: underline; }
-
-    .bubble-meta {
-      font-size: 11px;
-      color: var(--text-muted);
-      padding: 0 4px;
-    }
-
-    /* Typing cursor */
-    .cursor::after {
-      content: '▋';
-      animation: blink 0.7s step-end infinite;
-      color: var(--accent);
-      margin-left: 2px;
-    }
+    .cursor::after { content: '▋'; animation: blink 0.7s step-end infinite; color: var(--accent); margin-left: 2px; }
     @keyframes blink { 50% { opacity: 0; } }
 
-    /* Sources badge */
-    .sources-wrap {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-top: 6px;
+    /* Sources */
+    .sources-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+    .source-tag   { font-size: 11px; padding: 2px 9px; border-radius: 99px;
+                    background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25); color: var(--accent); }
+
+    /* Welcome */
+    .welcome-card {
+      text-align: center; padding: 48px 24px;
+      background: var(--surface); border: 1px solid var(--border2);
+      border-radius: 22px; margin: auto 0;
     }
+    .w-icon { font-size: 56px; margin-bottom: 16px; display: block; }
+    .welcome-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 8px;
+      background: linear-gradient(135deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .welcome-card p  { font-size: 14px; color: var(--text-muted); line-height: 1.65; max-width: 440px; margin: 0 auto; }
 
-    .source-tag {
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 99px;
-      background: rgba(79,142,247,0.12);
-      border: 1px solid rgba(79,142,247,0.3);
-      color: var(--accent);
-    }
-
-    /* Welcome message */
-    .welcome-msg {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--text-muted);
-    }
-
-    .welcome-msg .w-icon { font-size: 52px; margin-bottom: 12px; }
-    .welcome-msg h3 { font-size: 18px; color: var(--text); margin-bottom: 8px; }
-    .welcome-msg p  { font-size: 14px; line-height: 1.6; max-width: 420px; margin: 0 auto; }
-
-    .suggestions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      margin-top: 20px;
-    }
-
+    .suggestions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 22px; }
     .suggest-btn {
-      padding: 8px 16px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 99px;
-      color: var(--text);
-      font-size: 13px;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: var(--font);
+      padding: 9px 17px; background: var(--surface2); border: 1px solid var(--border2);
+      border-radius: 99px; color: var(--text-dim); font-size: 13px;
+      cursor: pointer; transition: all 0.2s; font-family: var(--font);
     }
+    .suggest-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,0.08); }
 
-    .suggest-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(79,142,247,0.08);
-    }
-
-    /* ─── Input Bar ─────────────────────────────────────────────────── */
+    /* Input bar */
     #input-area {
-      padding: 16px 20px;
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      flex-shrink: 0;
+      padding: 16px 22px 20px;
+      background: rgba(14,20,32,0.9); backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border); flex-shrink: 0;
     }
 
-    #input-form {
-      display: flex;
-      gap: 10px;
-      align-items: flex-end;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 10px 14px;
-      transition: border-color 0.2s;
+    .input-form {
+      display: flex; gap: 10px; align-items: flex-end;
+      background: var(--surface2); border: 1px solid var(--border2);
+      border-radius: var(--radius); padding: 10px 12px;
+      transition: border-color 0.2s; box-shadow: var(--shadow-sm);
     }
-
-    #input-form:focus-within { border-color: var(--accent); }
+    .input-form:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
 
     #user-input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: var(--text);
-      font-family: var(--font);
-      font-size: 14.5px;
-      line-height: 1.5;
-      resize: none;
-      max-height: 140px;
-      min-height: 24px;
+      flex: 1; background: transparent; border: none; outline: none;
+      color: var(--text); font-family: var(--font); font-size: 14.5px;
+      line-height: 1.5; resize: none; max-height: 140px; min-height: 24px;
     }
-
     #user-input::placeholder { color: var(--text-muted); }
 
     #send-btn {
-      width: 38px; height: 38px;
-      border-radius: 10px;
-      border: none;
+      width: 40px; height: 40px; border-radius: 11px; border: none;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: white;
-      font-size: 17px;
-      cursor: pointer;
-      flex-shrink: 0;
+      color: white; font-size: 17px; cursor: pointer; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      transition: opacity 0.2s, transform 0.1s;
-      box-shadow: 0 2px 10px var(--accent-glow);
+      transition: all 0.2s; box-shadow: 0 2px 12px rgba(59,130,246,0.4);
     }
+    #send-btn:hover:not(:disabled) { opacity: 0.9; transform: scale(1.06); }
+    #send-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
 
-    #send-btn:hover:not(:disabled) { opacity: 0.9; transform: scale(1.05); }
-    #send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .input-footer { display: flex; justify-content: space-between; align-items: center;
+      margin-top: 8px; padding: 0 2px; }
+    .input-footer span { font-size: 11px; color: var(--text-muted); }
 
-    #input-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 8px;
-      padding: 0 2px;
-    }
-
-    #input-footer span {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    #clear-btn {
-      font-size: 11px;
-      color: var(--text-muted);
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-family: var(--font);
-      padding: 2px 6px;
-      border-radius: 4px;
-      transition: color 0.2s;
-    }
+    #clear-btn { font-size: 11px; color: var(--text-muted); background: none; border: none;
+      cursor: pointer; font-family: var(--font); padding: 2px 6px; border-radius: 4px; transition: color 0.2s; }
     #clear-btn:hover { color: var(--error); }
 
-    /* ─── Thinking indicator ────────────────────────────────────────── */
-    .thinking-dots {
-      display: flex;
-      gap: 5px;
-      padding: 4px 0;
-    }
-    .thinking-dots span {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--text-muted);
-      animation: bounce 1.2s infinite;
-    }
+    /* Thinking */
+    .thinking-dots { display: flex; gap: 5px; padding: 4px 0; }
+    .thinking-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted); animation: bounce 1.2s infinite; }
     .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
     .thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes bounce {
-      0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
-      40%           { transform: scale(1);   opacity: 1;   }
-    }
+    @keyframes bounce { 0%,80%,100%{transform:scale(0.65);opacity:0.4} 40%{transform:scale(1);opacity:1} }
 
-    /* ─── Responsive ────────────────────────────────────────────────── */
-    @media (max-width: 600px) {
+    /* Error toast */
+    #error-toast {
+      position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4);
+      color: #fca5a5; padding: 10px 20px; border-radius: 99px;
+      font-size: 13px; z-index: 999; opacity: 0; transition: all 0.3s;
+      pointer-events: none; white-space: nowrap;
+    }
+    #error-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .setup-container { border-radius: 20px; }
+      .setup-header { padding: 28px 24px 22px; }
+      .setup-body { padding: 24px 24px 28px; }
       #header { padding: 12px 16px; }
-      #messages { padding: 16px 12px; }
-      #input-area { padding: 12px 14px; }
+      #messages { padding: 16px 14px; }
+      #input-area { padding: 12px 14px 16px; }
       .bubble-wrap { max-width: 90%; }
-      .init-card { padding: 28px 22px; }
+      .init-card { padding: 32px 24px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════════════════════
-     INIT OVERLAY  –  shown while downloading & indexing knowledge files
-════════════════════════════════════════════════════════════════════════ -->
-<div id="init-overlay">
-  <div class="init-card">
-    <span class="init-icon">🧠</span>
-    <h2>Building Knowledge Base</h2>
-    <p>Fetching and indexing all knowledge files from GitHub.<br>This only takes a few seconds…</p>
+<!-- ══════════════════════════════════════════════════════════════════
+     SETUP SCREEN
+══════════════════════════════════════════════════════════════════ -->
+<div id="setup-screen">
+  <div class="setup-container">
 
-    <div class="progress-wrap">
-      <div id="progress-bar"></div>
+    <div class="setup-header">
+      <div class="setup-logo">🤖</div>
+      <h1>GBHSSNaudero AI Assistant</h1>
+      <p>Knowledge-grounded RAG chatbot · Choose your free AI provider below</p>
     </div>
-    <div id="progress-label">Initialising…</div>
 
+    <div class="setup-body">
+
+      <div class="provider-label">Choose AI Provider (all free)</div>
+      <div class="provider-grid">
+
+        <!-- Google AI Studio -->
+        <div class="provider-card selected" data-id="google" onclick="selectProvider('google')">
+          <div class="provider-icon">🔵</div>
+          <div class="provider-info">
+            <h3>Google AI Studio</h3>
+            <p>Gemini 2.0 Flash & 2.5 Flash · Generous free tier · Fast</p>
+          </div>
+          <span class="provider-badge">Recommended</span>
+          <div class="provider-radio"></div>
+        </div>
+
+        <!-- GitHub Models -->
+        <div class="provider-card" data-id="github" onclick="selectProvider('github')">
+          <div class="provider-icon">⚫</div>
+          <div class="provider-info">
+            <h3>GitHub Models</h3>
+            <p>GPT-4o, Llama 3, Phi-4 · Free with GitHub account</p>
+          </div>
+          <span class="provider-badge">Free</span>
+          <div class="provider-radio"></div>
+        </div>
+
+        <!-- OpenRouter -->
+        <div class="provider-card" data-id="openrouter" onclick="selectProvider('openrouter')">
+          <div class="provider-icon">🟣</div>
+          <div class="provider-info">
+            <h3>OpenRouter</h3>
+            <p>Llama 4, Mistral, Gemma · Many free models available</p>
+          </div>
+          <span class="provider-badge">Free Tier</span>
+          <div class="provider-radio"></div>
+        </div>
+
+      </div>
+
+      <!-- API Key Input -->
+      <div class="key-section">
+        <label id="key-label">Google AI Studio API Key</label>
+        <div class="key-input-wrap">
+          <input type="password" id="api-key-input" placeholder="Paste your API key here…" autocomplete="off" />
+          <button id="toggle-key-vis" title="Show/hide key" onclick="toggleKeyVis()">👁</button>
+        </div>
+      </div>
+
+      <!-- Model Selector -->
+      <div class="model-section">
+        <label>Model</label>
+        <select id="model-select"></select>
+      </div>
+
+      <!-- Info Box -->
+      <div class="info-box" id="info-box">
+        <span class="i-icon">ℹ️</span>
+        <span id="info-text">
+          Get a free API key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com</a>.
+          Free tier includes 15 requests/min and 1,500 requests/day with Gemini 2.0 Flash.
+          Your key is stored only in your browser's sessionStorage and never sent to any server except Google.
+        </span>
+      </div>
+
+      <button id="start-btn" onclick="startChat()">🚀 &nbsp;Start Chat</button>
+
+      <div class="setup-footer">
+        <span>🔒</span> API keys stay in your browser only · Never stored on any server
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     INIT OVERLAY
+══════════════════════════════════════════════════════════════════ -->
+<div id="init-overlay" class="hidden" style="display:none;">
+  <div class="init-card">
+    <div class="init-spinner">🧠</div>
+    <h2>Building Knowledge Base</h2>
+    <p>Fetching and indexing all knowledge files from GitHub. This only takes a few seconds…</p>
+    <div class="progress-track"><div id="progress-bar"></div></div>
+    <div id="progress-label">Initialising…</div>
     <div class="file-list" id="file-list"></div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════════════
-     MAIN APP
-════════════════════════════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════════════════════
+     CHAT APP
+══════════════════════════════════════════════════════════════════ -->
 <div id="app">
 
-  <!-- Header -->
   <div id="header">
-    <div class="logo-wrap">🤖</div>
-    <div class="header-text">
+    <div class="hdr-logo">🤖</div>
+    <div class="hdr-info">
       <h1>GBHSSNaudero AI Assistant</h1>
-      <p>Powered by Puter.com · Knowledge-Grounded Answers</p>
+      <p id="hdr-subtitle">RAG · Knowledge-Grounded Answers</p>
     </div>
-    <div id="status-badge" class="loading">
-      <div id="status-dot"></div>
-      <span id="status-text">Loading…</span>
+    <div class="hdr-right">
+      <div id="provider-pill">
+        <div id="provider-dot"></div>
+        <span id="provider-pill-text">Ready</span>
+      </div>
+      <button id="switch-btn" onclick="switchProvider()">⚙ Switch</button>
     </div>
   </div>
 
-  <!-- Messages -->
-  <div id="messages">
-    <!-- Welcome card inserted by JS after indexing -->
-  </div>
+  <div id="messages"></div>
 
-  <!-- Input -->
   <div id="input-area">
-    <div id="input-form">
-      <textarea
-        id="user-input"
-        rows="1"
-        placeholder="Ask me anything… (knowledge base is loading)"
-        disabled
-      ></textarea>
-      <button id="send-btn" disabled title="Send (Enter)">➤</button>
+    <div class="input-form">
+      <textarea id="user-input" rows="1"
+        placeholder="Knowledge base loading…" disabled></textarea>
+      <button id="send-btn" disabled>➤</button>
     </div>
-    <div id="input-footer">
-      <span id="model-label">Model: gpt-4o-mini · RAG enabled</span>
-      <button id="clear-btn" title="Clear conversation">🗑 Clear chat</button>
+    <div class="input-footer">
+      <span id="model-label-footer">Model: —</span>
+      <button id="clear-btn">🗑 Clear chat</button>
     </div>
   </div>
 
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════════════
+<div id="error-toast"></div>
+
+<!-- ══════════════════════════════════════════════════════════════════
      JAVASCRIPT
-════════════════════════════════════════════════════════════════════════ -->
+══════════════════════════════════════════════════════════════════ -->
 <script>
 "use strict";
 
-/* ── 1. CONFIGURATION ───────────────────────────────────────────────── */
-const CONFIG = {
-  // Raw GitHub base URL for your knowledge repository
-  repoBase: "https://raw.githubusercontent.com/aydee0333/gbhss-templates/main/",
+/* ── 1. PROVIDER DEFINITIONS ──────────────────────────────────────── */
+const PROVIDERS = {
+  google: {
+    name: "Google AI Studio",
+    keyLabel: "Google AI Studio API Key",
+    keyPlaceholder: "AIza…",
+    infoHtml: `Get a free API key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com</a>.
+      Free tier: 15 req/min, 1,500 req/day with Gemini 2.0 Flash.
+      Key stored only in your browser's sessionStorage.`,
+    models: [
+      { id: "gemini-2.0-flash",        label: "Gemini 2.0 Flash (Free · Recommended)" },
+      { id: "gemini-2.5-flash-preview-05-20", label: "Gemini 2.5 Flash Preview (Free)" },
+      { id: "gemini-1.5-flash",        label: "Gemini 1.5 Flash (Free)" },
+      { id: "gemini-1.5-pro",          label: "Gemini 1.5 Pro (Free · Limited)" }
+    ],
+    defaultModel: "gemini-2.0-flash",
+    call: callGoogle
+  },
+  github: {
+    name: "GitHub Models",
+    keyLabel: "GitHub Personal Access Token",
+    keyPlaceholder: "ghp_… or github_pat_…",
+    infoHtml: `Create a free token at <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a>
+      (no special scopes needed for GitHub Models).
+      Free usage with any GitHub account.`,
+    models: [
+      { id: "gpt-4o-mini",                    label: "GPT-4o Mini (Free)" },
+      { id: "gpt-4o",                         label: "GPT-4o (Free · Limited)" },
+      { id: "meta-llama-3.1-70b-instruct",    label: "Llama 3.1 70B Instruct (Free)" },
+      { id: "meta-llama-3.3-70b-instruct",    label: "Llama 3.3 70B Instruct (Free)" },
+      { id: "microsoft-phi-4",                label: "Microsoft Phi-4 (Free)" },
+      { id: "mistral-small",                  label: "Mistral Small (Free)" }
+    ],
+    defaultModel: "gpt-4o-mini",
+    call: callGitHub
+  },
+  openrouter: {
+    name: "OpenRouter",
+    keyLabel: "OpenRouter API Key",
+    keyPlaceholder: "sk-or-v1-…",
+    infoHtml: `Get a free key at <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai</a>.
+      Many models have a free tier with no credit card required.
+      Models marked :free are completely free.`,
+    models: [
+      { id: "meta-llama/llama-4-scout:free",          label: "Llama 4 Scout (Free)" },
+      { id: "meta-llama/llama-4-maverick:free",       label: "Llama 4 Maverick (Free)" },
+      { id: "meta-llama/llama-3.3-70b-instruct:free", label: "Llama 3.3 70B (Free)" },
+      { id: "google/gemma-3-27b-it:free",             label: "Gemma 3 27B (Free)" },
+      { id: "mistralai/mistral-7b-instruct:free",     label: "Mistral 7B (Free)" },
+      { id: "deepseek/deepseek-r1:free",              label: "DeepSeek R1 (Free)" },
+      { id: "microsoft/phi-4-reasoning:free",         label: "Phi-4 Reasoning (Free)" }
+    ],
+    defaultModel: "meta-llama/llama-4-scout:free",
+    call: callOpenRouter
+  }
+};
 
-  // Knowledge files to fetch and index (relative to repoBase)
+/* ── 2. CONFIGURATION ─────────────────────────────────────────────── */
+const CONFIG = {
+  repoBase: "https://raw.githubusercontent.com/aydee0333/gbhss-templates/main/",
   knowledgeFiles: [
     "templates.json",
     "mapping.txt",
     "instructions.txt",
     "database.txt"
   ],
-
-  // Puter AI model to use
-  model: "gpt-4o-mini",
-
-  // Chunk size (characters) when splitting large files
-  chunkSize: 700,
-
-  // Overlap between consecutive chunks (characters)
-  chunkOverlap: 120,
-
-  // Number of search results to pass to the AI as context
+  chunkSize: 750,
+  chunkOverlap: 130,
   topK: 6,
+  systemPersona: `You are a knowledgeable AI assistant and Social Media Manager for GBHSSNaudero.
+Your job is to answer questions and create HTML social-media post files based ONLY on the provided knowledge-base context and templates.
 
-  // System persona
-  systemPersona: `You are a knowledgeable and helpful AI assistant for GBHSSNaudero — 
-a Social Media Manager assistant. Your job is to answer questions and create 
-HTML social-media post files based ONLY on the provided knowledge-base context 
-and any templates found within it. 
-
-Rules:
-• Ground EVERY answer strictly in the provided CONTEXT below.
-• If the user asks to create an HTML post, generate clean, complete HTML using 
-  only the styles/templates found in the context.
-• If the answer is not present in the context, reply exactly: 
-  "I don't have that information in my knowledge base."
+RULES:
+• Ground EVERY answer strictly in the CONTEXT provided below.
+• If asked to create an HTML post, generate clean, complete HTML using only styles and templates found in the context.
+• If the answer is not present in the context, reply: "I don't have that information in my knowledge base."
 • Be concise, accurate, and professional.
-• When referencing templates or data from the knowledge base, quote them precisely.`,
-
-  // Friendly suggestion prompts shown on the welcome screen
+• When referencing templates or database entries, quote them precisely.`,
   suggestions: [
     "What templates are available?",
     "Show me the posting instructions",
@@ -624,169 +720,154 @@ Rules:
   ]
 };
 
-/* ── 2. STATE ───────────────────────────────────────────────────────── */
+/* ── 3. STATE ─────────────────────────────────────────────────────── */
 const state = {
+  selectedProvider: "google",
+  apiKey: "",
+  model: "",
   miniSearch: null,
-  indexedDocs: [],
+  indexedChunks: [],
   isReady: false,
   isBusy: false,
-  chatHistory: [],       // { role, content } for conversation memory
-  rawFileContents: {}    // filePath → full raw text
+  chatHistory: []
 };
 
-/* ── 3. DOM REFS ────────────────────────────────────────────────────── */
-const dom = {
-  overlay:       document.getElementById("init-overlay"),
-  progressBar:   document.getElementById("progress-bar"),
-  progressLabel: document.getElementById("progress-label"),
-  fileList:      document.getElementById("file-list"),
-  messages:      document.getElementById("messages"),
-  userInput:     document.getElementById("user-input"),
-  sendBtn:       document.getElementById("send-btn"),
-  statusBadge:   document.getElementById("status-badge"),
-  statusDot:     document.getElementById("status-dot"),
-  statusText:    document.getElementById("status-text"),
-  modelLabel:    document.getElementById("model-label"),
-  clearBtn:      document.getElementById("clear-btn")
-};
+/* ── 4. DOM REFS ──────────────────────────────────────────────────── */
+const $ = id => document.getElementById(id);
 
-/* ── 4. UTILITIES ───────────────────────────────────────────────────── */
+/* ── 5. SETUP SCREEN LOGIC ────────────────────────────────────────── */
+function selectProvider(id) {
+  state.selectedProvider = id;
+  document.querySelectorAll(".provider-card").forEach(c => {
+    c.classList.toggle("selected", c.dataset.id === id);
+  });
+  const p = PROVIDERS[id];
+  $("key-label").textContent     = p.keyLabel;
+  $("api-key-input").placeholder = p.keyPlaceholder;
+  $("info-text").innerHTML       = p.infoHtml;
 
-/** Auto-resize textarea to fit content */
-function autoResize(el) {
-  el.style.height = "auto";
-  el.style.height = Math.min(el.scrollHeight, 140) + "px";
-}
-
-/** Scroll messages container to bottom */
-function scrollToBottom() {
-  dom.messages.scrollTop = dom.messages.scrollHeight;
-}
-
-/** Format timestamp */
-function nowTime() {
-  return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-}
-
-/** Minimal Markdown → HTML renderer (handles bold, italic, code, headers, lists, hr) */
-function renderMarkdown(text) {
-  // Escape HTML first (except we'll re-add our own tags)
-  let html = text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-
-  // Code blocks (``` … ```)
-  html = html.replace(/```([\s\S]*?)```/g, (_, code) =>
-    `<pre><code>${code.trim()}</code></pre>`);
-
-  // Inline code (`…`)
-  html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
-
-  // Headers
-  html = html.replace(/^### (.+)$/gm, "<h3>$1</h3>");
-  html = html.replace(/^## (.+)$/gm,  "<h2>$1</h2>");
-  html = html.replace(/^# (.+)$/gm,   "<h1>$1</h1>");
-
-  // Bold & italic
-  html = html.replace(/\*\*\*(.+?)\*\*\*/g, "<strong><em>$1</em></strong>");
-  html = html.replace(/\*\*(.+?)\*\*/g,     "<strong>$1</strong>");
-  html = html.replace(/\*(.+?)\*/g,         "<em>$1</em>");
-
-  // HR
-  html = html.replace(/^---$/gm, "<hr>");
-
-  // Unordered lists
-  html = html.replace(/^\s*[-*] (.+)$/gm, "<li>$1</li>");
-  html = html.replace(/(<li>.*<\/li>)/s,  "<ul>$1</ul>");
-
-  // Ordered lists
-  html = html.replace(/^\d+\. (.+)$/gm, "<li>$1</li>");
-
-  // Links
-  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g,
-    '<a href="$2" target="_blank" rel="noopener">$1</a>');
-
-  // Line breaks → <br> (but skip inside pre blocks)
-  const parts = html.split(/(<pre>[\s\S]*?<\/pre>)/g);
-  html = parts.map((part, i) =>
-    i % 2 === 0 ? part.replace(/\n/g, "<br>") : part
+  // Populate model dropdown
+  const sel = $("model-select");
+  sel.innerHTML = p.models.map(m =>
+    `<option value="${m.id}">${m.label}</option>`
   ).join("");
+  sel.value = p.defaultModel;
 
-  return html;
+  // Restore saved key for this provider
+  const saved = sessionStorage.getItem("key_" + id) || "";
+  $("api-key-input").value = saved;
 }
 
-/** Split a long text into overlapping chunks */
-function chunkText(text, filePath) {
-  const chunks = [];
-  let start = 0;
-  let id = 0;
-
-  // For JSON files, try to pretty-print before chunking
-  if (filePath.endsWith(".json")) {
-    try {
-      const parsed = JSON.parse(text);
-      text = JSON.stringify(parsed, null, 2);
-    } catch (_) { /* keep raw */ }
-  }
-
-  while (start < text.length) {
-    const end = Math.min(start + CONFIG.chunkSize, text.length);
-    const chunk = text.slice(start, end).trim();
-
-    if (chunk.length > 20) {   // skip near-empty chunks
-      chunks.push({
-        id: `${filePath}::${id++}`,
-        file: filePath,
-        content: chunk
-      });
-    }
-    start += CONFIG.chunkSize - CONFIG.chunkOverlap;
-  }
-  return chunks;
+function toggleKeyVis() {
+  const inp = $("api-key-input");
+  inp.type = inp.type === "password" ? "text" : "password";
 }
 
-/* ── 5. KNOWLEDGE INDEXING ──────────────────────────────────────────── */
+async function startChat() {
+  const key = $("api-key-input").value.trim();
+  if (!key) { showToast("Please enter your API key"); return; }
 
-/** Render the file list items in the overlay */
+  state.apiKey = key;
+  state.model  = $("model-select").value;
+  sessionStorage.setItem("key_" + state.selectedProvider, key);
+
+  $("start-btn").disabled = true;
+  $("start-btn").textContent = "⏳ Loading…";
+
+  // Hide setup, show init overlay
+  $("setup-screen").style.display = "none";
+  const overlay = $("init-overlay");
+  overlay.style.display = "flex";
+  overlay.classList.remove("hidden");
+
+  try {
+    await loadAndIndex();
+    // Success: show chat
+    overlay.classList.add("hidden");
+    setTimeout(() => { overlay.style.display = "none"; }, 500);
+
+    $("app").classList.add("visible");
+    $("provider-pill-text").textContent = `${PROVIDERS[state.selectedProvider].name} · ${state.model}`;
+    $("hdr-subtitle").textContent       = `RAG · ${CONFIG.knowledgeFiles.length} files indexed`;
+    $("model-label-footer").textContent = `${PROVIDERS[state.selectedProvider].name} · ${state.model}`;
+
+    state.isReady = true;
+    appendWelcome();
+    $("user-input").placeholder = "Ask me anything about GBHSSNaudero…";
+    $("user-input").disabled    = false;
+    $("send-btn").disabled      = false;
+    $("user-input").focus();
+
+  } catch (err) {
+    console.error(err);
+    $("progress-label").textContent = "❌ " + (err.message || err);
+    $("start-btn").disabled   = false;
+    $("start-btn").textContent = "🚀 Start Chat";
+    $("setup-screen").style.display = "flex";
+    overlay.classList.add("hidden");
+    setTimeout(() => { overlay.style.display = "none"; }, 500);
+    showToast("Initialisation failed: " + (err.message || err));
+  }
+}
+
+function switchProvider() {
+  // Reset to setup screen
+  state.isReady = false;
+  state.isBusy  = false;
+  $("app").classList.remove("visible");
+  $("setup-screen").style.display = "flex";
+  $("start-btn").disabled   = false;
+  $("start-btn").textContent = "🚀 &nbsp;Start Chat";
+  selectProvider(state.selectedProvider);
+}
+
+// Init setup screen on page load
+selectProvider("google");
+
+/* ── 6. KNOWLEDGE INDEXING ────────────────────────────────────────── */
 function buildFileListUI() {
-  dom.fileList.innerHTML = CONFIG.knowledgeFiles.map(f => `
-    <div class="file-item" id="fi-${CSS.escape(f.replace(/\//g,"_"))}">
+  $("file-list").innerHTML = CONFIG.knowledgeFiles.map(f => `
+    <div class="file-item" id="fi-${CSS.escape(f.replace(/\//g,'_'))}">
       <span class="file-icon">📄</span>
       <span>${f}</span>
-    </div>
-  `).join("");
+    </div>`).join("");
 }
 
-function setFileState(file, state) {
-  const id = "fi-" + CSS.escape(file.replace(/\//g,"_"));
-  const el = document.getElementById(id);
+function setFileState(file, st) {
+  const el = $("fi-" + CSS.escape(file.replace(/\//g,'_')));
   if (!el) return;
-  el.className = "file-item " + state;
+  el.className = "file-item " + st;
   const icon = el.querySelector(".file-icon");
-  if (state === "active") icon.textContent = "⏳";
-  if (state === "done")   icon.textContent = "✅";
-  if (state === "fail")   icon.textContent = "❌";
+  const icons = { active:"⏳", done:"✅", fail:"❌" };
+  if (icons[st]) icon.textContent = icons[st];
 }
 
 function setProgress(done, total, label) {
-  dom.progressBar.style.width = Math.round((done / total) * 100) + "%";
-  dom.progressLabel.textContent = label;
+  $("progress-bar").style.width   = Math.round((done/total)*100) + "%";
+  $("progress-label").textContent = label;
+}
+
+function chunkText(text, filePath) {
+  if (filePath.endsWith(".json")) {
+    try { text = JSON.stringify(JSON.parse(text), null, 2); } catch(_) {}
+  }
+  const chunks = []; let start = 0, id = 0;
+  while (start < text.length) {
+    const chunk = text.slice(start, start + CONFIG.chunkSize).trim();
+    if (chunk.length > 20) chunks.push({ id: `${filePath}::${id++}`, file: filePath, content: chunk });
+    start += CONFIG.chunkSize - CONFIG.chunkOverlap;
+  }
+  return chunks;
 }
 
 async function loadAndIndex() {
   buildFileListUI();
   setProgress(0, CONFIG.knowledgeFiles.length, "Starting…");
 
-  // Initialise MiniSearch
   state.miniSearch = new MiniSearch({
     fields: ["content"],
-    storeFields: ["file", "content"],
-    searchOptions: {
-      fuzzy: 0.25,
-      prefix: true,
-      boost: { content: 2 }
-    }
+    storeFields: ["file","content"],
+    searchOptions: { fuzzy: 0.25, prefix: true }
   });
 
   const allChunks = [];
@@ -795,78 +876,201 @@ async function loadAndIndex() {
   for (const filePath of CONFIG.knowledgeFiles) {
     setFileState(filePath, "active");
     setProgress(done, CONFIG.knowledgeFiles.length, `Fetching ${filePath}…`);
-
     try {
-      const url = CONFIG.repoBase + filePath;
-      const resp = await fetch(url);
-
+      const resp = await fetch(CONFIG.repoBase + filePath);
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-
-      const rawText = await resp.text();
-      state.rawFileContents[filePath] = rawText;
-
-      const chunks = chunkText(rawText, filePath);
+      const text = await resp.text();
+      const chunks = chunkText(text, filePath);
       allChunks.push(...chunks);
-
       setFileState(filePath, "done");
-    } catch (err) {
-      console.error("Failed to load:", filePath, err);
+    } catch(e) {
+      console.error("Failed:", filePath, e);
       setFileState(filePath, "fail");
     }
-
     done++;
     setProgress(done, CONFIG.knowledgeFiles.length,
-      done === CONFIG.knowledgeFiles.length ? "Indexing…" : `Loaded ${done}/${CONFIG.knowledgeFiles.length}`);
+      done === CONFIG.knowledgeFiles.length
+        ? `✅ Indexed ${allChunks.length} chunks from ${done} files`
+        : `Loaded ${done}/${CONFIG.knowledgeFiles.length}`);
   }
 
-  // Add all chunks to MiniSearch
-  if (allChunks.length > 0) {
-    state.miniSearch.addAll(allChunks);
-  }
-
-  state.indexedDocs = allChunks;
-  setProgress(CONFIG.knowledgeFiles.length, CONFIG.knowledgeFiles.length,
-    `✅ Indexed ${allChunks.length} chunks from ${done} files`);
-
-  // Short pause so user can see the completion state
-  await new Promise(r => setTimeout(r, 900));
+  if (allChunks.length > 0) state.miniSearch.addAll(allChunks);
+  state.indexedChunks = allChunks;
+  await new Promise(r => setTimeout(r, 800));
 }
 
-/* ── 6. RAG: SEARCH + PROMPT CONSTRUCTION ───────────────────────────── */
+/* ── 7. AI PROVIDER CALLS ─────────────────────────────────────────── */
 
-/**
- * Search the index and return the top-K most relevant text chunks.
- * Falls back to keyword scan if MiniSearch returns nothing.
- */
+// ── Google AI Studio ────────────────────────────────────────────────
+async function* callGoogle(systemPrompt, userPrompt, model, apiKey) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${apiKey}`;
+  const body = {
+    system_instruction: { parts: [{ text: systemPrompt }] },
+    contents: [{ role: "user", parts: [{ text: userPrompt }] }],
+    generationConfig: { temperature: 0.3, maxOutputTokens: 4096 }
+  };
+
+  const resp = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  });
+
+  if (!resp.ok) {
+    const err = await resp.text();
+    throw new Error(`Google API error ${resp.status}: ${err}`);
+  }
+
+  const reader = resp.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split("\n");
+    buffer = lines.pop();
+
+    for (const line of lines) {
+      if (!line.startsWith("data: ")) continue;
+      const data = line.slice(6).trim();
+      if (data === "[DONE]") return;
+      try {
+        const json = JSON.parse(data);
+        const text = json?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text) yield text;
+      } catch(_) {}
+    }
+  }
+}
+
+// ── GitHub Models ───────────────────────────────────────────────────
+async function* callGitHub(systemPrompt, userPrompt, model, apiKey) {
+  const url = "https://models.inference.ai.azure.com/chat/completions";
+  const body = {
+    model,
+    stream: true,
+    temperature: 0.3,
+    max_tokens: 4096,
+    messages: [
+      { role: "system", content: systemPrompt },
+      { role: "user",   content: userPrompt }
+    ]
+  };
+
+  const resp = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${apiKey}`
+    },
+    body: JSON.stringify(body)
+  });
+
+  if (!resp.ok) {
+    const err = await resp.text();
+    throw new Error(`GitHub Models error ${resp.status}: ${err}`);
+  }
+
+  const reader = resp.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split("\n");
+    buffer = lines.pop();
+
+    for (const line of lines) {
+      if (!line.startsWith("data: ")) continue;
+      const data = line.slice(6).trim();
+      if (data === "[DONE]") return;
+      try {
+        const json = JSON.parse(data);
+        const chunk = json?.choices?.[0]?.delta?.content;
+        if (chunk) yield chunk;
+      } catch(_) {}
+    }
+  }
+}
+
+// ── OpenRouter ──────────────────────────────────────────────────────
+async function* callOpenRouter(systemPrompt, userPrompt, model, apiKey) {
+  const url = "https://openrouter.ai/api/v1/chat/completions";
+  const body = {
+    model,
+    stream: true,
+    temperature: 0.3,
+    max_tokens: 4096,
+    messages: [
+      { role: "system", content: systemPrompt },
+      { role: "user",   content: userPrompt }
+    ]
+  };
+
+  const resp = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${apiKey}`,
+      "HTTP-Referer": window.location.href,
+      "X-Title": "GBHSSNaudero AI Assistant"
+    },
+    body: JSON.stringify(body)
+  });
+
+  if (!resp.ok) {
+    const err = await resp.text();
+    throw new Error(`OpenRouter error ${resp.status}: ${err}`);
+  }
+
+  const reader = resp.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split("\n");
+    buffer = lines.pop();
+
+    for (const line of lines) {
+      if (!line.startsWith("data: ")) continue;
+      const data = line.slice(6).trim();
+      if (data === "[DONE]") return;
+      try {
+        const json = JSON.parse(data);
+        const chunk = json?.choices?.[0]?.delta?.content;
+        if (chunk) yield chunk;
+      } catch(_) {}
+    }
+  }
+}
+
+/* ── 8. RAG PIPELINE ──────────────────────────────────────────────── */
 function retrieveContext(query) {
-  if (!state.miniSearch || state.indexedDocs.length === 0) return [];
-
+  if (!state.miniSearch || state.indexedChunks.length === 0) return [];
   let results = state.miniSearch.search(query, { limit: CONFIG.topK });
-
-  // Fallback: if no results, try a shorter single-word search
   if (results.length === 0) {
-    const words = query.trim().split(/\s+/);
-    for (const word of words) {
+    for (const word of query.trim().split(/\s+/)) {
       if (word.length < 3) continue;
       results = state.miniSearch.search(word, { limit: CONFIG.topK });
       if (results.length > 0) break;
     }
   }
-
   return results;
 }
 
-/** Build the full prompt string for the AI */
 function buildPrompt(userQuestion, searchResults) {
   const contextBlock = searchResults.length > 0
-    ? searchResults.map((r, i) =>
-        `[Source ${i + 1}: ${r.file}]\n${r.content}`
-      ).join("\n\n───\n\n")
+    ? searchResults.map((r,i) => `[Source ${i+1}: ${r.file}]\n${r.content}`).join("\n\n───\n\n")
     : "⚠️ No relevant context found in the knowledge base.";
 
-  return `${CONFIG.systemPersona}
-
-════════════════════════════════════
+  return `════════════════════════════════════
 KNOWLEDGE BASE CONTEXT
 ════════════════════════════════════
 ${contextBlock}
@@ -877,33 +1081,97 @@ USER QUESTION: ${userQuestion}
 ANSWER:`;
 }
 
-/* ── 7. CHAT UI HELPERS ─────────────────────────────────────────────── */
+/* ── 9. CHAT UI ───────────────────────────────────────────────────── */
+
+function renderMarkdown(text) {
+  let html = text
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+  // Code blocks
+  html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, (_,lang,code) =>
+    `<pre><code class="lang-${lang}">${code.trim()}</code></pre>`);
+
+  // Inline code
+  html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+
+  // Headers
+  html = html.replace(/^### (.+)$/gm,"<h3>$1</h3>");
+  html = html.replace(/^## (.+)$/gm, "<h2>$1</h2>");
+  html = html.replace(/^# (.+)$/gm,  "<h1>$1</h1>");
+
+  // Bold & italic
+  html = html.replace(/\*\*\*(.+?)\*\*\*/g,"<strong><em>$1</em></strong>");
+  html = html.replace(/\*\*(.+?)\*\*/g,    "<strong>$1</strong>");
+  html = html.replace(/\*(.+?)\*/g,        "<em>$1</em>");
+
+  // HR
+  html = html.replace(/^---$/gm,"<hr>");
+
+  // Tables (simple)
+  html = html.replace(/^\|(.+)\|$/gm, (line) => {
+    if (line.match(/^\|[-| :]+\|$/)) return "";
+    const cells = line.split("|").filter((_,i,a) => i>0 && i<a.length-1);
+    const isHeader = false;
+    return `<tr>${cells.map(c=>`<td>${c.trim()}</td>`).join("")}</tr>`;
+  });
+  html = html.replace(/(<tr>.*<\/tr>)/s, "<table>$1</table>");
+
+  // Lists
+  html = html.replace(/^\s*[-*] (.+)$/gm,"<li>$1</li>");
+  html = html.replace(/^\d+\. (.+)$/gm,  "<li>$1</li>");
+
+  // Links
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+  // Line breaks
+  const parts = html.split(/(<pre>[\s\S]*?<\/pre>)/g);
+  html = parts.map((p,i) => i%2===0 ? p.replace(/\n/g,"<br>") : p).join("");
+
+  return html;
+}
+
+function nowTime() {
+  return new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+}
+
+function autoResize(el) {
+  el.style.height = "auto";
+  el.style.height = Math.min(el.scrollHeight,140)+"px";
+}
+
+function scrollBottom() {
+  $("messages").scrollTop = $("messages").scrollHeight;
+}
+
+function showToast(msg) {
+  const t = $("error-toast");
+  t.textContent = msg; t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 4000);
+}
 
 function appendWelcome() {
-  dom.messages.innerHTML = `
-    <div class="welcome-msg">
-      <div class="w-icon">💬</div>
+  $("messages").innerHTML = `
+    <div class="welcome-card">
+      <span class="w-icon">💬</span>
       <h3>Knowledge Base Ready!</h3>
-      <p>I've indexed all your GBHSSNaudero files. Ask me anything about your 
-         templates, instructions, mapping, or database — or ask me to generate 
-         an HTML social-media post.</p>
+      <p>I've indexed all GBHSSNaudero files. Ask about templates, instructions,
+         mapping, or the database — or ask me to generate an HTML social-media post.</p>
       <div class="suggestions">
         ${CONFIG.suggestions.map(s =>
           `<button class="suggest-btn" data-q="${s}">${s}</button>`
         ).join("")}
       </div>
     </div>`;
-
-  // Wire up suggestion buttons
-  dom.messages.querySelectorAll(".suggest-btn").forEach(btn => {
+  $("messages").querySelectorAll(".suggest-btn").forEach(btn => {
     btn.addEventListener("click", () => {
-      dom.userInput.value = btn.dataset.q;
+      $("user-input").value = btn.dataset.q;
       handleSend();
     });
   });
 }
 
-function appendUserMessage(text) {
+function appendUserMsg(text) {
   const row = document.createElement("div");
   row.className = "msg-row user";
   row.innerHTML = `
@@ -912,209 +1180,112 @@ function appendUserMessage(text) {
       <div class="bubble-meta">${nowTime()}</div>
     </div>
     <div class="avatar user">🧑</div>`;
-  dom.messages.appendChild(row);
-  scrollToBottom();
-  return row;
+  $("messages").appendChild(row);
+  scrollBottom();
 }
 
-/** Creates a bot bubble and returns { row, bubble, addChunk, finalise } */
 function appendBotPlaceholder() {
   const row = document.createElement("div");
   row.className = "msg-row bot";
   row.innerHTML = `
     <div class="avatar bot">🤖</div>
     <div class="bubble-wrap">
-      <div class="bubble bot" id="streaming-bubble">
-        <div class="thinking-dots">
-          <span></span><span></span><span></span>
-        </div>
+      <div class="bubble bot" id="stream-bubble">
+        <div class="thinking-dots"><span></span><span></span><span></span></div>
       </div>
-      <div class="bubble-meta" id="streaming-meta"></div>
+      <div class="bubble-meta" id="stream-meta"></div>
     </div>`;
-  dom.messages.appendChild(row);
-  scrollToBottom();
+  $("messages").appendChild(row);
+  scrollBottom();
 
-  const bubble  = row.querySelector("#streaming-bubble");
-  const metaEl  = row.querySelector("#streaming-meta");
-  let   rawText = "";
-  let   started = false;
+  const bubble = $("stream-bubble");
+  const meta   = $("stream-meta");
+  let raw = "", started = false;
 
   function addChunk(chunk) {
     if (!started) { bubble.innerHTML = ""; started = true; }
-    rawText += chunk;
-    bubble.innerHTML = renderMarkdown(rawText);
+    raw += chunk;
+    bubble.innerHTML = renderMarkdown(raw);
     bubble.classList.add("cursor");
-    scrollToBottom();
+    scrollBottom();
   }
 
   function finalise(sources) {
     bubble.classList.remove("cursor");
-    metaEl.textContent = nowTime();
-
+    meta.textContent = nowTime();
     if (sources && sources.length > 0) {
-      const uniqueFiles = [...new Set(sources.map(s => s.file))];
-      const tagsHtml = uniqueFiles
-        .map(f => `<span class="source-tag">📎 ${f}</span>`)
-        .join("");
-      const sourcesDiv = document.createElement("div");
-      sourcesDiv.className = "sources-wrap";
-      sourcesDiv.innerHTML = tagsHtml;
-      row.querySelector(".bubble-wrap").appendChild(sourcesDiv);
+      const files = [...new Set(sources.map(s=>s.file))];
+      const div = document.createElement("div");
+      div.className = "sources-wrap";
+      div.innerHTML = files.map(f=>`<span class="source-tag">📎 ${f}</span>`).join("");
+      row.querySelector(".bubble-wrap").appendChild(div);
     }
-
-    scrollToBottom();
-    return rawText;
+    scrollBottom();
+    return raw;
   }
 
-  return { row, bubble, addChunk, finalise };
+  return { addChunk, finalise };
 }
 
-function appendErrorMessage(msg) {
-  const row = document.createElement("div");
-  row.className = "msg-row bot";
-  row.innerHTML = `
-    <div class="avatar bot">🤖</div>
-    <div class="bubble-wrap">
-      <div class="bubble bot" style="color:var(--error);">
-        ⚠️ ${msg}
-      </div>
-      <div class="bubble-meta">${nowTime()}</div>
-    </div>`;
-  dom.messages.appendChild(row);
-  scrollToBottom();
-}
-
-/* ── 8. MAIN SEND HANDLER ───────────────────────────────────────────── */
-
+/* ── 10. MAIN SEND HANDLER ────────────────────────────────────────── */
 async function handleSend() {
   if (!state.isReady || state.isBusy) return;
-
-  const text = dom.userInput.value.trim();
+  const text = $("user-input").value.trim();
   if (!text) return;
 
-  // Clear input
-  dom.userInput.value = "";
-  autoResize(dom.userInput);
-
-  // Remove welcome card on first message
-  const welcome = dom.messages.querySelector(".welcome-msg");
+  $("user-input").value = ""; autoResize($("user-input"));
+  const welcome = $("messages").querySelector(".welcome-card");
   if (welcome) welcome.remove();
 
-  // UI: disable input
   state.isBusy = true;
-  dom.sendBtn.disabled = true;
-  dom.userInput.disabled = true;
+  $("send-btn").disabled = true;
+  $("user-input").disabled = true;
 
-  // Render user message
-  appendUserMessage(text);
+  appendUserMsg(text);
 
-  // Add to history (for context – optional: we keep last 6 turns)
-  state.chatHistory.push({ role: "user", content: text });
-  if (state.chatHistory.length > 12) state.chatHistory.splice(0, 2);
-
-  // RAG: retrieve relevant chunks
   const searchResults = retrieveContext(text);
-
-  // Build prompt
-  const fullPrompt = buildPrompt(text, searchResults);
-
-  // Create streaming bot bubble
+  const userPrompt    = buildPrompt(text, searchResults);
   const { addChunk, finalise } = appendBotPlaceholder();
 
   try {
-    // Call Puter AI with streaming
-    const response = await puter.ai.chat(fullPrompt, {
-      model: CONFIG.model,
-      stream: true
-    });
+    const provider  = PROVIDERS[state.selectedProvider];
+    const generator = provider.call(
+      CONFIG.systemPersona, userPrompt, state.model, state.apiKey
+    );
 
-    // Stream the response chunks into the bubble
-    for await (const part of response) {
-      const chunk = part?.text ?? part?.choices?.[0]?.delta?.content ?? "";
-      if (chunk) addChunk(chunk);
+    for await (const chunk of generator) {
+      addChunk(chunk);
     }
 
-    // Finalise and attach source tags
     const finalText = finalise(searchResults);
+    state.chatHistory.push({ role:"user", content: text });
+    state.chatHistory.push({ role:"assistant", content: finalText });
+    if (state.chatHistory.length > 12) state.chatHistory.splice(0,2);
 
-    // Store assistant reply in history
-    state.chatHistory.push({ role: "assistant", content: finalText });
-
-  } catch (err) {
+  } catch(err) {
     console.error("AI error:", err);
     finalise([]);
-    appendErrorMessage(
-      "Sorry, the AI request failed. Please check your connection and try again.<br>" +
-      `<small style="opacity:0.6">${err.message || err}</small>`
-    );
+    showToast("AI error: " + (err.message || err));
   }
 
-  // Re-enable input
   state.isBusy = false;
-  dom.sendBtn.disabled = false;
-  dom.userInput.disabled = false;
-  dom.userInput.focus();
+  $("send-btn").disabled = false;
+  $("user-input").disabled = false;
+  $("user-input").focus();
 }
 
-/* ── 9. EVENT LISTENERS ─────────────────────────────────────────────── */
-
-// Send on Enter (Shift+Enter = new line)
-dom.userInput.addEventListener("keydown", e => {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    handleSend();
-  }
+/* ── 11. EVENTS ───────────────────────────────────────────────────── */
+$("user-input").addEventListener("keydown", e => {
+  if (e.key==="Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); }
 });
-
-// Auto-resize textarea
-dom.userInput.addEventListener("input", () => autoResize(dom.userInput));
-
-// Send button click
-dom.sendBtn.addEventListener("click", handleSend);
-
-// Clear chat
-dom.clearBtn.addEventListener("click", () => {
-  if (confirm("Clear the conversation? (Knowledge base stays indexed.)")) {
+$("user-input").addEventListener("input", () => autoResize($("user-input")));
+$("send-btn").addEventListener("click", handleSend);
+$("clear-btn").addEventListener("click", () => {
+  if (confirm("Clear conversation? (Knowledge base stays indexed.)")) {
     state.chatHistory = [];
     appendWelcome();
   }
 });
-
-/* ── 10. INITIALISATION ─────────────────────────────────────────────── */
-
-(async () => {
-  dom.modelLabel.textContent = `Model: ${CONFIG.model} · RAG enabled`;
-
-  try {
-    await loadAndIndex();
-
-    // Mark as ready
-    state.isReady = true;
-
-    // Update status badge
-    dom.statusBadge.className = "ready";
-    dom.statusText.textContent = "Ready";
-
-    // Hide overlay with fade
-    dom.overlay.classList.add("hidden");
-    setTimeout(() => { dom.overlay.style.display = "none"; }, 500);
-
-    // Show welcome screen
-    appendWelcome();
-
-    // Enable input
-    dom.userInput.placeholder = "Ask me anything about GBHSSNaudero…";
-    dom.userInput.disabled = false;
-    dom.sendBtn.disabled   = false;
-    dom.userInput.focus();
-
-  } catch (err) {
-    console.error("Initialisation failed:", err);
-    dom.statusBadge.className = "error";
-    dom.statusText.textContent = "Init Error";
-    dom.progressLabel.textContent = "❌ Failed: " + (err.message || err);
-  }
-})();
 </script>
 </body>
 </html>
