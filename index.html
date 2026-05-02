@@ -22,72 +22,70 @@
 
     /* SETUP */
     #setup{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:200;padding:16px;overflow-y:auto}
-    .sbox{width:100%;max-width:600px;background:var(--sur);border:1px solid var(--bdr2);border-radius:22px;overflow:hidden;box-shadow:var(--sh);position:relative;z-index:1}
-    .shdr{padding:26px 36px 20px;background:linear-gradient(135deg,rgba(59,130,246,0.08),rgba(139,92,246,0.08));border-bottom:1px solid var(--bdr);text-align:center}
-    .slogo{width:62px;height:62px;border-radius:16px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 11px;box-shadow:0 0 24px rgba(59,130,246,0.3)}
-    .shdr h1{font-size:19px;font-weight:800;margin-bottom:3px;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .shdr p{font-size:12px;color:var(--mut)}
-    .sbody{padding:22px 36px 28px}
-    .slbl{font-size:10.5px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:1.1px;margin-bottom:8px}
+    .sbox{width:100%;max-width:640px;background:var(--sur);border:1px solid var(--bdr2);border-radius:22px;overflow:hidden;box-shadow:var(--sh);position:relative;z-index:1}
+    .shdr{padding:24px 34px 18px;background:linear-gradient(135deg,rgba(59,130,246,0.08),rgba(139,92,246,0.08));border-bottom:1px solid var(--bdr);text-align:center}
+    .slogo{width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:27px;margin:0 auto 10px;box-shadow:0 0 24px rgba(59,130,246,0.3)}
+    .shdr h1{font-size:18px;font-weight:800;margin-bottom:3px;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .shdr p{font-size:11.5px;color:var(--mut)}
+    .sbody{padding:20px 34px 26px}
+    .slbl{font-size:10.5px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}
 
-    /* Provider tabs */
-    .ptabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:18px;background:var(--sur2);border:1px solid var(--bdr2);border-radius:10px;padding:4px}
-    .ptab{padding:9px 6px;border:none;border-radius:7px;background:transparent;color:var(--dim);font-family:var(--fn);font-size:11.5px;font-weight:600;cursor:pointer;transition:all 0.18s;text-align:center;line-height:1.3}
-    .ptab:hover{color:var(--txt)}
-    .ptab.on{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;box-shadow:0 2px 10px rgba(59,130,246,0.3)}
+    /* Provider grid */
+    .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px}
+    .pcard{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border:2px solid var(--bdr);border-radius:9px;background:var(--sur2);cursor:pointer;transition:all 0.18s;position:relative}
+    .pcard:hover{border-color:var(--bdr2);transform:translateY(-1px)}
+    .pcard.on{border-color:var(--acc);background:var(--sur3);box-shadow:0 0 12px var(--glow)}
+    .pcard-top{display:flex;align-items:center;gap:7px}
+    .pcard-ico{font-size:18px}
+    .pcard-name{font-size:13px;font-weight:700;color:var(--txt)}
+    .pcard-tag{font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:99px;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:var(--ok);position:absolute;top:8px;right:8px}
+    .pcard-tag.warn{background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.3);color:var(--warn)}
+    .pcard-tag.blue{background:rgba(59,130,246,0.12);border-color:rgba(59,130,246,0.25);color:var(--acc)}
+    .pcard-desc{font-size:10.5px;color:var(--mut);line-height:1.4;padding-left:25px}
 
-    .flbl{display:block;font-size:12px;font-weight:600;color:var(--dim);margin-bottom:5px}
-    .kwrap{display:flex;gap:6px;background:var(--sur2);border:1px solid var(--bdr2);border-radius:9px;padding:3px 3px 3px 11px;margin-bottom:13px;transition:border-color 0.2s}
+    .flbl{display:block;font-size:11.5px;font-weight:600;color:var(--dim);margin-bottom:5px}
+    .kwrap{display:flex;gap:5px;background:var(--sur2);border:1px solid var(--bdr2);border-radius:9px;padding:3px 3px 3px 10px;margin-bottom:10px;transition:border-color 0.2s}
     .kwrap:focus-within{border-color:var(--acc);box-shadow:0 0 0 3px var(--glow)}
-    #kInput{flex:1;background:transparent;border:none;outline:none;color:var(--txt);font-family:var(--mono);font-size:12px;padding:7px 0;min-width:0}
-    #kInput::placeholder{color:var(--mut);font-family:var(--fn);font-size:12.5px}
-    #kVis{background:var(--sur3);border:1px solid var(--bdr);border-radius:6px;color:var(--mut);padding:5px 8px;cursor:pointer;font-size:13px}
-    #kVis:hover{color:var(--txt)}
+    .kwrap input{flex:1;background:transparent;border:none;outline:none;color:var(--txt);font-family:var(--mono);font-size:12px;padding:6px 0;min-width:0}
+    .kwrap input::placeholder{color:var(--mut);font-family:var(--fn);font-size:12px}
+    .kvis{background:var(--sur3);border:1px solid var(--bdr);border-radius:6px;color:var(--mut);padding:4px 7px;cursor:pointer;font-size:12px}
+    .kvis:hover{color:var(--txt)}
 
-    /* Second key field (Cloudflare needs 2 fields) */
-    .k2wrap{display:none;flex-direction:column;gap:5px;margin-bottom:13px}
-    .k2wrap.show{display:flex}
-    .k2inner{display:flex;gap:6px;background:var(--sur2);border:1px solid var(--bdr2);border-radius:9px;padding:3px 3px 3px 11px;transition:border-color 0.2s}
-    .k2inner:focus-within{border-color:var(--acc);box-shadow:0 0 0 3px var(--glow)}
-    .k2inner input{flex:1;background:transparent;border:none;outline:none;color:var(--txt);font-family:var(--mono);font-size:12px;padding:7px 0;min-width:0}
-    .k2inner input::placeholder{color:var(--mut);font-family:var(--fn);font-size:12.5px}
-    .k2vis{background:var(--sur3);border:1px solid var(--bdr);border-radius:6px;color:var(--mut);padding:5px 8px;cursor:pointer;font-size:13px}
-
-    #mSel{width:100%;background:var(--sur2);border:1px solid var(--bdr2);border-radius:9px;color:var(--txt);font-family:var(--fn);font-size:13px;padding:9px 11px;outline:none;cursor:pointer;margin-bottom:13px}
+    #mSel{width:100%;background:var(--sur2);border:1px solid var(--bdr2);border-radius:9px;color:var(--txt);font-family:var(--fn);font-size:12.5px;padding:8px 10px;outline:none;cursor:pointer;margin-bottom:10px}
     #mSel option{background:var(--sur2)}
 
-    .ibox{display:flex;gap:8px;align-items:flex-start;border-radius:9px;padding:10px 12px;margin-bottom:14px;font-size:12px;line-height:1.55;border:1px solid var(--bdr2)}
-    .ibox.blue{background:rgba(59,130,246,0.06);border-color:rgba(59,130,246,0.2);color:var(--dim)}
-    .ibox.green{background:rgba(16,185,129,0.06);border-color:rgba(16,185,129,0.2);color:var(--dim)}
-    .ibox.warn{background:rgba(245,158,11,0.06);border-color:rgba(245,158,11,0.2);color:#fbbf24}
+    .ibox{display:flex;gap:7px;align-items:flex-start;border-radius:9px;padding:9px 11px;margin-bottom:12px;font-size:11.5px;line-height:1.6}
+    .ibox.blue{background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.18);color:var(--dim)}
+    .ibox.warn{background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);color:#fbbf24}
+    .ibox.green{background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);color:var(--dim)}
     .ibox a{color:var(--acc);text-decoration:none}.ibox a:hover{text-decoration:underline}
-    .ibox strong{color:var(--warn)}
+    .ibox ol,.ibox ul{padding-left:16px;margin-top:3px}.ibox li{margin:1px 0}
 
-    #sErr{display:none;border-radius:9px;margin-bottom:13px;overflow:hidden}
+    #sErr{display:none;border-radius:9px;margin-bottom:12px;overflow:hidden}
     #sErr.on{display:block}
-    .seHead{display:flex;justify-content:space-between;align-items:center;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);border-bottom:none;padding:8px 12px;border-radius:9px 9px 0 0}
-    .seHead strong{color:var(--err);font-size:12px}
-    .seHead button{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;font-size:11px;padding:2px 9px;border-radius:5px;cursor:pointer;font-family:var(--fn)}
-    #sErrTxt{background:rgba(0,0,0,0.2);border:1px solid rgba(239,68,68,0.15);border-top:none;padding:9px 12px;border-radius:0 0 9px 9px;font-family:var(--mono);font-size:11px;color:#f9a8a8;white-space:pre-wrap;word-break:break-all;max-height:120px;overflow-y:auto;user-select:all;cursor:text;line-height:1.5}
+    .seHead{display:flex;justify-content:space-between;align-items:center;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);border-bottom:none;padding:7px 11px;border-radius:9px 9px 0 0}
+    .seHead strong{color:var(--err);font-size:11.5px}
+    .seHead button{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;font-size:10.5px;padding:2px 8px;border-radius:5px;cursor:pointer;font-family:var(--fn)}
+    #sErrTxt{background:rgba(0,0,0,0.2);border:1px solid rgba(239,68,68,0.15);border-top:none;padding:8px 11px;border-radius:0 0 9px 9px;font-family:var(--mono);font-size:11px;color:#f9a8a8;white-space:pre-wrap;word-break:break-all;max-height:110px;overflow-y:auto;user-select:all;cursor:text;line-height:1.5}
 
-    #goBtn{width:100%;padding:13px;background:linear-gradient(135deg,var(--acc),var(--acc2));border:none;border-radius:9px;color:#fff;font-family:var(--fn);font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(59,130,246,0.3)}
+    #goBtn{width:100%;padding:12px;background:linear-gradient(135deg,var(--acc),var(--acc2));border:none;border-radius:9px;color:#fff;font-family:var(--fn);font-size:13.5px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 14px rgba(59,130,246,0.3)}
     #goBtn:hover:not(:disabled){opacity:.9;transform:translateY(-1px)}
     #goBtn:disabled{opacity:.45;cursor:not-allowed;transform:none}
-    .snote{text-align:center;margin-top:11px;font-size:11px;color:var(--mut)}
+    .snote{text-align:center;margin-top:10px;font-size:10.5px;color:var(--mut)}
 
     /* INIT */
     #initOv{position:fixed;inset:0;background:rgba(7,11,20,0.94);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:150;transition:opacity 0.4s}
     #initOv.on{display:flex}#initOv.fade{opacity:0}
-    .icard{background:var(--sur);border:1px solid var(--bdr2);border-radius:20px;padding:34px 38px;max-width:420px;width:90%;text-align:center;box-shadow:var(--sh)}
-    .iico{width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:23px;margin:0 auto 15px;animation:glo 2s ease-in-out infinite}
-    @keyframes glo{0%,100%{box-shadow:0 0 14px rgba(59,130,246,0.3)}50%{box-shadow:0 0 30px rgba(59,130,246,0.6)}}
-    .icard h2{font-size:18px;font-weight:800;margin-bottom:5px}
-    .icard>p{font-size:13px;color:var(--mut);margin-bottom:20px;line-height:1.5}
+    .icard{background:var(--sur);border:1px solid var(--bdr2);border-radius:20px;padding:32px 36px;max-width:400px;width:90%;text-align:center;box-shadow:var(--sh)}
+    .iico{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 14px;animation:glo 2s ease-in-out infinite}
+    @keyframes glo{0%,100%{box-shadow:0 0 14px rgba(59,130,246,0.3)}50%{box-shadow:0 0 28px rgba(59,130,246,0.6)}}
+    .icard h2{font-size:17px;font-weight:800;margin-bottom:5px}
+    .icard>p{font-size:12.5px;color:var(--mut);margin-bottom:18px;line-height:1.5}
     .ptrack{background:var(--sur2);border-radius:99px;height:5px;overflow:hidden;margin-bottom:6px}
     #pBar{height:100%;width:0%;border-radius:99px;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width 0.32s ease}
-    #pLbl{font-size:11px;color:var(--mut);margin-bottom:13px;min-height:13px}
+    #pLbl{font-size:11px;color:var(--mut);margin-bottom:12px;min-height:13px}
     .flist{display:flex;flex-direction:column;gap:5px;text-align:left}
-    .fitem{display:flex;align-items:center;gap:8px;font-size:12px;padding:7px 11px;border-radius:6px;background:var(--sur2);border:1px solid var(--bdr);color:var(--mut);transition:all 0.22s}
+    .fitem{display:flex;align-items:center;gap:8px;font-size:11.5px;padding:6px 10px;border-radius:6px;background:var(--sur2);border:1px solid var(--bdr);color:var(--mut);transition:all 0.22s}
     .fitem.act{color:var(--acc);border-color:rgba(59,130,246,0.3)}
     .fitem.ok{color:var(--ok);border-color:rgba(16,185,129,0.3);background:rgba(16,185,129,0.04)}
     .fitem.no{color:var(--err);border-color:rgba(239,68,68,0.25)}
@@ -95,104 +93,99 @@
     /* CHAT */
     #app{display:none;flex-direction:column;height:100vh;max-width:980px;margin:0 auto;position:relative;z-index:1}
     #app.on{display:flex}
-    #hdr{display:flex;align-items:center;gap:10px;padding:11px 18px;background:rgba(14,20,32,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--bdr);flex-shrink:0}
-    .hlogo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-    .htxt h1{font-size:14px;font-weight:800}.htxt p{font-size:10.5px;color:var(--mut);margin-top:1px}
+    #hdr{display:flex;align-items:center;gap:10px;padding:10px 17px;background:rgba(14,20,32,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--bdr);flex-shrink:0}
+    .hlogo{width:33px;height:33px;border-radius:9px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+    .htxt h1{font-size:13.5px;font-weight:800}.htxt p{font-size:10px;color:var(--mut);margin-top:1px}
     .hrgt{margin-left:auto;display:flex;align-items:center;gap:7px}
-    #ppill{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;background:var(--sur2);border:1px solid var(--bdr2);font-size:10.5px;color:var(--dim);max-width:220px;overflow:hidden}
+    #ppill{display:flex;align-items:center;gap:5px;padding:3px 9px;border-radius:99px;background:var(--sur2);border:1px solid var(--bdr2);font-size:10.5px;color:var(--dim);max-width:200px;overflow:hidden}
     #pdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:var(--ok);box-shadow:0 0 6px var(--ok)}
     #pName{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    #swBtn{padding:4px 11px;border-radius:99px;font-size:11px;font-weight:600;background:var(--sur2);border:1px solid var(--bdr2);color:var(--mut);cursor:pointer;font-family:var(--fn);white-space:nowrap;transition:all 0.18s}
+    #swBtn{padding:4px 10px;border-radius:99px;font-size:10.5px;font-weight:600;background:var(--sur2);border:1px solid var(--bdr2);color:var(--mut);cursor:pointer;font-family:var(--fn);white-space:nowrap;transition:all 0.18s}
     #swBtn:hover{border-color:var(--acc);color:var(--acc)}
-    #msgs{flex:1;overflow-y:auto;padding:20px 16px;display:flex;flex-direction:column;gap:15px}
+    #msgs{flex:1;overflow-y:auto;padding:18px 15px;display:flex;flex-direction:column;gap:14px}
     #msgs::-webkit-scrollbar{width:3px}
     #msgs::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:99px}
     .mrow{display:flex;gap:8px;animation:fup 0.25s ease}
     .mrow.u{flex-direction:row-reverse}
     @keyframes fup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-    .av{width:29px;height:29px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;align-self:flex-end}
+    .av{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;align-self:flex-end}
     .av.b{background:linear-gradient(135deg,var(--acc),var(--acc2))}.av.u{background:var(--ubg);border:1px solid rgba(59,130,246,0.35)}
     .bw{max-width:80%;display:flex;flex-direction:column;gap:4px}
     .mrow.u .bw{align-items:flex-end}
-    .bbl{padding:10px 14px;border-radius:15px;font-size:13px;line-height:1.7;word-break:break-word}
+    .bbl{padding:9px 13px;border-radius:15px;font-size:13px;line-height:1.7;word-break:break-word}
     .bbl.b{background:var(--sur);border:1px solid var(--bdr2);border-bottom-left-radius:3px}
     .bbl.u{background:var(--ubg);border:1px solid rgba(59,130,246,0.28);border-bottom-right-radius:3px;color:#cce0ff}
     .bbl strong{color:#93c5fd;font-weight:700}.bbl em{color:#c4b5fd}
-    .bbl code{background:rgba(255,255,255,0.07);padding:1px 5px;border-radius:4px;font-family:var(--mono);font-size:11.5px;color:#86efac}
-    .bbl pre{background:#090d18;border:1px solid var(--bdr2);border-radius:8px;padding:11px;overflow-x:auto;margin:7px 0;position:relative}
-    .bbl pre code{background:none;padding:0;font-size:11.5px}
-    .bbl h1,.bbl h2,.bbl h3{color:#93c5fd;margin:7px 0 3px}
-    .bbl h1{font-size:16px}.bbl h2{font-size:14.5px}.bbl h3{font-size:13px}
-    .bbl ul,.bbl ol{padding-left:17px;margin:4px 0}.bbl li{margin:2px 0}
-    .bbl hr{border:none;border-top:1px solid var(--bdr);margin:7px 0}
+    .bbl code{background:rgba(255,255,255,0.07);padding:1px 5px;border-radius:4px;font-family:var(--mono);font-size:11px;color:#86efac}
+    .bbl pre{background:#090d18;border:1px solid var(--bdr2);border-radius:8px;padding:10px;overflow-x:auto;margin:6px 0;position:relative}
+    .bbl pre code{background:none;padding:0;font-size:11px}
+    .bbl h1,.bbl h2,.bbl h3{color:#93c5fd;margin:6px 0 3px}
+    .bbl h1{font-size:16px}.bbl h2{font-size:14px}.bbl h3{font-size:13px}
+    .bbl ul,.bbl ol{padding-left:16px;margin:4px 0}.bbl li{margin:2px 0}
+    .bbl hr{border:none;border-top:1px solid var(--bdr);margin:6px 0}
     .bbl a{color:var(--acc);text-decoration:underline}
     .bmeta{font-size:10px;color:var(--mut);padding:0 3px}
     .cur::after{content:'\u258B';animation:bl 0.7s step-end infinite;color:var(--acc);margin-left:1px}
     @keyframes bl{50%{opacity:0}}
-    .dots{display:flex;gap:4px;padding:3px 0}
-    .dots span{width:6px;height:6px;border-radius:50%;background:var(--mut);animation:bn 1.2s infinite}
+    .dots{display:flex;gap:4px;padding:2px 0}
+    .dots span{width:5px;height:5px;border-radius:50%;background:var(--mut);animation:bn 1.2s infinite}
     .dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
     @keyframes bn{0%,80%,100%{transform:scale(.65);opacity:.4}40%{transform:scale(1);opacity:1}}
 
-    /* Copy button on HTML blocks */
-    .cp-code-btn{position:absolute;top:7px;right:7px;background:var(--acc);color:#fff;border:none;border-radius:6px;padding:4px 11px;font-size:11px;font-weight:600;font-family:var(--fn);cursor:pointer;transition:all 0.18s;z-index:2}
-    .cp-code-btn:hover{opacity:.85}.cp-code-btn.ok{background:var(--ok)}
+    .cp-btn{position:absolute;top:6px;right:6px;background:var(--acc);color:#fff;border:none;border-radius:6px;padding:3px 10px;font-size:10.5px;font-weight:600;font-family:var(--fn);cursor:pointer;transition:all 0.18s;z-index:2}
+    .cp-btn:hover{opacity:.85}.cp-btn.ok{background:var(--ok)}
 
-    /* HTML action bar */
-    .html-bar{display:flex;gap:7px;margin-top:6px;flex-wrap:wrap}
-    .html-bar button{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;font-family:var(--fn);cursor:pointer;transition:all 0.18s;border:none}
-    .btn-cp-all{background:var(--acc);color:#fff;box-shadow:0 2px 8px rgba(59,130,246,0.3)}
-    .btn-cp-all:hover{opacity:.88}.btn-cp-all.ok{background:var(--ok)}
-    .btn-prev{background:var(--sur3);color:var(--dim);border:1px solid var(--bdr2) !important}
-    .btn-prev:hover{color:var(--txt)}
+    .html-bar{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap}
+    .html-bar button{padding:5px 13px;border-radius:7px;font-size:11.5px;font-weight:600;font-family:var(--fn);cursor:pointer;border:none;transition:all 0.18s}
+    .btn-cpa{background:var(--acc);color:#fff;box-shadow:0 2px 7px rgba(59,130,246,0.3)}
+    .btn-cpa:hover{opacity:.88}.btn-cpa.ok{background:var(--ok)}
+    .btn-prv{background:var(--sur3);color:var(--dim);border:1px solid var(--bdr2)!important}
+    .btn-prv:hover{color:var(--txt)}
 
-    /* Welcome */
-    .wel{text-align:center;padding:34px 16px;background:var(--sur);border:1px solid var(--bdr2);border-radius:18px;margin:auto 0}
-    .wico{font-size:44px;margin-bottom:10px;display:block}
-    .wel h3{font-size:17px;font-weight:800;margin-bottom:5px;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .wel p{font-size:12.5px;color:var(--mut);line-height:1.6;max-width:440px;margin:0 auto}
-    .sugs{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:13px}
-    .sug{padding:6px 13px;background:var(--sur2);border:1px solid var(--bdr2);border-radius:99px;color:var(--dim);font-size:11.5px;cursor:pointer;transition:all 0.18s;font-family:var(--fn)}
+    .wel{text-align:center;padding:30px 14px;background:var(--sur);border:1px solid var(--bdr2);border-radius:17px;margin:auto 0}
+    .wico{font-size:42px;margin-bottom:9px;display:block}
+    .wel h3{font-size:16px;font-weight:800;margin-bottom:5px;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .wel p{font-size:12px;color:var(--mut);line-height:1.6;max-width:420px;margin:0 auto}
+    .sugs{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:11px}
+    .sug{padding:5px 12px;background:var(--sur2);border:1px solid var(--bdr2);border-radius:99px;color:var(--dim);font-size:11px;cursor:pointer;transition:all 0.18s;font-family:var(--fn)}
     .sug:hover{border-color:var(--acc);color:var(--acc);background:rgba(59,130,246,0.07)}
-    .kb-stats{margin-top:10px;display:flex;flex-wrap:wrap;gap:5px;justify-content:center}
-    .kb-stat{padding:3px 9px;background:var(--sur2);border:1px solid var(--bdr);border-radius:99px;font-size:10.5px;color:var(--dim)}
+    .kb-stats{margin-top:9px;display:flex;flex-wrap:wrap;gap:4px;justify-content:center}
+    .kb-stat{padding:2px 8px;background:var(--sur2);border:1px solid var(--bdr);border-radius:99px;font-size:10px;color:var(--dim)}
 
-    /* Error bar */
     #errBar{display:none;flex-shrink:0}#errBar.on{display:block}
-    .ehd{display:flex;justify-content:space-between;align-items:center;background:rgba(239,68,68,0.09);border-top:1px solid rgba(239,68,68,0.25);padding:8px 14px}
+    .ehd{display:flex;justify-content:space-between;align-items:center;background:rgba(239,68,68,0.09);border-top:1px solid rgba(239,68,68,0.25);padding:7px 13px}
     .ehd strong{color:var(--err);font-size:12px}
-    .eacts{display:flex;gap:6px}
-    .eacts button{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;font-size:11px;padding:3px 10px;border-radius:5px;cursor:pointer;font-family:var(--fn)}
+    .eacts{display:flex;gap:5px}
+    .eacts button{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#fca5a5;font-size:10.5px;padding:2px 9px;border-radius:5px;cursor:pointer;font-family:var(--fn)}
     .eacts button:hover{background:rgba(239,68,68,0.2)}
-    #errTxt{background:rgba(0,0,0,0.18);border-bottom:1px solid rgba(239,68,68,0.12);padding:9px 14px;font-family:var(--mono);font-size:11px;color:#f9a8a8;white-space:pre-wrap;word-break:break-all;max-height:160px;overflow-y:auto;user-select:all;cursor:text;line-height:1.5}
+    #errTxt{background:rgba(0,0,0,0.18);border-bottom:1px solid rgba(239,68,68,0.12);padding:8px 13px;font-family:var(--mono);font-size:11px;color:#f9a8a8;white-space:pre-wrap;word-break:break-all;max-height:160px;overflow-y:auto;user-select:all;cursor:text;line-height:1.5}
 
-    /* Input */
-    #inpArea{padding:12px 16px 15px;background:rgba(14,20,32,0.92);backdrop-filter:blur(12px);border-top:1px solid var(--bdr);flex-shrink:0}
-    .iform{display:flex;gap:8px;align-items:flex-end;background:var(--sur2);border:1px solid var(--bdr2);border-radius:14px;padding:8px 10px;transition:border-color 0.2s}
+    #inpArea{padding:11px 15px 14px;background:rgba(14,20,32,0.92);backdrop-filter:blur(12px);border-top:1px solid var(--bdr);flex-shrink:0}
+    .iform{display:flex;gap:7px;align-items:flex-end;background:var(--sur2);border:1px solid var(--bdr2);border-radius:13px;padding:7px 9px;transition:border-color 0.2s}
     .iform:focus-within{border-color:var(--acc);box-shadow:0 0 0 3px var(--glow)}
-    #uInp{flex:1;background:transparent;border:none;outline:none;color:var(--txt);font-family:var(--fn);font-size:14px;line-height:1.5;resize:none;max-height:120px;min-height:22px}
+    #uInp{flex:1;background:transparent;border:none;outline:none;color:var(--txt);font-family:var(--fn);font-size:13.5px;line-height:1.5;resize:none;max-height:110px;min-height:21px}
     #uInp::placeholder{color:var(--mut)}
-    #sndBtn{width:36px;height:36px;border-radius:9px;border:none;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-size:16px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s;box-shadow:0 2px 9px rgba(59,130,246,0.38)}
+    #sndBtn{width:34px;height:34px;border-radius:9px;border:none;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-size:15px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
     #sndBtn:hover:not(:disabled){opacity:.9;transform:scale(1.06)}
     #sndBtn:disabled{opacity:.3;cursor:not-allowed;transform:none}
     .ifoot{display:flex;justify-content:space-between;align-items:center;margin-top:5px;padding:0 1px}
-    .ifoot span{font-size:10.5px;color:var(--mut)}
-    #clrBtn{font-size:10.5px;color:var(--mut);background:none;border:none;cursor:pointer;font-family:var(--fn);padding:2px 5px;border-radius:4px}
+    .ifoot span{font-size:10px;color:var(--mut)}
+    #clrBtn{font-size:10px;color:var(--mut);background:none;border:none;cursor:pointer;font-family:var(--fn);padding:2px 5px}
     #clrBtn:hover{color:var(--err)}
 
-    /* Preview modal */
-    #prevModal{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.88);backdrop-filter:blur(4px);flex-direction:column;align-items:center;justify-content:center;padding:16px}
+    #prevModal{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.88);backdrop-filter:blur(4px);flex-direction:column;align-items:center;justify-content:center;padding:14px}
     #prevModal.on{display:flex}
-    .prev-head{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:860px;margin-bottom:9px}
-    .prev-head span{color:var(--dim);font-size:12px}
-    .prev-close{background:var(--err);color:#fff;border:none;border-radius:7px;padding:5px 15px;font-size:13px;cursor:pointer;font-family:var(--fn);font-weight:600}
-    .prev-frame{width:100%;max-width:860px;height:82vh;border:2px solid var(--bdr2);border-radius:12px;overflow:hidden;background:#fff}
+    .prev-head{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:880px;margin-bottom:8px}
+    .prev-head span{color:var(--dim);font-size:11.5px}
+    .prev-close{background:var(--err);color:#fff;border:none;border-radius:7px;padding:5px 14px;font-size:12.5px;cursor:pointer;font-family:var(--fn);font-weight:600}
+    .prev-frame{width:100%;max-width:880px;height:84vh;border:2px solid var(--bdr2);border-radius:12px;overflow:hidden;background:#fff}
     .prev-frame iframe{width:100%;height:100%;border:none}
 
-    @media(max-width:580px){
-      .shdr{padding:20px 18px 16px}.sbody{padding:16px 18px 22px}
-      #hdr{padding:10px 12px}#msgs{padding:13px 11px}#inpArea{padding:10px 12px 13px}
-      .bw{max-width:93%}.icard{padding:24px 18px}.ptabs{grid-template-columns:1fr 1fr}
+    @media(max-width:560px){
+      .pgrid{grid-template-columns:1fr}
+      .shdr{padding:18px 16px 14px}.sbody{padding:14px 16px 20px}
+      #hdr{padding:9px 11px}#msgs{padding:11px 10px}#inpArea{padding:9px 11px 12px}
+      .bw{max-width:94%}.icard{padding:22px 16px}
     }
   </style>
 </head>
@@ -204,36 +197,47 @@
     <div class="shdr">
       <div class="slogo">&#x1F916;</div>
       <h1>GBHSSNaudero Post Generator</h1>
-      <p>Social Media HTML Post Creator &#183; Multi-Provider AI</p>
+      <p>AI Social Media Post Creator &#183; Choose a working provider below</p>
     </div>
     <div class="sbody">
+
       <div class="slbl">Choose AI Provider</div>
-      <div class="ptabs" id="ptabs">
-        <button class="ptab on" data-p="kimi"   onclick="pickP('kimi')">&#x1F319; Kimi K2 (Best Sindhi)</button>
-        <button class="ptab"    data-p="gemini" onclick="pickP('gemini')">&#x1F535; Google Gemini</button>
-        <button class="ptab"    data-p="groq"   onclick="pickP('groq')">&#x26A1; Groq (Fast)</button>
-      </div>
+      <div class="pgrid" id="pgrid">
 
-      <label class="flbl" id="kLbl">API Key</label>
-      <div class="kwrap">
-        <input type="password" id="kInput" placeholder="" autocomplete="off" spellcheck="false"/>
-        <button id="kVis" onclick="toggleVis('kInput','kVis')">&#x1F441;</button>
-      </div>
-
-      <!-- Second credential field (Cloudflare Account ID for Kimi) -->
-      <div class="k2wrap" id="k2wrap">
-        <label class="flbl" id="k2Lbl">Cloudflare Account ID</label>
-        <div class="k2inner">
-          <input type="password" id="k2Input" placeholder="Your Cloudflare account ID" autocomplete="off" spellcheck="false"/>
-          <button class="k2vis" onclick="toggleVis('k2Input',this)">&#x1F441;</button>
+        <div class="pcard on" data-p="cfgateway" onclick="pickP('cfgateway')">
+          <div class="pcard-top"><span class="pcard-ico">&#x1F319;</span><span class="pcard-name">Kimi K2</span></div>
+          <span class="pcard-tag">Best Sindhi</span>
+          <div class="pcard-desc">Via Cloudflare AI Gateway &#183; browser CORS safe &#183; 128K context</div>
         </div>
+
+        <div class="pcard" data-p="together" onclick="pickP('together')">
+          <div class="pcard-top"><span class="pcard-ico">&#x1F91D;</span><span class="pcard-name">Together AI</span></div>
+          <span class="pcard-tag blue">Free Credit</span>
+          <div class="pcard-desc">Llama 3.3 70B FREE forever &#183; $5 free credit &#183; No card</div>
+        </div>
+
+        <div class="pcard" data-p="gemini" onclick="pickP('gemini')">
+          <div class="pcard-top"><span class="pcard-ico">&#x1F535;</span><span class="pcard-name">Google Gemini</span></div>
+          <span class="pcard-tag">1M context</span>
+          <div class="pcard-desc">gemini-1.5-flash &#183; 15 req/min &#183; Best if quota works</div>
+        </div>
+
+        <div class="pcard" data-p="groq" onclick="pickP('groq')">
+          <div class="pcard-top"><span class="pcard-ico">&#x26A1;</span><span class="pcard-name">Groq</span></div>
+          <span class="pcard-tag warn">Compressed</span>
+          <div class="pcard-desc">Ultra fast &#183; Free &#183; Context auto-compressed to fit</div>
+        </div>
+
       </div>
+
+      <!-- Dynamic fields populated by pickP() -->
+      <div id="fields"></div>
 
       <label class="flbl">Model</label>
       <select id="mSel"></select>
 
       <div class="ibox blue" id="iBox">
-        <span>&#x2139;&#xFE0F;</span><span id="iTxt"></span>
+        <span>&#x2139;&#xFE0F;</span><span id="iTxt">Select a provider above.</span>
       </div>
 
       <div id="sErr">
@@ -245,24 +249,24 @@
       </div>
 
       <button id="goBtn" onclick="go()">&#x1F680; Start Chat</button>
-      <div class="snote">&#x1F512; Keys stored in sessionStorage only &#8212; never sent anywhere except the chosen AI provider</div>
+      <div class="snote">&#x1F512; Keys stored in sessionStorage only</div>
     </div>
   </div>
 </div>
 
-<!-- INIT OVERLAY -->
+<!-- INIT -->
 <div id="initOv">
   <div class="icard">
     <div class="iico">&#x1F9E0;</div>
     <h2>Loading Knowledge Base</h2>
-    <p>Downloading templates, instructions, mapping &amp; database&#8230;</p>
+    <p>Downloading files from GitHub&#8230;</p>
     <div class="ptrack"><div id="pBar"></div></div>
     <div id="pLbl">Starting&#8230;</div>
     <div class="flist" id="fList"></div>
   </div>
 </div>
 
-<!-- CHAT APP -->
+<!-- CHAT -->
 <div id="app">
   <div id="hdr">
     <div class="hlogo">&#x1F916;</div>
@@ -275,12 +279,10 @@
       <button id="swBtn" onclick="switchP()">&#x2699; Switch</button>
     </div>
   </div>
-
   <div id="msgs"></div>
-
   <div id="errBar">
     <div class="ehd">
-      <strong>&#x26A0; Error &#8212; full details below, click to select or use Copy</strong>
+      <strong>&#x26A0; Error &#8212; full details below (click to select, or Copy)</strong>
       <div class="eacts">
         <button id="cpErrBtn" onclick="cpErr()">&#x1F4CB; Copy</button>
         <button onclick="hideErr()">&#x2715; Dismiss</button>
@@ -288,7 +290,6 @@
     </div>
     <div id="errTxt"></div>
   </div>
-
   <div id="inpArea">
     <div class="iform">
       <textarea id="uInp" rows="1" placeholder="Loading&#8230;" disabled></textarea>
@@ -313,119 +314,151 @@
 <script>
 "use strict";
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    PROVIDER DEFINITIONS
-═══════════════════════════════════════════════════ */
+   Root cause of "Failed to fetch" for Kimi:
+   → api.cloudflare.com blocks browser CORS requests
+   → Must use Cloudflare AI GATEWAY which has CORS enabled
+   
+   Cloudflare AI Gateway URL format:
+   https://gateway.ai.cloudflare.com/v1/{account_id}/{gateway_name}/workers-ai/{model}
+═══════════════════════════════════════════════════════ */
 var PROVIDERS = {
 
-  /* ── Kimi K2 via Cloudflare AI Workers Gateway ──
-     Best Sindhi support, very large context window,
-     accessed through Cloudflare's AI gateway (browser CORS safe) */
-  kimi: {
-    name: "Kimi K2",
-    label: "Cloudflare AI Gateway API Token",
-    ph: "Your Cloudflare AI Gateway token",
-    need2: true,
-    label2: "Cloudflare Account ID",
-    ph2: "e.g. a1b2c3d4e5f6...",
-    info: [
-      '<strong>Setup steps for Kimi K2 via Cloudflare AI Workers:</strong><br>',
-      '1. Go to <a href="https://dash.cloudflare.com" target="_blank">dash.cloudflare.com</a> and sign in (free account)<br>',
-      '2. Copy your <strong>Account ID</strong> from the right sidebar of the dashboard<br>',
-      '3. Go to <b>AI</b> &rarr; <b>Workers AI</b> &rarr; <b>Use REST API</b><br>',
-      '4. Create an <strong>API Token</strong> with "Workers AI" permission<br>',
-      '5. Paste the token above and your Account ID below<br>',
-      '<em>Free tier: 10,000 neurons/day &bull; Kimi K2 has excellent Sindhi/Urdu/Arabic support</em>'
-    ].join(""),
+  /* ── Kimi K2 via Cloudflare AI GATEWAY (not Workers API) ──
+     The AI Gateway endpoint has full browser CORS support.
+     User must create an AI Gateway in their Cloudflare dashboard. */
+  cfgateway: {
+    name: "Kimi K2 (CF Gateway)",
+    fields: [
+      { id:"cfAccountId", label:"Cloudflare Account ID",    ph:"32-char hex from dashboard sidebar",   vis:true },
+      { id:"cfGatewayId", label:"AI Gateway Name/ID",       ph:"e.g. my-gateway (name you created)",   vis:true },
+      { id:"cfToken",     label:"Cloudflare API Token",     ph:"API token with Workers AI permission",  vis:true }
+    ],
+    info: {
+      cls:"blue",
+      html:[
+        '<strong>Setup — Cloudflare AI Gateway (5 min, free):</strong>',
+        '<ol>',
+        '<li>Sign up free at <a href="https://dash.cloudflare.com" target="_blank">dash.cloudflare.com</a></li>',
+        '<li>Copy your <strong>Account ID</strong> from the right sidebar</li>',
+        '<li>Go to <strong>AI &rarr; AI Gateway &rarr; Create Gateway</strong> &rarr; give it any name (e.g. <code>gbhss</code>)</li>',
+        '<li>Go to <strong>My Profile &rarr; API Tokens &rarr; Create Token</strong><br>Use template <em>"Workers AI Read"</em> or add permission <em>AI Gateway: Edit</em></li>',
+        '<li>Enter Account ID, Gateway name, and API Token above</li>',
+        '</ol>',
+        '<em>Free: 10,000 neurons/day &bull; 128K context &bull; Best Sindhi/Urdu support</em>'
+      ].join("")
+    },
     models: [
-      { id:"@cf/moonshot/kimi-k2-instruct", l:"Kimi K2 Instruct (Recommended \u2605)" }
+      { id:"@cf/moonshot/kimi-k2-instruct", l:"Kimi K2 Instruct \u2605 (Best Sindhi)" }
     ],
     def: "@cf/moonshot/kimi-k2-instruct",
-    tokenLimit: 128000,
-    call: callKimi
+    tokenLimit: 100000,
+    call: callCFGateway
+  },
+
+  /* ── Together AI — Llama 3.3 70B FREE forever, full CORS ── */
+  together: {
+    name: "Together AI",
+    fields: [
+      { id:"togetherKey", label:"Together AI API Key", ph:"togetherapi-...", vis:true }
+    ],
+    info: {
+      cls:"green",
+      html:'Free $5 credit (no card needed): <a href="https://api.together.xyz/settings/api-keys" target="_blank">api.together.xyz/settings/api-keys</a>. '
+          +'Models marked "FREE" never consume credit. Large context window, good multilingual support.'
+    },
+    models: [
+      { id:"meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",      l:"Llama 3.3 70B Turbo (FREE forever \u2605)" },
+      { id:"deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free",    l:"DeepSeek R1 Distill 70B (FREE forever)" },
+      { id:"meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",       l:"Llama 3.1 8B Turbo (Credit)" },
+      { id:"mistralai/Mixtral-8x7B-Instruct-v0.1",              l:"Mixtral 8x7B (Credit)" }
+    ],
+    def: "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
+    tokenLimit: 100000,
+    call: callTogether
   },
 
   /* ── Google Gemini ── */
   gemini: {
     name: "Google Gemini",
-    label: "Google AI Studio API Key",
-    ph: "AIza...",
-    need2: false,
-    info: 'Free key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a>. '
-        + 'If you get 429 quota error, your project needs billing enabled or try a different model. '
-        + '15 req/min free. 1M token context window.',
+    fields: [
+      { id:"geminiKey", label:"Google AI Studio API Key", ph:"AIza...", vis:true }
+    ],
+    info: {
+      cls:"blue",
+      html:'Free key: <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a>. '
+          +'If you see 429 quota:0, enable the Generative Language API at '
+          +'<a href="https://console.cloud.google.com/apis/library" target="_blank">console.cloud.google.com</a> '
+          +'or create a fresh API key in a new project.'
+    },
     models: [
-      { id:"gemini-2.0-flash-lite",   l:"Gemini 2.0 Flash Lite (Free, Fastest)" },
-      { id:"gemini-2.0-flash",        l:"Gemini 2.0 Flash (Free, Recommended)" },
-      { id:"gemini-1.5-flash-latest", l:"Gemini 1.5 Flash Latest (Free)" },
+      { id:"gemini-1.5-flash-latest", l:"Gemini 1.5 Flash Latest (Free \u2605 Recommended)" },
       { id:"gemini-1.5-flash-8b",     l:"Gemini 1.5 Flash 8B (Free, Light)" },
+      { id:"gemini-2.0-flash-lite",   l:"Gemini 2.0 Flash Lite (Free, Fast)" },
+      { id:"gemini-2.0-flash",        l:"Gemini 2.0 Flash (Free)" },
       { id:"gemini-1.5-pro-latest",   l:"Gemini 1.5 Pro (Free, Limited)" }
     ],
-    def: "gemini-2.0-flash-lite",
+    def: "gemini-1.5-flash-latest",
     tokenLimit: 900000,
     call: callGemini
   },
 
-  /* ── Groq (auto-compresses to fit 6K token limit) ── */
+  /* ── Groq ── */
   groq: {
     name: "Groq",
-    label: "Groq API Key",
-    ph: "gsk_...",
-    need2: false,
-    info: 'Free key at <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a>. '
-        + '<strong>Note:</strong> Free tier has a ~6,000 token/min limit which is smaller than your knowledge files. '
-        + 'The app auto-compresses context to fit, but templates will be truncated. '
-        + 'Use Kimi K2 or Gemini for full template access.',
+    fields: [
+      { id:"groqKey", label:"Groq API Key", ph:"gsk_...", vis:true }
+    ],
+    info: {
+      cls:"warn",
+      html:'Free key: <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a>. '
+          +'<strong>Warning:</strong> Free tier limit (~6K tokens/min) is smaller than your knowledge files. '
+          +'Templates will be auto-compressed. Use Kimi K2 or Together AI for full template access.'
+    },
     models: [
-      { id:"llama-3.1-8b-instant",    l:"Llama 3.1 8B Instant (Fits free token limit)" },
-      { id:"llama3-8b-8192",          l:"Llama 3 8B 8192" },
+      { id:"llama-3.1-8b-instant",    l:"Llama 3.1 8B Instant (Fits free limit)" },
+      { id:"llama3-8b-8192",          l:"Llama 3 8B" },
       { id:"gemma2-9b-it",            l:"Gemma 2 9B IT" },
-      { id:"llama-3.3-70b-versatile", l:"Llama 3.3 70B (Needs Dev tier)" },
-      { id:"mixtral-8x7b-32768",      l:"Mixtral 8x7B (Needs Dev tier)" }
+      { id:"llama-3.3-70b-versatile", l:"Llama 3.3 70B (Needs Dev tier)" }
     ],
     def: "llama-3.1-8b-instant",
-    tokenLimit: 5500,
+    tokenLimit: 5200,
     call: callGroq
   }
 };
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    CONFIG
-═══════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 var BASE = "https://raw.githubusercontent.com/aydee0333/gbhss-templates/main/";
-var FILES = {
-  instructions: "instructions.txt",
-  mapping:      "mapping.txt",
-  templates:    "templates.json",
-  database:     "database.txt"
-};
+var FILES = { instructions:"instructions.txt", mapping:"mapping.txt", templates:"templates.json", database:"database.txt" };
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    STATE
-═══════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 var S = {
-  provider: "kimi",
-  key: "", key2: "", mdl: "",
+  provider:"cfgateway", mdl:"",
+  creds:{},  // dynamic key storage per field id
   instructions:"", mapping:"", templates:"", database:"",
   ready:false, busy:false, n:0, lastErr:"", history:[]
 };
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    HELPERS
-═══════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function g(id){ return document.getElementById(id); }
 function now(){ return new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}); }
-function ar(el){ el.style.height="auto"; el.style.height=Math.min(el.scrollHeight,120)+"px"; }
+function ar(el){ el.style.height="auto"; el.style.height=Math.min(el.scrollHeight,110)+"px"; }
 function sb(){ g("msgs").scrollTop=g("msgs").scrollHeight; }
 function esc(t){ return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
-function compress(t){
-  return t.replace(/\r\n/g,"\n").replace(/[ \t]+/g," ").replace(/\n{3,}/g,"\n\n").trim();
-}
+function compress(t){ return t.replace(/\r\n/g,"\n").replace(/[ \t]+/g," ").replace(/\n{3,}/g,"\n\n").trim(); }
 function estTok(t){ return Math.ceil(t.length/3.5); }
+function kbs(s){ return Math.round(s.length/1024*10)/10+"KB"; }
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    ERRORS
-═══════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function showErr(msg){ S.lastErr=msg; g("errTxt").textContent=msg; g("errBar").classList.add("on"); }
 function hideErr(){ g("errBar").classList.remove("on"); }
 function cpErr(){
@@ -438,51 +471,52 @@ function showSErr(msg){ g("sErrTxt").textContent=msg; g("sErr").classList.add("o
 function hideSErr(){ g("sErr").classList.remove("on"); }
 function cpSErr(){ navigator.clipboard.writeText(g("sErrTxt").textContent).catch(function(){}); }
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    SETUP UI
-═══════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function pickP(id){
   S.provider=id;
-  g("ptabs").querySelectorAll(".ptab").forEach(function(t){
-    t.classList.toggle("on",t.dataset.p===id);
+  g("pgrid").querySelectorAll(".pcard").forEach(function(c){
+    c.classList.toggle("on",c.dataset.p===id);
   });
   var p=PROVIDERS[id];
-  g("kLbl").textContent=p.label;
-  g("kInput").placeholder=p.ph;
-  g("iTxt").innerHTML=p.info;
 
-  // Show/hide second credential field
-  var k2w=g("k2wrap");
-  if(p.need2){
-    k2w.classList.add("show");
-    g("k2Lbl").textContent=p.label2;
-    g("k2Input").placeholder=p.ph2;
-    g("k2Input").value=sessionStorage.getItem("k2_"+id)||"";
-  } else {
-    k2w.classList.remove("show");
-  }
+  // Rebuild credential fields
+  var fEl=g("fields"); fEl.innerHTML="";
+  p.fields.forEach(function(f){
+    var label=document.createElement("label");
+    label.className="flbl"; label.textContent=f.label;
+    var wrap=document.createElement("div"); wrap.className="kwrap";
+    var inp=document.createElement("input");
+    inp.type=f.vis?"password":"text"; inp.placeholder=f.ph;
+    inp.autocomplete="off"; inp.spellcheck=false; inp.id=f.id;
+    inp.value=sessionStorage.getItem("cred_"+f.id)||"";
+    var btn=document.createElement("button"); btn.className="kvis";
+    btn.innerHTML="&#x1F441;";
+    btn.onclick=(function(i){ return function(){ i.type=i.type==="password"?"text":"password"; }; })(inp);
+    wrap.appendChild(inp); wrap.appendChild(btn);
+    fEl.appendChild(label); fEl.appendChild(wrap);
+  });
 
+  // Models
   var sel=g("mSel"); sel.innerHTML="";
   p.models.forEach(function(m){
-    var o=document.createElement("option");
-    o.value=m.id; o.textContent=m.l; sel.appendChild(o);
+    var o=document.createElement("option"); o.value=m.id; o.textContent=m.l; sel.appendChild(o);
   });
   sel.value=p.def;
-  g("kInput").value=sessionStorage.getItem("k_"+id)||"";
+
+  // Info box
+  var ib=g("iBox"); ib.className="ibox "+p.info.cls;
+  g("iTxt").innerHTML=p.info.html;
   hideSErr();
 }
 
-function toggleVis(inputId, btn){
-  var inp = typeof inputId==="string" ? g(inputId) : inputId;
-  inp.type = inp.type==="password" ? "text" : "password";
-}
+// Boot with default provider
+pickP("cfgateway");
 
-// Boot
-pickP("kimi");
-
-/* ═══════════════════════════════════════════════════
-   LOAD FILES (full content, compressed whitespace)
-═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   LOAD FILES
+═══════════════════════════════════════════════════════ */
 function buildFUI(){
   g("fList").innerHTML=Object.keys(FILES).map(function(k){
     return '<div class="fitem" id="fi_'+k+'"><span>&#x1F4C4;</span><span>'+FILES[k]+'</span></div>';
@@ -493,95 +527,87 @@ function fst(k,s){
   el.className="fitem "+s;
   el.querySelector("span").textContent={act:"\u23F3",ok:"\u2705",no:"\u274C"}[s]||"";
 }
-
 async function loadAllFiles(){
   buildFUI();
   var keys=Object.keys(FILES), loaded=0;
   for(var i=0;i<keys.length;i++){
-    var k=keys[i];
-    fst(k,"act");
-    g("pBar").style.width=Math.round((i/keys.length)*100)+"%";
+    var k=keys[i]; fst(k,"act");
+    g("pBar").style.width=Math.round(i/keys.length*100)+"%";
     g("pLbl").textContent="Fetching "+FILES[k]+"...";
     try{
       var r=await fetch(BASE+FILES[k]);
       if(!r.ok) throw new Error("HTTP "+r.status);
-      S[k]=compress(await r.text());
-      fst(k,"ok"); loaded++;
-    }catch(e){
-      console.error(k,e); fst(k,"no");
-      S[k]="[COULD NOT LOAD "+FILES[k]+": "+e.message+"]";
-    }
+      S[k]=compress(await r.text()); fst(k,"ok"); loaded++;
+    }catch(e){ console.error(k,e); fst(k,"no"); S[k]="[NOT LOADED: "+FILES[k]+"]"; }
   }
   g("pBar").style.width="100%";
-  g("pLbl").textContent="Loaded "+loaded+"/"+keys.length+" files successfully";
+  g("pLbl").textContent="Loaded "+loaded+"/"+keys.length+" files";
   await new Promise(function(r){setTimeout(r,400);});
-  if(loaded===0) throw new Error("Could not load any knowledge files from GitHub.");
+  if(!loaded) throw new Error("Could not load any files from GitHub.");
 }
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    SYSTEM PROMPT
-   doCompress=true for Groq's small context window
-═══════════════════════════════════════════════════ */
-function buildSystemPrompt(doCompress){
+═══════════════════════════════════════════════════════ */
+function buildSys(compress){
   var inst=S.instructions, map=S.mapping, tpl=S.templates, db=S.database;
-
-  if(doCompress){
-    // Truncate aggressively for Groq's 5500 token budget
-    if(tpl.length>2200)  tpl=tpl.slice(0,2200)+"\n...[Templates truncated — switch to Kimi K2 or Gemini for full access]";
-    if(db.length>900)    db=db.slice(0,900)+"\n...[Database truncated]";
-    if(map.length>500)   map=map.slice(0,500)+"...";
-    if(inst.length>900)  inst=inst.slice(0,900)+"...";
+  if(compress){
+    if(tpl.length>2200) tpl=tpl.slice(0,2200)+"\n...[TRUNCATED: switch to Kimi K2 or Together AI for full templates]";
+    if(db.length>900)   db=db.slice(0,900)+"\n...[TRUNCATED]";
+    if(map.length>500)  map=map.slice(0,500)+"...";
+    if(inst.length>900) inst=inst.slice(0,900)+"...";
   }
-
   return [
     "You are the AI Social Media Manager for Government Boys Higher Secondary School Naudero (GBHSSNaudero).",
-    "You create professional, correctly formatted HTML social media posts in English and Sindhi.",
+    "You create professional HTML social media posts in English and Sindhi.",
     "You have excellent knowledge of Sindhi language, script, and culture.",
     "",
-    "══════════ INSTRUCTIONS (follow exactly) ══════════",
+    "=== INSTRUCTIONS (follow exactly) ===",
     inst,
     "",
-    "══════════ SINDHI WORD MAPPING (use for Sindhi posts) ══════════",
+    "=== SINDHI WORD MAPPING (use for Sindhi posts) ===",
     map,
     "",
-    "══════════ HTML TEMPLATES (all templates — copy structure exactly) ══════════",
+    "=== HTML TEMPLATES (all templates — copy structure exactly) ===",
     tpl,
     "",
-    "══════════ STAFF DATABASE (look up all names here) ══════════",
+    "=== STAFF DATABASE (look up all names here) ===",
     db,
     "",
-    "══════════ RULES (non-negotiable) ══════════",
-    "1. Always read and follow the INSTRUCTIONS section above first.",
-    "2. Pick the correct template from the list based on: language (Sindhi/English) + post type.",
-    "3. Copy the chosen template's HTML structure EXACTLY. Only replace placeholder/dummy text.",
-    "4. Never modify CSS, class names, layout, colors, or structure of the template.",
-    "5. For any person's name: search the STAFF DATABASE first. Use exact name, title, and designation.",
-    "6. For Sindhi posts: use the MAPPING table for accurate Sindhi word translations.",
-    "7. Always output the final HTML inside ```html\\n...\\n``` code fences.",
-    "8. After the code block, briefly note: which template number you used and why.",
-    "9. If a name is not in the database: say so clearly and ask for correct details before proceeding.",
-    "10. If the request is ambiguous: ask one clarifying question before generating."
+    "=== RULES ===",
+    "1. Follow INSTRUCTIONS above exactly.",
+    "2. Pick the correct template based on: language (Sindhi/English) + post type.",
+    "3. Copy chosen template HTML EXACTLY. Only replace placeholder/dummy text.",
+    "4. Never modify CSS, class names, layout, or structure of the template.",
+    "5. For any name: search STAFF DATABASE first. Use exact name, title, designation.",
+    "6. For Sindhi posts: use MAPPING table for word translations.",
+    "7. Output HTML inside ```html\\n...\\n``` code fences.",
+    "8. After the code, state which template number you used and why.",
+    "9. If a name is not in database: say so and ask for details.",
+    "10. If request is ambiguous: ask one clarifying question first."
   ].join("\n");
 }
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    START CHAT
-═══════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 async function go(){
-  var key=g("kInput").value.trim();
-  if(!key){ showSErr("Please enter your API key."); return; }
+  var p=PROVIDERS[S.provider];
 
-  var prov=PROVIDERS[S.provider];
-  if(prov.need2){
-    var key2=g("k2Input").value.trim();
-    if(!key2){ showSErr("Please enter your Cloudflare Account ID."); return; }
-    S.key2=key2;
-    sessionStorage.setItem("k2_"+S.provider, key2);
-  }
+  // Collect and validate credentials
+  var missing=[];
+  S.creds={};
+  p.fields.forEach(function(f){
+    var el=g(f.id);
+    var val=el?el.value.trim():"";
+    if(!val) missing.push(f.label);
+    S.creds[f.id]=val;
+    if(val) sessionStorage.setItem("cred_"+f.id,val);
+  });
+  if(missing.length){ showSErr("Please fill in: "+missing.join(", ")); return; }
 
+  S.mdl=g("mSel").value;
   hideSErr();
-  S.key=key; S.mdl=g("mSel").value;
-  sessionStorage.setItem("k_"+S.provider, key);
 
   var btn=g("goBtn");
   btn.disabled=true; btn.textContent="Loading...";
@@ -592,18 +618,13 @@ async function go(){
     await loadAllFiles();
     g("initOv").classList.add("fade");
     setTimeout(function(){ g("initOv").classList.remove("on","fade"); },400);
-
     g("app").classList.add("on");
-    g("pName").textContent=prov.name+" | "+S.mdl;
-    g("mLbl").textContent=prov.name+" | "+S.mdl;
-    g("hSub").textContent="Inst:"+kbSize(S.instructions)+" Tpl:"+kbSize(S.templates)
-      +" Map:"+kbSize(S.mapping)+" DB:"+kbSize(S.database);
-
-    S.ready=true; S.history=[];
-    renderWel();
+    g("pName").textContent=p.name;
+    g("mLbl").textContent=p.name+" | "+S.mdl;
+    g("hSub").textContent="Inst:"+kbs(S.instructions)+" Tpl:"+kbs(S.templates)+" Map:"+kbs(S.mapping)+" DB:"+kbs(S.database);
+    S.ready=true; S.history=[]; renderWel();
     g("uInp").placeholder="Tell me what post to create...";
-    g("uInp").disabled=false; g("sndBtn").disabled=false;
-    g("uInp").focus();
+    g("uInp").disabled=false; g("sndBtn").disabled=false; g("uInp").focus();
   }catch(e){
     g("initOv").classList.remove("on","fade");
     g("setup").style.display="flex";
@@ -611,8 +632,6 @@ async function go(){
     showSErr(e.message||String(e));
   }
 }
-
-function kbSize(s){ return Math.round(s.length/1024*10)/10+"KB"; }
 
 function switchP(){
   S.ready=false; S.busy=false; hideErr();
@@ -622,166 +641,170 @@ function switchP(){
   pickP(S.provider);
 }
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    AI CALLS
-═══════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 
-/* ── Kimi K2 via Cloudflare Workers AI ──
-   Endpoint: https://api.cloudflare.com/client/v4/accounts/{id}/ai/run/{model}
-   Auth: Bearer token
-   This endpoint has full CORS support for browser requests */
-async function callKimi(messages){
-  var accountId=S.key2.trim();
-  var model=S.mdl;
-  var url="https://api.cloudflare.com/client/v4/accounts/"+accountId+"/ai/run/"+model;
+/* Parse error message from any JSON response */
+function parseErr(txt, status){
+  try{
+    var j=JSON.parse(txt);
+    if(j.errors&&j.errors.length) return j.errors.map(function(e){return e.message;}).join("; ");
+    if(j.error&&j.error.message) return j.error.message;
+    if(j.error) return typeof j.error==="string"?j.error:JSON.stringify(j.error);
+    if(j.message) return j.message;
+  }catch(e){}
+  return txt.slice(0,600);
+}
 
-  // Cloudflare Workers AI uses OpenAI-compatible messages format
+/* Shared OpenAI-compatible POST */
+async function oaiPost(url, headers, mdl, messages, maxTok){
   var r=await fetch(url,{
     method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      "Authorization":"Bearer "+S.key
+    headers:headers,
+    body:JSON.stringify({ model:mdl, temperature:0.2, max_tokens:maxTok||8192, messages:messages })
+  });
+  var txt=await r.text();
+  if(!r.ok) throw new Error(parseErr(txt,r.status)+" [HTTP "+r.status+"]");
+  var j=JSON.parse(txt);
+  try{ return j.choices[0].message.content; }
+  catch(e){ throw new Error("Unexpected response format:\n"+JSON.stringify(j).slice(0,300)); }
+}
+
+/* ── Cloudflare AI Gateway ──
+   CORRECT browser-accessible URL:
+   https://gateway.ai.cloudflare.com/v1/{accountId}/{gatewayName}/workers-ai/run/{model}
+   This endpoint has CORS headers set properly. */
+async function callCFGateway(messages){
+  var accountId = S.creds.cfAccountId;
+  var gatewayId = S.creds.cfGatewayId;
+  var token     = S.creds.cfToken;
+  var model     = S.mdl;
+
+  if(!accountId||!gatewayId||!token){
+    throw new Error("Missing Cloudflare credentials. Please check Account ID, Gateway Name, and API Token.");
+  }
+
+  // AI Gateway endpoint — this supports CORS from browsers
+  var url = "https://gateway.ai.cloudflare.com/v1/"
+           + accountId.trim() + "/"
+           + gatewayId.trim() + "/workers-ai/run/"
+           + encodeURIComponent(model);
+
+  var r = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
     },
-    body:JSON.stringify({
+    body: JSON.stringify({
       messages: messages,
       max_tokens: 8192,
       temperature: 0.2
     })
   });
 
-  var txt=await r.text();
+  var txt = await r.text();
   if(!r.ok){
-    var msg=txt;
-    try{
-      var j=JSON.parse(txt);
-      // Cloudflare error format: { success:false, errors:[{message:"..."}] }
-      if(j.errors && j.errors.length) msg=j.errors.map(function(e){return e.message;}).join("; ");
-      else if(j.error) msg=j.error;
-    }catch(e){}
-    throw new Error("Kimi/Cloudflare "+r.status+"\n"+msg);
+    var msg = parseErr(txt, r.status);
+    if(r.status===403) msg+="\n\n[FIX] 403 = wrong token or token lacks Workers AI permission.\nCreate token with 'Workers AI Read' template.";
+    if(r.status===404) msg+="\n\n[FIX] 404 = wrong Account ID or Gateway name.\nDouble-check both in your Cloudflare dashboard.";
+    if(r.status===0||txt==="") msg="CORS error or network blocked.\n[FIX] Make sure your gateway name is correct and the gateway exists in your Cloudflare account.";
+    throw new Error("Cloudflare AI Gateway "+r.status+"\n"+msg);
   }
 
   var j=JSON.parse(txt);
-  // Cloudflare Workers AI response format:
-  // { success:true, result:{ response:"..." } }
-  // OR OpenAI-compatible: { choices:[{message:{content:"..."}}] }
+  // CF Workers AI via Gateway returns: { result:{ response:"..." } }
+  // or sometimes OpenAI format: { choices:[{message:{content:"..."}}] }
   try{
-    if(j.result && j.result.response) return j.result.response;
-    if(j.choices && j.choices[0]) return j.choices[0].message.content;
-    throw new Error("no content field");
+    if(j.result&&j.result.response) return j.result.response;
+    if(j.choices&&j.choices[0]&&j.choices[0].message) return j.choices[0].message.content;
+    // Some models return array of text parts
+    if(j.result&&Array.isArray(j.result)&&j.result[0]&&j.result[0].text) return j.result[0].text;
+    throw new Error("no known content field");
   }catch(e){
-    throw new Error("Kimi: unexpected response format\n"+JSON.stringify(j).slice(0,400));
+    throw new Error("CF Gateway: unexpected response format\n"+JSON.stringify(j).slice(0,500));
   }
+}
+
+/* ── Together AI ── */
+async function callTogether(messages){
+  return oaiPost(
+    "https://api.together.xyz/v1/chat/completions",
+    {"Content-Type":"application/json","Authorization":"Bearer "+S.creds.togetherKey},
+    S.mdl, messages, 8192
+  );
 }
 
 /* ── Google Gemini ── */
 async function callGemini(messages){
-  var sys=messages.filter(function(m){return m.role==="system";})
-    .map(function(m){return m.content;}).join("\n\n");
+  var sys=messages.filter(function(m){return m.role==="system";}).map(function(m){return m.content;}).join("\n\n");
   var chat=messages.filter(function(m){return m.role!=="system";});
-
   var contents=chat.map(function(m){
     return {role:m.role==="assistant"?"model":"user", parts:[{text:m.content}]};
   });
-
-  var url="https://generativelanguage.googleapis.com/v1beta/models/"
-         +S.mdl+":generateContent?key="+S.key;
-
+  var url="https://generativelanguage.googleapis.com/v1beta/models/"+S.mdl+":generateContent?key="+S.creds.geminiKey;
   var r=await fetch(url,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
       system_instruction:{parts:[{text:sys}]},
       contents:contents,
-      generationConfig:{temperature:0.2, maxOutputTokens:8192, candidateCount:1}
+      generationConfig:{temperature:0.2,maxOutputTokens:8192,candidateCount:1}
     })
   });
-
   var txt=await r.text();
   if(!r.ok){
-    var msg=txt;
-    try{
-      var j=JSON.parse(txt);
-      msg=(j.error&&j.error.message)?j.error.message:txt;
-      if(r.status===429) msg+="\n\n[FIX] Quota exceeded. Your project may have limit:0. "
-        +"Check https://ai.dev/rate-limit or try a different model. "
-        +"Consider switching to Kimi K2 instead.";
-      if(r.status===404) msg+="\n\n[FIX] Model not found. Try: gemini-1.5-flash-latest";
-    }catch(e){}
+    var msg=parseErr(txt,r.status);
+    if(r.status===429) msg+="\n\n[FIX] Quota limit:0 means the Generative Language API is disabled for your project.\nTry: console.cloud.google.com/apis/library → enable 'Generative Language API'\nOr create a new API key at aistudio.google.com/apikey";
+    if(r.status===404) msg+="\n\n[FIX] Model not found. Switch to: gemini-1.5-flash-latest";
     throw new Error("Gemini "+r.status+"\n"+msg);
   }
-
   var j=JSON.parse(txt);
-  try{
-    return j.candidates[0].content.parts[0].text;
-  }catch(e){
+  try{ return j.candidates[0].content.parts[0].text; }
+  catch(e){
     var reason=j.candidates&&j.candidates[0]&&j.candidates[0].finishReason;
-    if(reason&&reason!=="STOP") throw new Error("Gemini blocked: "+reason);
-    throw new Error("Gemini: unexpected format\n"+JSON.stringify(j).slice(0,300));
+    throw new Error("Gemini "+(reason?"blocked:"+reason:"unexpected format")+"\n"+JSON.stringify(j).slice(0,300));
   }
 }
 
-/* ── Groq (auto-compresses) ── */
+/* ── Groq (auto-compress) ── */
 async function callGroq(messages){
   var sys=messages.find(function(m){return m.role==="system";});
-  var tokEst=sys?estTok(sys.content):0;
-  if(tokEst>PROVIDERS.groq.tokenLimit){
-    var compressed=buildSystemPrompt(true);
-    messages=messages.map(function(m){
-      return m.role==="system"?{role:"system",content:compressed}:m;
-    });
+  if(sys&&estTok(sys.content)>PROVIDERS.groq.tokenLimit){
+    var compressed=buildSys(true);
+    messages=messages.map(function(m){return m.role==="system"?{role:"system",content:compressed}:m;});
   }
-
-  var r=await fetch("https://api.groq.com/openai/v1/chat/completions",{
-    method:"POST",
-    headers:{"Content-Type":"application/json","Authorization":"Bearer "+S.key},
-    body:JSON.stringify({model:S.mdl,temperature:0.2,max_tokens:4096,messages:messages})
-  });
-
-  var txt=await r.text();
-  if(!r.ok){
-    var msg=txt;
-    try{
-      var j=JSON.parse(txt);
-      msg=(j.error&&j.error.message)?j.error.message:txt;
-      if(r.status===413) msg+="\n\n[FIX] Still too large after compression. Switch to Kimi K2 or Gemini.";
-    }catch(e){}
-    throw new Error("Groq "+r.status+"\n"+msg);
-  }
-
-  var j=JSON.parse(txt);
-  try{return j.choices[0].message.content;}
-  catch(e){throw new Error("Groq: unexpected response\n"+JSON.stringify(j).slice(0,300));}
+  return oaiPost(
+    "https://api.groq.com/openai/v1/chat/completions",
+    {"Content-Type":"application/json","Authorization":"Bearer "+S.creds.groqKey},
+    S.mdl, messages, 4096
+  );
 }
 
-/* ═══════════════════════════════════════════════════
-   EXTRACT HTML FROM RESPONSE
-═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   EXTRACT HTML
+═══════════════════════════════════════════════════════ */
 function extractHtml(text){
-  var m=text.match(/```html\s*\n([\s\S]*?)```/i);
-  if(m) return m[1].trim();
-  m=text.match(/```\s*\n([\s\S]*?)```/);
-  if(m&&(m[1].includes("<html")||m[1].includes("<!DOCTYPE"))) return m[1].trim();
-  m=text.match(/(<!DOCTYPE[\s\S]*?<\/html>)/i);
-  if(m) return m[1].trim();
+  var m=text.match(/```html\s*\n([\s\S]*?)```/i); if(m) return m[1].trim();
+  m=text.match(/```\s*\n([\s\S]*?)```/); if(m&&(m[1].includes("<html")||m[1].includes("<!DOCTYPE"))) return m[1].trim();
+  m=text.match(/(<!DOCTYPE[\s\S]*?<\/html>)/i); if(m) return m[1].trim();
   return null;
 }
 
-/* ═══════════════════════════════════════════════════
-   MARKDOWN RENDERER
-═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════
+   MARKDOWN
+═══════════════════════════════════════════════════════ */
 var cbN=0;
-function renderMd(rawText){
-  var h=esc(rawText);
-
+function renderMd(raw){
+  var h=esc(raw);
   h=h.replace(/```html\s*\n([\s\S]*?)```/gi,function(_,code){
     var id="cb"+(++cbN);
     return '<div style="position:relative">'
-      +'<button class="cp-code-btn" onclick="cpCode(\''+id+'\',this)">&#x1F4CB; Copy HTML</button>'
-      +'<pre id="'+id+'"><code>'+code.trim()+'</code></pre>'
-      +'</div>';
+      +'<button class="cp-btn" onclick="cpCode(\''+id+'\',this)">&#x1F4CB; Copy HTML</button>'
+      +'<pre id="'+id+'"><code>'+code.trim()+'</code></pre></div>';
   });
-  h=h.replace(/```[\w]*\s*\n?([\s\S]*?)```/g,function(_,c){return "<pre><code>"+c.trim()+"</code></pre>";});
+  h=h.replace(/```[\w]*\s*\n?([\s\S]*?)```/g,function(_,c){return"<pre><code>"+c.trim()+"</code></pre>";});
   h=h.replace(/`([^`]+)`/g,"<code>$1</code>");
   h=h.replace(/^### (.+)$/gm,"<h3>$1</h3>");
   h=h.replace(/^## (.+)$/gm, "<h2>$1</h2>");
@@ -793,14 +816,14 @@ function renderMd(rawText){
   h=h.replace(/^\s*[-*] (.+)$/gm,"<li>$1</li>");
   h=h.replace(/^\d+\. (.+)$/gm,"<li>$1</li>");
   h=h.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank">$1</a>');
-  var parts=h.split(/(<(?:div)[^>]*>[\s\S]*?<\/div>|<pre[\s\S]*?<\/pre>)/g);
+  var parts=h.split(/(<div[^>]*>[\s\S]*?<\/div>|<pre[\s\S]*?<\/pre>)/g);
   h=parts.map(function(x,i){return i%2===0?x.replace(/\n/g,"<br>"):x;}).join("");
   return h;
 }
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    COPY & PREVIEW
-═══════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function cpCode(id,btn){
   var el=g(id); if(!el)return;
   navigator.clipboard.writeText(el.textContent).then(function(){
@@ -827,27 +850,26 @@ function previewHtml(html){
 function closePreview(){g("prevModal").classList.remove("on");g("prevFrame").srcdoc="";}
 window.closePreview=closePreview;
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    CHAT UI
-═══════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 function renderWel(){
-  g("msgs").innerHTML='<div class="wel">'
-    +'<span class="wico">&#x1F4AC;</span>'
+  g("msgs").innerHTML='<div class="wel"><span class="wico">&#x1F4AC;</span>'
     +'<h3>Ready to Create Posts!</h3>'
-    +'<p>All knowledge files loaded. Describe the post you need — language, type, staff name, event details — and I\'ll use the correct template.</p>'
+    +'<p>All files loaded. Describe the post: language (Sindhi/English), type, staff name, event details.</p>'
     +'<div class="sugs">'
-    +'<button class="sug" onclick="qi(this)">Create Sindhi teacher appreciation post</button>'
-    +'<button class="sug" onclick="qi(this)">Create English result announcement post</button>'
-    +'<button class="sug" onclick="qi(this)">Create Sindhi event announcement post</button>'
+    +'<button class="sug" onclick="qi(this)">Sindhi teacher appreciation post</button>'
+    +'<button class="sug" onclick="qi(this)">English event announcement post</button>'
+    +'<button class="sug" onclick="qi(this)">Sindhi result announcement</button>'
     +'<button class="sug" onclick="qi(this)">Show all 16 available templates</button>'
     +'<button class="sug" onclick="qi(this)">List all staff from database</button>'
     +'<button class="sug" onclick="qi(this)">What are the posting instructions?</button>'
     +'</div>'
     +'<div class="kb-stats">'
-    +'<span class="kb-stat">&#x1F4CB; '+kbSize(S.instructions)+'</span>'
-    +'<span class="kb-stat">&#x1F5C2; '+kbSize(S.templates)+'</span>'
-    +'<span class="kb-stat">&#x1F5FA; '+kbSize(S.mapping)+'</span>'
-    +'<span class="kb-stat">&#x1F465; '+kbSize(S.database)+'</span>'
+    +'<span class="kb-stat">Inst: '+kbs(S.instructions)+'</span>'
+    +'<span class="kb-stat">Templates: '+kbs(S.templates)+'</span>'
+    +'<span class="kb-stat">Mapping: '+kbs(S.mapping)+'</span>'
+    +'<span class="kb-stat">Database: '+kbs(S.database)+'</span>'
     +'</div></div>';
 }
 
@@ -856,8 +878,7 @@ window.qi=qi;
 
 function addU(text){
   var row=document.createElement("div"); row.className="mrow u";
-  row.innerHTML='<div class="bw"><div class="bbl u">'+esc(text)+'</div>'
-    +'<div class="bmeta">'+now()+'</div></div><div class="av u">&#x1F9D1;</div>';
+  row.innerHTML='<div class="bw"><div class="bbl u">'+esc(text)+'</div><div class="bmeta">'+now()+'</div></div><div class="av u">&#x1F9D1;</div>';
   g("msgs").appendChild(row); sb();
 }
 
@@ -871,17 +892,15 @@ function addBot(){
     +'</div><div class="bmeta" id="'+mid+'"></div></div>';
   g("msgs").appendChild(row); sb();
 
-  var bel=g(bid), mel=g(mid), bwel=g(bwid), raw="";
+  var bel=g(bid),mel=g(mid),bwel=g(bwid),raw="";
 
   function type(full,done){
-    bel.innerHTML=""; bel.classList.add("cur");
-    var i=0;
+    bel.innerHTML=""; bel.classList.add("cur"); var i=0;
     (function step(){
-      var e=Math.min(i+10,full.length);
-      raw=full.slice(0,e);
+      var e=Math.min(i+10,full.length); raw=full.slice(0,e);
       bel.innerHTML=renderMd(raw); sb(); i=e;
       if(i<full.length) setTimeout(step,5);
-      else{ bel.classList.remove("cur"); done(); }
+      else{bel.classList.remove("cur");done();}
     })();
   }
 
@@ -896,25 +915,23 @@ function addBot(){
       var html=extractHtml(fullText);
       if(html){
         var bar=document.createElement("div"); bar.className="html-bar";
-        var cpBtn=document.createElement("button"); cpBtn.className="btn-cp-all";
+        var cpBtn=document.createElement("button"); cpBtn.className="btn-cpa";
         cpBtn.innerHTML="&#x1F4CB; Copy Full HTML";
         var h=html; cpBtn.onclick=function(){cpHtmlFull(cpBtn,h);};
-        var pvBtn=document.createElement("button"); pvBtn.className="btn-prev";
+        var pvBtn=document.createElement("button"); pvBtn.className="btn-prv";
         pvBtn.innerHTML="&#x1F441; Preview";
         pvBtn.onclick=function(){previewHtml(h);};
-        bar.appendChild(cpBtn); bar.appendChild(pvBtn);
-        bwel.appendChild(bar);
+        bar.appendChild(cpBtn); bar.appendChild(pvBtn); bwel.appendChild(bar);
       }
     }
     sb(); return raw;
   }
-
   return{type:type,setErr:setErr,close:close};
 }
 
-/* ═══════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    SEND
-═══════════════════════════════════════════════════ */
+═══════════════════════════════════════════════════════ */
 async function send(){
   if(!S.ready||S.busy)return;
   var txt=g("uInp").value.trim(); if(!txt)return;
@@ -924,14 +941,11 @@ async function send(){
   S.busy=true; g("sndBtn").disabled=true; g("uInp").disabled=true;
   addU(txt);
   var ph=addBot();
-
   var doCompress=S.provider==="groq";
-  var sysPr=buildSystemPrompt(doCompress);
-  var messages=[{role:"system",content:sysPr}];
-  var hist=S.history.slice(-4);
-  for(var i=0;i<hist.length;i++) messages.push(hist[i]);
+  var sys=buildSys(doCompress);
+  var messages=[{role:"system",content:sys}];
+  S.history.slice(-4).forEach(function(m){messages.push(m);});
   messages.push({role:"user",content:txt});
-
   try{
     var answer=await PROVIDERS[S.provider].call(messages);
     await new Promise(function(res){ph.type(answer,res);});
@@ -939,17 +953,10 @@ async function send(){
     S.history.push({role:"user",content:txt},{role:"assistant",content:answer});
     if(S.history.length>8) S.history.splice(0,2);
   }catch(err){
-    console.error(err);
-    ph.setErr(); ph.close(null);
-    showErr([
-      "Provider : "+PROVIDERS[S.provider].name,
-      "Model    : "+S.mdl,
-      "Time     : "+new Date().toISOString(),
-      "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
-      err.message||String(err)
-    ].join("\n"));
+    console.error(err); ph.setErr(); ph.close(null);
+    showErr(["Provider : "+PROVIDERS[S.provider].name,"Model    : "+S.mdl,"Time     : "+new Date().toISOString(),
+      "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",err.message||String(err)].join("\n"));
   }
-
   S.busy=false; g("sndBtn").disabled=false; g("uInp").disabled=false; g("uInp").focus();
 }
 
@@ -958,12 +965,7 @@ function clrChat(){
   S.history=[]; hideErr(); renderWel();
 }
 
-/* ═══════════════════════════════════════════════════
-   EVENTS
-═══════════════════════════════════════════════════ */
-g("uInp").addEventListener("keydown",function(e){
-  if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send();}
-});
+g("uInp").addEventListener("keydown",function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send();}});
 g("uInp").addEventListener("input",function(){ar(g("uInp"));});
 g("sndBtn").addEventListener("click",send);
 </script>
