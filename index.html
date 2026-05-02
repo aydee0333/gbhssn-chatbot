@@ -22,12 +22,19 @@
 
     /* ── SETUP ── */
     #setup{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:200;padding:16px;overflow-y:auto}
-    .sbox{width:100%;max-width:520px;background:var(--sur);border:1px solid var(--bdr2);border-radius:22px;overflow:hidden;box-shadow:var(--sh);position:relative;z-index:1}
+    .sbox{width:100%;max-width:560px;background:var(--sur);border:1px solid var(--bdr2);border-radius:22px;overflow:hidden;box-shadow:var(--sh);position:relative;z-index:1}
     .shdr{padding:28px 36px 22px;background:linear-gradient(135deg,rgba(59,130,246,0.08),rgba(139,92,246,0.08));border-bottom:1px solid var(--bdr);text-align:center}
     .slogo{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 12px;box-shadow:0 0 24px rgba(59,130,246,0.3)}
-    .shdr h1{font-size:21px;font-weight:800;margin-bottom:4px;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .shdr h1{font-size:20px;font-weight:800;margin-bottom:4px;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .shdr p{font-size:12.5px;color:var(--mut)}
     .sbody{padding:24px 36px 30px}
+
+    /* Provider tabs */
+    .ptabs{display:flex;gap:3px;margin-bottom:20px;background:var(--sur2);border:1px solid var(--bdr2);border-radius:10px;padding:4px}
+    .ptab{flex:1;padding:9px 6px;border:none;border-radius:7px;background:transparent;color:var(--dim);font-family:var(--fn);font-size:12.5px;font-weight:600;cursor:pointer;transition:all 0.18s;text-align:center}
+    .ptab:hover{color:var(--txt)}
+    .ptab.on{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;box-shadow:0 2px 10px rgba(59,130,246,0.3)}
+
     .flbl{display:block;font-size:12px;font-weight:600;color:var(--dim);margin-bottom:6px}
     .kwrap{display:flex;gap:6px;background:var(--sur2);border:1px solid var(--bdr2);border-radius:9px;padding:3px 3px 3px 11px;margin-bottom:14px;transition:border-color 0.2s}
     .kwrap:focus-within{border-color:var(--acc);box-shadow:0 0 0 3px var(--glow)}
@@ -37,8 +44,18 @@
     #kVis:hover{color:var(--txt)}
     #mSel{width:100%;background:var(--sur2);border:1px solid var(--bdr2);border-radius:9px;color:var(--txt);font-family:var(--fn);font-size:13px;padding:9px 11px;outline:none;cursor:pointer;margin-bottom:14px}
     #mSel option{background:var(--sur2)}
-    .ibox{display:flex;gap:8px;background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.18);border-radius:9px;padding:10px 12px;margin-bottom:16px;font-size:12px;color:var(--dim);line-height:1.55}
+
+    .ibox{display:flex;gap:8px;align-items:flex-start;border-radius:9px;padding:10px 12px;margin-bottom:14px;font-size:12px;line-height:1.55}
+    .ibox.blue{background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.18);color:var(--dim)}
+    .ibox.green{background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);color:var(--dim)}
     .ibox a{color:var(--acc);text-decoration:none}.ibox a:hover{text-decoration:underline}
+
+    /* Token bar */
+    .tok-bar{margin-bottom:14px}
+    .tok-bar-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--mut);margin-bottom:5px}
+    .tok-track{height:6px;background:var(--sur2);border-radius:99px;overflow:hidden;border:1px solid var(--bdr)}
+    .tok-fill{height:100%;border-radius:99px;transition:width 0.4s,background 0.4s}
+
     #sErr{display:none;border-radius:9px;margin-bottom:14px;overflow:hidden}
     #sErr.on{display:block}
     .seHead{display:flex;justify-content:space-between;align-items:center;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);border-bottom:none;padding:8px 12px;border-radius:9px 9px 0 0}
@@ -53,9 +70,9 @@
     /* ── INIT ── */
     #initOv{position:fixed;inset:0;background:rgba(7,11,20,0.94);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:150;transition:opacity 0.4s}
     #initOv.on{display:flex}#initOv.fade{opacity:0}
-    .icard{background:var(--sur);border:1px solid var(--bdr2);border-radius:20px;padding:36px 40px;max-width:420px;width:90%;text-align:center;box-shadow:var(--sh)}
-    .iico{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px;animation:glow 2s ease-in-out infinite}
-    @keyframes glow{0%,100%{box-shadow:0 0 14px rgba(59,130,246,0.3)}50%{box-shadow:0 0 30px rgba(59,130,246,0.6)}}
+    .icard{background:var(--sur);border:1px solid var(--bdr2);border-radius:20px;padding:36px 40px;max-width:440px;width:90%;text-align:center;box-shadow:var(--sh)}
+    .iico{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px;animation:glo 2s ease-in-out infinite}
+    @keyframes glo{0%,100%{box-shadow:0 0 14px rgba(59,130,246,0.3)}50%{box-shadow:0 0 30px rgba(59,130,246,0.6)}}
     .icard h2{font-size:19px;font-weight:800;margin-bottom:6px}
     .icard>p{font-size:13px;color:var(--mut);margin-bottom:22px;line-height:1.5}
     .ptrack{background:var(--sur2);border-radius:99px;height:5px;overflow:hidden;margin-bottom:7px}
@@ -77,7 +94,7 @@
     #ppill{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;background:var(--sur2);border:1px solid var(--bdr2);font-size:11px;color:var(--dim);max-width:240px;overflow:hidden}
     #pdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:var(--ok);box-shadow:0 0 6px var(--ok)}
     #pName{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    #swBtn{padding:4px 12px;border-radius:99px;font-size:11.5px;font-weight:600;background:var(--sur2);border:1px solid var(--bdr2);color:var(--mut);cursor:pointer;font-family:var(--fn);transition:all 0.18s;white-space:nowrap}
+    #swBtn{padding:4px 12px;border-radius:99px;font-size:11.5px;font-weight:600;background:var(--sur2);border:1px solid var(--bdr2);color:var(--mut);cursor:pointer;font-family:var(--fn);white-space:nowrap;transition:all 0.18s}
     #swBtn:hover{border-color:var(--acc);color:var(--acc)}
     #msgs{flex:1;overflow-y:auto;padding:22px 18px;display:flex;flex-direction:column;gap:16px}
     #msgs::-webkit-scrollbar{width:3px}
@@ -87,7 +104,7 @@
     @keyframes fup{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
     .av{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;align-self:flex-end}
     .av.b{background:linear-gradient(135deg,var(--acc),var(--acc2))}.av.u{background:var(--ubg);border:1px solid rgba(59,130,246,0.35)}
-    .bw{max-width:78%;display:flex;flex-direction:column;gap:4px}
+    .bw{max-width:80%;display:flex;flex-direction:column;gap:4px}
     .mrow.u .bw{align-items:flex-end}
     .bbl{padding:10px 14px;border-radius:15px;font-size:13.5px;line-height:1.7;word-break:break-word}
     .bbl.b{background:var(--sur);border:1px solid var(--bdr2);border-bottom-left-radius:3px}
@@ -95,7 +112,7 @@
     .bbl strong{color:#93c5fd;font-weight:700}.bbl em{color:#c4b5fd}
     .bbl code{background:rgba(255,255,255,0.07);padding:1px 5px;border-radius:4px;font-family:var(--mono);font-size:12px;color:#86efac}
     .bbl pre{background:#090d18;border:1px solid var(--bdr2);border-radius:8px;padding:11px;overflow-x:auto;margin:7px 0;position:relative}
-    .bbl pre code{background:none;padding:0}
+    .bbl pre code{background:none;padding:0;font-size:12px}
     .bbl h1,.bbl h2,.bbl h3{color:#93c5fd;margin:7px 0 3px}
     .bbl h1{font-size:17px}.bbl h2{font-size:15px}.bbl h3{font-size:13.5px}
     .bbl ul,.bbl ol{padding-left:17px;margin:5px 0}.bbl li{margin:2px 0}
@@ -109,41 +126,28 @@
     .dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
     @keyframes bn{0%,80%,100%{transform:scale(.65);opacity:.4}40%{transform:scale(1);opacity:1}}
 
-    /* Copy button for HTML code blocks */
-    .copy-html-btn{
-      position:absolute;top:6px;right:6px;
-      background:var(--acc);color:#fff;border:none;border-radius:6px;
-      padding:4px 12px;font-size:11px;font-weight:600;font-family:var(--fn);
-      cursor:pointer;transition:all 0.18s;z-index:5;
-      box-shadow:0 2px 8px rgba(59,130,246,0.4)
-    }
-    .copy-html-btn:hover{opacity:.85;transform:scale(1.04)}
-    .copy-html-btn.copied{background:var(--ok)}
+    /* Copy button on code blocks */
+    .copy-code-btn{position:absolute;top:7px;right:7px;background:var(--acc);color:#fff;border:none;border-radius:6px;padding:4px 11px;font-size:11px;font-weight:600;font-family:var(--fn);cursor:pointer;transition:all 0.18s;z-index:2;box-shadow:0 2px 8px rgba(59,130,246,0.35)}
+    .copy-code-btn:hover{opacity:.85}.copy-code-btn.ok{background:var(--ok)}
 
-    /* Full HTML copy bar (for entire HTML output) */
-    .html-copy-bar{
-      display:flex;gap:8px;margin-top:6px;
-    }
-    .html-copy-bar button{
-      padding:6px 16px;border-radius:8px;font-size:12px;font-weight:600;
-      font-family:var(--fn);cursor:pointer;transition:all 0.18s;border:none
-    }
-    .copy-all-btn{background:var(--acc);color:#fff;box-shadow:0 2px 8px rgba(59,130,246,0.3)}
-    .copy-all-btn:hover{opacity:.88}
-    .copy-all-btn.copied{background:var(--ok)}
-    .preview-btn{background:var(--sur3);color:var(--dim);border:1px solid var(--bdr2)!important}
-    .preview-btn:hover{color:var(--txt);border-color:var(--acc)!important}
+    /* HTML action bar */
+    .html-bar{display:flex;gap:7px;margin-top:6px;flex-wrap:wrap}
+    .html-bar button{padding:6px 15px;border-radius:8px;font-size:12px;font-weight:600;font-family:var(--fn);cursor:pointer;transition:all 0.18s;border:none}
+    .btn-copy-all{background:var(--acc);color:#fff;box-shadow:0 2px 8px rgba(59,130,246,0.3)}
+    .btn-copy-all:hover{opacity:.88}.btn-copy-all.ok{background:var(--ok)}
+    .btn-preview{background:var(--sur3);color:var(--dim);border:1px solid var(--bdr2)!important}
+    .btn-preview:hover{color:var(--txt);border-color:var(--acc)!important}
 
     /* Welcome */
-    .wel{text-align:center;padding:40px 18px;background:var(--sur);border:1px solid var(--bdr2);border-radius:18px;margin:auto 0}
-    .wico{font-size:48px;margin-bottom:12px;display:block}
-    .wel h3{font-size:19px;font-weight:800;margin-bottom:6px;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .wel{text-align:center;padding:36px 18px;background:var(--sur);border:1px solid var(--bdr2);border-radius:18px;margin:auto 0}
+    .wico{font-size:46px;margin-bottom:12px;display:block}
+    .wel h3{font-size:18px;font-weight:800;margin-bottom:6px;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .wel p{font-size:13px;color:var(--mut);line-height:1.6;max-width:420px;margin:0 auto}
-    .sugs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:16px}
+    .sugs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:14px}
     .sug{padding:7px 14px;background:var(--sur2);border:1px solid var(--bdr2);border-radius:99px;color:var(--dim);font-size:12px;cursor:pointer;transition:all 0.18s;font-family:var(--fn)}
     .sug:hover{border-color:var(--acc);color:var(--acc);background:rgba(59,130,246,0.07)}
-    .kb-stats{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
-    .kb-stat{padding:4px 10px;background:var(--sur2);border:1px solid var(--bdr);border-radius:99px;font-size:11px;color:var(--dim)}
+    .kb-stats{margin-top:12px;display:flex;flex-wrap:wrap;gap:5px;justify-content:center}
+    .kb-stat{padding:3px 10px;background:var(--sur2);border:1px solid var(--bdr);border-radius:99px;font-size:11px;color:var(--dim)}
 
     /* Error bar */
     #errBar{display:none;flex-shrink:0}#errBar.on{display:block}
@@ -169,16 +173,18 @@
     #clrBtn:hover{color:var(--err)}
 
     /* Preview modal */
-    #previewModal{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.8);backdrop-filter:blur(4px);padding:20px}
-    #previewModal.on{display:flex;flex-direction:column;align-items:center;justify-content:center}
-    .prev-close{position:absolute;top:16px;right:20px;background:var(--err);color:#fff;border:none;border-radius:8px;padding:6px 16px;font-size:13px;cursor:pointer;font-family:var(--fn);font-weight:600;z-index:5}
-    .prev-frame{width:100%;max-width:800px;height:80vh;border:2px solid var(--bdr2);border-radius:12px;overflow:hidden;background:#fff}
+    #prevModal{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.85);backdrop-filter:blur(4px);flex-direction:column;align-items:center;justify-content:center;padding:20px}
+    #prevModal.on{display:flex}
+    .prev-head{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:820px;margin-bottom:10px}
+    .prev-head span{color:var(--dim);font-size:12px}
+    .prev-close{background:var(--err);color:#fff;border:none;border-radius:8px;padding:6px 16px;font-size:13px;cursor:pointer;font-family:var(--fn);font-weight:600}
+    .prev-frame{width:100%;max-width:820px;height:80vh;border:2px solid var(--bdr2);border-radius:12px;overflow:hidden;background:#fff}
     .prev-frame iframe{width:100%;height:100%;border:none}
 
     @media(max-width:580px){
       .shdr{padding:22px 20px 18px}.sbody{padding:18px 20px 24px}
       #hdr{padding:10px 13px}#msgs{padding:13px 11px}#inpArea{padding:11px 13px 14px}
-      .bw{max-width:92%}.icard{padding:26px 20px}
+      .bw{max-width:93%}.icard{padding:26px 20px}
     }
   </style>
 </head>
@@ -189,28 +195,38 @@
   <div class="sbox">
     <div class="shdr">
       <div class="slogo">&#x1F916;</div>
-      <h1>GBHSSNaudero AI Assistant</h1>
-      <p>Social Media Post Generator &#183; Groq AI</p>
+      <h1>GBHSSNaudero Post Generator</h1>
+      <p>Social Media HTML Post Creator &#183; AI-Powered</p>
     </div>
     <div class="sbody">
-      <label class="flbl">Groq API Key (free, no card needed)</label>
+
+      <div class="slbl" style="font-size:11px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:1.1px;margin-bottom:9px">Choose AI Provider</div>
+      <div class="ptabs" id="ptabs">
+        <button class="ptab on" data-p="gemini" onclick="pickP('gemini')">&#x1F535; Gemini (Best for Sindhi)</button>
+        <button class="ptab"    data-p="groq"   onclick="pickP('groq')">&#x26A1; Groq (Fast)</button>
+      </div>
+
+      <label class="flbl" id="kLbl">Google AI Studio API Key</label>
       <div class="kwrap">
-        <input type="password" id="kInput" placeholder="gsk_..." autocomplete="off" spellcheck="false"/>
+        <input type="password" id="kInput" placeholder="AIza..." autocomplete="off" spellcheck="false"/>
         <button id="kVis" onclick="toggleVis()">&#x1F441;</button>
       </div>
 
       <label class="flbl">Model</label>
-      <select id="mSel">
-        <option value="llama-3.3-70b-versatile">Llama 3.3 70B Versatile (Best)</option>
-        <option value="llama3-70b-8192">Llama 3 70B 8192</option>
-        <option value="llama-3.1-8b-instant">Llama 3.1 8B Instant (Fastest)</option>
-        <option value="mixtral-8x7b-32768">Mixtral 8x7B 32K</option>
-        <option value="gemma2-9b-it">Gemma 2 9B IT</option>
-      </select>
+      <select id="mSel"></select>
 
-      <div class="ibox">
-        <span>&#x2139;&#xFE0F;</span>
-        <span>Get a free key at <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a>. No credit card needed. 14,400 req/day free.</span>
+      <div class="ibox blue" id="iBox">
+        <span>&#x2139;&#xFE0F;</span><span id="iTxt"></span>
+      </div>
+
+      <!-- Token budget indicator -->
+      <div class="tok-bar" id="tokBar">
+        <div class="tok-bar-lbl">
+          <span>Estimated token usage</span>
+          <span id="tokNum">&#8212;</span>
+        </div>
+        <div class="tok-track"><div class="tok-fill" id="tokFill" style="width:0%"></div></div>
+        <div style="font-size:10.5px;color:var(--mut);margin-top:3px" id="tokNote"></div>
       </div>
 
       <div id="sErr">
@@ -232,7 +248,7 @@
   <div class="icard">
     <div class="iico">&#x1F9E0;</div>
     <h2>Loading Knowledge Base</h2>
-    <p>Downloading instructions, templates, mapping &amp; database&#8230;</p>
+    <p>Downloading templates, instructions, mapping &amp; database&#8230;</p>
     <div class="ptrack"><div id="pBar"></div></div>
     <div id="pLbl">Starting&#8230;</div>
     <div class="flist" id="fList"></div>
@@ -245,10 +261,10 @@
     <div class="hlogo">&#x1F916;</div>
     <div class="htxt">
       <h1>GBHSSNaudero Post Generator</h1>
-      <p id="hSub">Loading&#8230;</p>
+      <p id="hSub">Ready</p>
     </div>
     <div class="hrgt">
-      <div id="ppill"><div id="pdot"></div><span id="pName">Groq</span></div>
+      <div id="ppill"><div id="pdot"></div><span id="pName">AI</span></div>
       <button id="swBtn" onclick="switchP()">&#x2699; Switch</button>
     </div>
   </div>
@@ -257,7 +273,7 @@
 
   <div id="errBar">
     <div class="ehd">
-      <strong>&#x26A0; Error</strong>
+      <strong>&#x26A0; Error &#8212; click text to select, or use Copy</strong>
       <div class="eacts">
         <button id="cpErrBtn" onclick="cpErr()">&#x1F4CB; Copy</button>
         <button onclick="hideErr()">&#x2715; Dismiss</button>
@@ -279,20 +295,66 @@
 </div>
 
 <!-- PREVIEW MODAL -->
-<div id="previewModal">
-  <button class="prev-close" onclick="closePreview()">&#x2715; Close Preview</button>
-  <div class="prev-frame"><iframe id="prevIframe"></iframe></div>
+<div id="prevModal">
+  <div class="prev-head">
+    <span>&#x1F441; HTML Preview</span>
+    <button class="prev-close" onclick="closePreview()">&#x2715; Close</button>
+  </div>
+  <div class="prev-frame"><iframe id="prevFrame" sandbox="allow-same-origin allow-scripts"></iframe></div>
 </div>
 
 <script>
 "use strict";
 
-/* ════════════════════════════════════════════════
-   CONFIG
-════════════════════════════════════════════════ */
-var BASE = "https://raw.githubusercontent.com/aydee0333/gbhss-templates/main/";
+/* ═══════════════════════════════════════════
+   PROVIDER DEFINITIONS
+   Root cause of 413: Groq free tier = 12,000 TPM limit
+   Fix: Use Gemini as primary (1M context window, free)
+   Keep Groq as fallback with smart compression
+═══════════════════════════════════════════ */
+var PROVIDERS = {
+  gemini: {
+    name: "Google Gemini",
+    label: "Google AI Studio API Key",
+    ph: "AIza...",
+    info: 'Free key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a>. '
+        + '1 million token context window. Best Sindhi language support. 15 req/min free.',
+    tokenLimit: 900000, // effectively unlimited for our use case
+    models: [
+      { id:"gemini-2.0-flash-lite",              l:"Gemini 2.0 Flash Lite (Free \u2605 Fastest)" },
+      { id:"gemini-2.0-flash",                   l:"Gemini 2.0 Flash (Free \u2605 Recommended)" },
+      { id:"gemini-1.5-flash-latest",            l:"Gemini 1.5 Flash Latest (Free)" },
+      { id:"gemini-1.5-flash-8b",                l:"Gemini 1.5 Flash 8B (Free \u2605 Light)" },
+      { id:"gemini-1.5-pro-latest",              l:"Gemini 1.5 Pro Latest (Free, Limited RPM)" }
+    ],
+    def: "gemini-2.0-flash-lite",
+    call: callGemini
+  },
+  groq: {
+    name: "Groq",
+    label: "Groq API Key",
+    ph: "gsk_...",
+    info: 'Free key at <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a>. '
+        + '<strong>Note:</strong> Groq free tier has a 6,000 token/min limit. '
+        + 'The app automatically compresses context to fit. '
+        + 'For better Sindhi support, use Gemini instead.',
+    tokenLimit: 5500, // conservative limit for Groq free tier
+    models: [
+      { id:"llama-3.1-8b-instant",     l:"Llama 3.1 8B Instant (Fast, fits token limit)" },
+      { id:"llama3-8b-8192",           l:"Llama 3 8B 8192 (Fast)" },
+      { id:"gemma2-9b-it",             l:"Gemma 2 9B IT" },
+      { id:"llama-3.3-70b-versatile",  l:"Llama 3.3 70B (Needs Dev tier upgrade)" },
+      { id:"mixtral-8x7b-32768",       l:"Mixtral 8x7B (Needs Dev tier upgrade)" }
+    ],
+    def: "llama-3.1-8b-instant",
+    call: callGroq
+  }
+};
 
-// Files to load — ALL content sent to AI, not just search snippets
+/* ═══════════════════════════════════════════
+   CONFIG
+═══════════════════════════════════════════ */
+var BASE = "https://raw.githubusercontent.com/aydee0333/gbhss-templates/main/";
 var FILES = {
   instructions: "instructions.txt",
   mapping:      "mapping.txt",
@@ -300,32 +362,41 @@ var FILES = {
   database:     "database.txt"
 };
 
-/* ════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    STATE
-════════════════════════════════════════════════ */
+═══════════════════════════════════════════ */
 var S = {
+  provider: "gemini",
   key: "", mdl: "",
-  // Full file contents — sent entirely to AI
-  instructions: "",
-  mapping: "",
-  templates: "",
-  database: "",
+  instructions: "", mapping: "", templates: "", database: "",
   ready: false, busy: false, n: 0,
-  lastErr: "",
-  history: [] // conversation history for multi-turn
+  lastErr: "", history: []
 };
 
-/* ════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    HELPERS
-════════════════════════════════════════════════ */
+═══════════════════════════════════════════ */
 function g(id) { return document.getElementById(id); }
-function now() { return new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}); }
+function now() { return new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}); }
 function ar(el) { el.style.height="auto"; el.style.height=Math.min(el.scrollHeight,120)+"px"; }
 function sb() { g("msgs").scrollTop = g("msgs").scrollHeight; }
+function esc(t) { return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
-/* ════════════════════════════════════════════════
+/* Rough token estimator: 1 token ~ 3.5 chars for mixed scripts */
+function estTokens(text) { return Math.ceil(text.length / 3.5); }
+
+/* Compress text by removing excess whitespace & blank lines */
+function compress(text) {
+  return text
+    .replace(/\r\n/g, "\n")
+    .replace(/[ \t]+/g, " ")        // collapse horizontal whitespace
+    .replace(/\n{3,}/g, "\n\n")     // max 2 consecutive blank lines
+    .trim();
+}
+
+/* ═══════════════════════════════════════════
    ERRORS
-════════════════════════════════════════════════ */
+═══════════════════════════════════════════ */
 function showErr(msg) { S.lastErr=msg; g("errTxt").textContent=msg; g("errBar").classList.add("on"); }
 function hideErr() { g("errBar").classList.remove("on"); }
 function cpErr() {
@@ -338,121 +409,177 @@ function showSErr(msg) { g("sErrTxt").textContent=msg; g("sErr").classList.add("
 function hideSErr() { g("sErr").classList.remove("on"); }
 function cpSErr() { navigator.clipboard.writeText(g("sErrTxt").textContent).catch(function(){}); }
 
-/* ════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    SETUP
-════════════════════════════════════════════════ */
-function toggleVis() {
-  var i=g("kInput"); i.type=i.type==="password"?"text":"password";
+═══════════════════════════════════════════ */
+function pickP(id) {
+  S.provider = id;
+  g("ptabs").querySelectorAll(".ptab").forEach(function(t) {
+    t.classList.toggle("on", t.dataset.p === id);
+  });
+  var p = PROVIDERS[id];
+  g("kLbl").textContent = p.label;
+  g("kInput").placeholder = p.ph;
+  g("iTxt").innerHTML = p.info;
+
+  var sel = g("mSel"); sel.innerHTML = "";
+  p.models.forEach(function(m) {
+    var o = document.createElement("option");
+    o.value = m.id; o.textContent = m.l; sel.appendChild(o);
+  });
+  sel.value = p.def;
+  g("kInput").value = sessionStorage.getItem("k_"+id) || "";
+  hideSErr();
+  updateTokBar();
 }
 
-// Restore saved key
-g("kInput").value = sessionStorage.getItem("groq_key") || "";
+function toggleVis() {
+  var i = g("kInput"); i.type = i.type==="password" ? "text" : "password";
+}
 
-/* ════════════════════════════════════════════════
-   LOAD ALL KNOWLEDGE FILES (full content, not chunks)
-════════════════════════════════════════════════ */
+/* Update token usage bar */
+function updateTokBar() {
+  if (!S.instructions) { g("tokNum").textContent="Files not loaded yet"; return; }
+  var sys = buildSystemPrompt(false);
+  var tok = estTokens(sys);
+  var lim = PROVIDERS[S.provider].tokenLimit;
+  var pct = Math.min(100, Math.round(tok/lim*100));
+  var fill = g("tokFill");
+  fill.style.width = pct + "%";
+  fill.style.background = pct > 90 ? "var(--err)" : pct > 70 ? "var(--warn)" : "var(--ok)";
+  g("tokNum").textContent = tok.toLocaleString() + " / " + lim.toLocaleString() + " tokens";
+  if (S.provider === "groq" && tok > lim) {
+    g("tokNote").textContent = "\u26A0 Over limit \u2014 context will be auto-compressed";
+    g("tokNote").style.color = "var(--warn)";
+  } else {
+    g("tokNote").textContent = "\u2713 Fits within " + PROVIDERS[S.provider].name + " context window";
+    g("tokNote").style.color = "var(--ok)";
+  }
+}
+
+/* Boot */
+pickP("gemini");
+if (sessionStorage.getItem("k_gemini")) g("kInput").value = sessionStorage.getItem("k_gemini");
+
+/* ═══════════════════════════════════════════
+   LOAD FILES
+═══════════════════════════════════════════ */
 function buildFUI() {
-  var names = Object.keys(FILES);
-  g("fList").innerHTML = names.map(function(k) {
+  g("fList").innerHTML = Object.keys(FILES).map(function(k) {
     return '<div class="fitem" id="fi_'+k+'"><span>&#x1F4C4;</span><span>'+FILES[k]+'</span></div>';
   }).join("");
 }
-
 function fst(k, s) {
   var el = g("fi_"+k); if (!el) return;
   el.className = "fitem " + s;
-  var icons = { act:"\u23F3", ok:"\u2705", no:"\u274C" };
-  el.querySelector("span").textContent = icons[s] || "";
+  el.querySelector("span").textContent = {act:"\u23F3",ok:"\u2705",no:"\u274C"}[s] || "";
 }
 
 async function loadAllFiles() {
   buildFUI();
-  var keys = Object.keys(FILES);
-  var loaded = 0;
-
+  var keys = Object.keys(FILES), loaded = 0;
   for (var i = 0; i < keys.length; i++) {
     var k = keys[i];
     fst(k, "act");
     g("pBar").style.width = Math.round((i/keys.length)*100) + "%";
     g("pLbl").textContent = "Fetching " + FILES[k] + "...";
-
     try {
       var r = await fetch(BASE + FILES[k]);
       if (!r.ok) throw new Error("HTTP " + r.status);
-      S[k] = await r.text();
-      fst(k, "ok");
-      loaded++;
+      S[k] = compress(await r.text());
+      fst(k, "ok"); loaded++;
     } catch(e) {
-      console.error("Failed to load " + k, e);
+      console.error(k, e);
       fst(k, "no");
-      S[k] = "[COULD NOT LOAD " + FILES[k] + ": " + e.message + "]";
+      S[k] = "[FILE NOT LOADED: " + FILES[k] + "]";
+    }
+  }
+  g("pBar").style.width = "100%";
+  g("pLbl").textContent = "Loaded " + loaded + "/" + keys.length + " files";
+  await new Promise(function(r){ setTimeout(r, 400); });
+  if (loaded === 0) throw new Error("Could not load any files from GitHub.");
+}
+
+/* ═══════════════════════════════════════════
+   SYSTEM PROMPT BUILDER
+   compress=true: trim templates/db for Groq's small context
+   compress=false: full context for Gemini
+═══════════════════════════════════════════ */
+function buildSystemPrompt(doCompress) {
+  var instructions = S.instructions;
+  var mapping      = S.mapping;
+  var templates    = S.templates;
+  var database     = S.database;
+
+  // For Groq: aggressively compress to fit 5500 token limit
+  if (doCompress) {
+    // Keep only first portion of templates (most important ones)
+    // and trim database to first portion
+    var maxTplChars = 2000;
+    var maxDbChars  = 800;
+    var maxMapChars = 500;
+    var maxInsChars = 800;
+
+    if (templates.length > maxTplChars) {
+      templates = templates.slice(0, maxTplChars)
+        + "\n\n... [Templates truncated for token limit. Ask user to switch to Gemini for full template access] ...";
+    }
+    if (database.length > maxDbChars) {
+      database = database.slice(0, maxDbChars)
+        + "\n... [Database truncated. Show this list and ask user for more details if needed] ...";
+    }
+    if (mapping.length > maxMapChars) {
+      mapping = mapping.slice(0, maxMapChars) + "\n...";
+    }
+    if (instructions.length > maxInsChars) {
+      instructions = instructions.slice(0, maxInsChars) + "\n...";
     }
   }
 
-  g("pBar").style.width = "100%";
-  g("pLbl").textContent = "Loaded " + loaded + "/" + keys.length + " files";
-  await new Promise(function(r) { setTimeout(r, 400); });
-
-  if (loaded === 0) throw new Error("Could not load any knowledge files from GitHub.");
-}
-
-/* ════════════════════════════════════════════════
-   BUILD SYSTEM PROMPT — sends FULL file contents
-════════════════════════════════════════════════ */
-function buildSystemPrompt() {
   return [
-    "You are GBHSSNaudero Social Media Manager AI. You create HTML social media posts for Government Boys Higher Secondary School Naudero.",
+    "You are the AI Social Media Manager for Government Boys Higher Secondary School Naudero (GBHSSNaudero).",
+    "You create professional HTML social media posts in both English and Sindhi.",
     "",
-    "═══════════════════════════════════════",
-    "YOUR INSTRUCTIONS (FOLLOW THESE EXACTLY):",
-    "═══════════════════════════════════════",
-    S.instructions,
+    "━━━ INSTRUCTIONS (follow exactly) ━━━",
+    instructions,
     "",
-    "═══════════════════════════════════════",
-    "WORD MAPPING (English → Sindhi translation):",
-    "═══════════════════════════════════════",
-    "When creating Sindhi posts, use these translations:",
-    S.mapping,
+    "━━━ SINDHI WORD MAPPING (English → Sindhi) ━━━",
+    "Use these translations when creating Sindhi posts:",
+    mapping,
     "",
-    "═══════════════════════════════════════",
-    "HTML TEMPLATES (use these exactly, replace only the dummy text):",
-    "═══════════════════════════════════════",
-    S.templates,
+    "━━━ HTML TEMPLATES (all 16 templates — use exact structure) ━━━",
+    templates,
     "",
-    "═══════════════════════════════════════",
-    "STAFF DATABASE (look up names here):",
-    "═══════════════════════════════════════",
-    S.database,
+    "━━━ STAFF DATABASE ━━━",
+    database,
     "",
-    "═══════════════════════════════════════",
-    "CRITICAL RULES:",
-    "═══════════════════════════════════════",
-    "1. ALWAYS follow the instructions above exactly.",
-    "2. When user asks for a template, pick the correct one from the 16 templates based on their criteria (language: Sindhi/English, type of post).",
-    "3. Replace ONLY the dummy/placeholder text in the template with user-provided information.",
-    "4. Keep ALL HTML structure, CSS styling, classes, and layout from the template EXACTLY as-is.",
-    "5. When user mentions a staff name, look it up in the database and use the correct full details.",
-    "6. Use the mapping.txt for English→Sindhi word translations when creating Sindhi posts.",
-    "7. Output the complete HTML code inside a code block marked as ```html ... ```",
-    "8. Never invent information — only use data from the database and user input.",
-    "9. If user asks something not related to post creation, answer based on the instructions and database above.",
-    "10. If you cannot find a name in the database, tell the user it was not found and ask them to provide details."
+    "━━━ ABSOLUTE RULES ━━━",
+    "1. Read instructions above and follow them exactly.",
+    "2. For each post request: pick the right template from the 16 templates based on language (Sindhi/English) and post type.",
+    "3. Copy the template HTML exactly — only replace placeholder/dummy text with the user's information.",
+    "4. Never change the CSS, layout, classes, or structure of the template.",
+    "5. For any staff name mentioned: look it up in the database first. Use the exact name, title, and designation from the database.",
+    "6. For Sindhi posts: use the mapping table for correct word translations.",
+    "7. Always wrap your HTML output in ```html\\n...\\n``` code fences.",
+    "8. After the HTML, briefly explain which template you used and why.",
+    "9. If a name is not in the database, say so clearly and ask the user for the correct details.",
+    "10. If something is unclear, ask the user before generating."
   ].join("\n");
 }
 
-/* ════════════════════════════════════════════════
-   START CHAT
-════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   START
+═══════════════════════════════════════════ */
 async function go() {
   var key = g("kInput").value.trim();
-  if (!key) { showSErr("Please enter your Groq API key."); return; }
+  if (!key) { showSErr("Please enter your API key."); return; }
   hideSErr();
   S.key = key;
   S.mdl = g("mSel").value;
-  sessionStorage.setItem("groq_key", key);
+  sessionStorage.setItem("k_" + S.provider, key);
 
-  g("goBtn").disabled = true;
-  g("goBtn").textContent = "Loading...";
+  var btn = g("goBtn");
+  btn.disabled = true; btn.textContent = "Loading...";
   g("setup").style.display = "none";
   g("initOv").classList.add("on");
 
@@ -462,31 +589,21 @@ async function go() {
     setTimeout(function() { g("initOv").classList.remove("on","fade"); }, 400);
 
     g("app").classList.add("on");
-    g("pName").textContent = "Groq | " + S.mdl;
-    g("mLbl").textContent  = "Groq | " + S.mdl;
-
-    // Show file sizes in subtitle
-    var sizes = [
-      "Instructions:" + Math.round(S.instructions.length/1024) + "KB",
-      "Templates:" + Math.round(S.templates.length/1024) + "KB",
-      "Mapping:" + Math.round(S.mapping.length/1024) + "KB",
-      "Database:" + Math.round(S.database.length/1024) + "KB"
-    ];
-    g("hSub").textContent = sizes.join(" | ");
-
-    S.ready = true;
-    S.history = []; // Reset conversation
+    g("pName").textContent = PROVIDERS[S.provider].name + " | " + S.mdl;
+    g("mLbl").textContent  = PROVIDERS[S.provider].name + " | " + S.mdl;
+    g("hSub").textContent  = "Inst:" + Math.round(S.instructions.length/1024) + "KB "
+                           + "Tpl:" + Math.round(S.templates.length/1024) + "KB "
+                           + "Map:" + Math.round(S.mapping.length/1024) + "KB "
+                           + "DB:" + Math.round(S.database.length/1024) + "KB";
+    S.ready = true; S.history = [];
     renderWel();
     g("uInp").placeholder = "Tell me what post to create...";
-    g("uInp").disabled = false;
-    g("sndBtn").disabled = false;
+    g("uInp").disabled = false; g("sndBtn").disabled = false;
     g("uInp").focus();
   } catch(e) {
-    console.error(e);
     g("initOv").classList.remove("on","fade");
     g("setup").style.display = "flex";
-    g("goBtn").disabled = false;
-    g("goBtn").textContent = "\u{1F680} Start Chat";
+    btn.disabled = false; btn.textContent = "\u{1F680} Start Chat";
     showSErr(e.message || String(e));
   }
 }
@@ -495,14 +612,88 @@ function switchP() {
   S.ready=false; S.busy=false; hideErr();
   g("app").classList.remove("on");
   g("setup").style.display = "flex";
-  g("goBtn").disabled = false;
-  g("goBtn").textContent = "\u{1F680} Start Chat";
+  g("goBtn").disabled = false; g("goBtn").textContent = "\u{1F680} Start Chat";
+  pickP(S.provider);
 }
 
-/* ════════════════════════════════════════════════
-   GROQ API CALL
-════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   AI CALLS
+═══════════════════════════════════════════ */
+
+/* ── Gemini (primary — 1M context, best Sindhi) ── */
+async function callGemini(messages) {
+  var sysParts = messages.filter(function(m){ return m.role==="system"; });
+  var chatParts = messages.filter(function(m){ return m.role!=="system"; });
+
+  var sysText = sysParts.map(function(m){ return m.content; }).join("\n\n");
+
+  // Convert chat history to Gemini format
+  var contents = chatParts.map(function(m) {
+    return {
+      role: m.role === "assistant" ? "model" : "user",
+      parts: [{ text: m.content }]
+    };
+  });
+
+  var url = "https://generativelanguage.googleapis.com/v1beta/models/"
+          + S.mdl + ":generateContent?key=" + S.key;
+
+  var body = {
+    system_instruction: { parts: [{ text: sysText }] },
+    contents: contents,
+    generationConfig: {
+      temperature: 0.2,
+      maxOutputTokens: 8192,
+      candidateCount: 1
+    }
+  };
+
+  var r = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  });
+
+  var txt = await r.text();
+  if (!r.ok) {
+    var msg = txt;
+    try {
+      var j = JSON.parse(txt);
+      msg = (j.error && j.error.message) ? j.error.message : txt;
+      // Specific fix hints
+      if (r.status === 404) msg += "\n\n[FIX] Model ID not valid. Try: gemini-2.0-flash-lite or gemini-1.5-flash-latest";
+      if (r.status === 429) msg += "\n\n[FIX] Rate limit hit. Wait 30 seconds or switch to Groq temporarily.";
+    } catch(e) {}
+    throw new Error("Gemini " + r.status + "\n" + msg);
+  }
+
+  var j = JSON.parse(txt);
+  try {
+    return j.candidates[0].content.parts[0].text;
+  } catch(e) {
+    var reason = j.candidates && j.candidates[0] && j.candidates[0].finishReason;
+    if (reason && reason !== "STOP") throw new Error("Gemini blocked: " + reason);
+    throw new Error("Gemini: unexpected format\n" + JSON.stringify(j).slice(0,300));
+  }
+}
+
+/* ── Groq (fallback — auto-compresses to fit 6K token limit) ── */
 async function callGroq(messages) {
+  // Check if we need compression
+  var fullSys = messages.find(function(m){ return m.role==="system"; });
+  var tokEst = fullSys ? estTokens(fullSys.content) : 0;
+  var needsCompress = tokEst > PROVIDERS.groq.tokenLimit;
+
+  if (needsCompress) {
+    // Rebuild messages with compressed system prompt
+    var compressed = buildSystemPrompt(true);
+    messages = messages.map(function(m) {
+      if (m.role === "system") return { role: "system", content: compressed };
+      return m;
+    });
+    console.log("Groq: compressed system prompt from ~" + tokEst + " to ~" + estTokens(compressed) + " tokens");
+  }
+
   var r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -512,7 +703,7 @@ async function callGroq(messages) {
     body: JSON.stringify({
       model: S.mdl,
       temperature: 0.2,
-      max_tokens: 8000,
+      max_tokens: 4096,
       messages: messages
     })
   });
@@ -520,36 +711,60 @@ async function callGroq(messages) {
   var txt = await r.text();
   if (!r.ok) {
     var msg = txt;
-    try { var j = JSON.parse(txt); msg = j.error && j.error.message ? j.error.message : txt; } catch(e) {}
+    try {
+      var j = JSON.parse(txt);
+      msg = (j.error && j.error.message) ? j.error.message : txt;
+      if (r.status === 413) msg += "\n\n[FIX] Still too large after compression. Switch to Gemini which has a 1M token context window.";
+    } catch(e) {}
     throw new Error("Groq " + r.status + "\n" + msg);
   }
 
   var j = JSON.parse(txt);
   try { return j.choices[0].message.content; }
-  catch(e) { throw new Error("Unexpected Groq response:\n" + JSON.stringify(j).slice(0,300)); }
+  catch(e) { throw new Error("Groq: unexpected response\n" + JSON.stringify(j).slice(0,300)); }
 }
 
-/* ════════════════════════════════════════════════
-   MARKDOWN RENDERING with HTML code extraction
-════════════════════════════════════════════════ */
-function escHtml(t) { return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+/* ═══════════════════════════════════════════
+   EXTRACT HTML FROM RESPONSE
+═══════════════════════════════════════════ */
+function extractHtml(text) {
+  // Try ```html ... ``` first
+  var m = text.match(/```html\s*\n([\s\S]*?)```/i);
+  if (m) return m[1].trim();
+  // Try ``` ... ``` (unlabeled)
+  m = text.match(/```\s*\n([\s\S]*?)```/);
+  if (m && m[1].includes("<html") || (m && m[1].includes("<!DOCTYPE"))) return m[1].trim();
+  // Try raw HTML block
+  m = text.match(/(<!DOCTYPE[\s\S]*?<\/html>)/i);
+  if (m) return m[1].trim();
+  return null;
+}
 
-function renderMd(t) {
-  var h = escHtml(t);
-  // Handle ```html blocks specially — add copy button
-  h = h.replace(/```html\n?([\s\S]*?)```/g, function(_, code) {
-    var id = "code_" + (++S.n);
+/* ═══════════════════════════════════════════
+   MARKDOWN RENDERER
+═══════════════════════════════════════════ */
+var codeBlockN = 0;
+function renderMd(rawText) {
+  var h = esc(rawText);
+
+  // ```html blocks — add copy button
+  h = h.replace(/```html\s*\n([\s\S]*?)```/gi, function(_, code) {
+    var id = "cb" + (++codeBlockN);
     return '<div style="position:relative">'
-      + '<button class="copy-html-btn" onclick="copyHtmlBlock(\'' + id + '\',this)">&#x1F4CB; Copy HTML</button>'
-      + '<pre id="' + id + '"><code>' + code.trim() + '</code></pre>'
-      + '</div>';
+         + '<button class="copy-code-btn" id="btn_'+id+'" onclick="cpCode(\''+id+'\',this)">&#x1F4CB; Copy HTML</button>'
+         + '<pre id="'+id+'"><code>' + code.trim() + '</code></pre>'
+         + '</div>';
   });
-  // Other code blocks
-  h = h.replace(/```[\w]*\n?([\s\S]*?)```/g, function(_,c) { return "<pre><code>"+c.trim()+"</code></pre>"; });
+
+  // other code blocks
+  h = h.replace(/```[\w]*\s*\n?([\s\S]*?)```/g, function(_,c) {
+    return '<pre><code>' + c.trim() + '</code></pre>';
+  });
+
   h = h.replace(/`([^`]+)`/g, "<code>$1</code>");
   h = h.replace(/^### (.+)$/gm, "<h3>$1</h3>");
-  h = h.replace(/^## (.+)$/gm, "<h2>$1</h2>");
-  h = h.replace(/^# (.+)$/gm, "<h1>$1</h1>");
+  h = h.replace(/^## (.+)$/gm,  "<h2>$1</h2>");
+  h = h.replace(/^# (.+)$/gm,   "<h1>$1</h1>");
   h = h.replace(/\*\*\*(.+?)\*\*\*/g, "<strong><em>$1</em></strong>");
   h = h.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   h = h.replace(/\*(.+?)\*/g, "<em>$1</em>");
@@ -557,233 +772,194 @@ function renderMd(t) {
   h = h.replace(/^\s*[-*] (.+)$/gm, "<li>$1</li>");
   h = h.replace(/^\d+\. (.+)$/gm, "<li>$1</li>");
   h = h.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
-  var parts = h.split(/(<pre[\s\S]*?<\/pre>|<div[\s\S]*?<\/pre><\/div>)/g);
+  var parts = h.split(/(<(?:div|pre)[\s\S]*?<\/(?:div|pre)>)/g);
   h = parts.map(function(x,i) { return i%2===0 ? x.replace(/\n/g,"<br>") : x; }).join("");
   return h;
 }
 
-/* Extract raw HTML code from AI response (unescaped) */
-function extractHtmlFromResponse(responseText) {
-  var match = responseText.match(/```html\n?([\s\S]*?)```/);
-  if (match) return match[1].trim();
-  return null;
-}
-
-/* ════════════════════════════════════════════════
-   COPY & PREVIEW FUNCTIONS
-════════════════════════════════════════════════ */
-// Copy from rendered code block by ID
-function copyHtmlBlock(id, btn) {
-  var el = g(id);
-  if (!el) return;
-  // Decode HTML entities back to real HTML
-  var code = el.textContent || el.innerText;
-  navigator.clipboard.writeText(code).then(function() {
-    btn.textContent = "\u2705 Copied!";
-    btn.classList.add("copied");
-    setTimeout(function() {
-      btn.innerHTML = "&#x1F4CB; Copy HTML";
-      btn.classList.remove("copied");
-    }, 2000);
+/* ═══════════════════════════════════════════
+   COPY & PREVIEW
+═══════════════════════════════════════════ */
+function cpCode(id, btn) {
+  var el = g(id); if (!el) return;
+  navigator.clipboard.writeText(el.textContent).then(function() {
+    btn.innerHTML = "\u2705 Copied!"; btn.classList.add("ok");
+    setTimeout(function() { btn.innerHTML="&#x1F4CB; Copy HTML"; btn.classList.remove("ok"); }, 2000);
   }).catch(function() {
-    // Fallback: select text
-    var r = document.createRange();
-    r.selectNodeContents(el);
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(r);
+    var r = document.createRange(); r.selectNodeContents(el);
+    window.getSelection().removeAllRanges(); window.getSelection().addRange(r);
   });
 }
-// Make this available globally
-window.copyHtmlBlock = copyHtmlBlock;
+window.cpCode = cpCode;
 
-// Copy full HTML from last response stored on the button
-function copyFullHtml(btn, html) {
+function cpHtml(btn, html) {
   navigator.clipboard.writeText(html).then(function() {
-    btn.textContent = "\u2705 Copied!";
-    btn.classList.add("copied");
-    setTimeout(function() {
-      btn.innerHTML = "&#x1F4CB; Copy Full HTML";
-      btn.classList.remove("copied");
-    }, 2000);
+    btn.innerHTML = "\u2705 Copied!"; btn.classList.add("ok");
+    setTimeout(function() { btn.innerHTML="&#x1F4CB; Copy Full HTML"; btn.classList.remove("ok"); }, 2000);
   }).catch(function() {});
 }
 
-// Preview HTML in iframe modal
 function previewHtml(html) {
-  g("previewModal").classList.add("on");
-  var iframe = g("prevIframe");
-  iframe.srcdoc = html;
+  g("prevModal").classList.add("on");
+  var f = g("prevFrame"); f.srcdoc = ""; f.srcdoc = html;
 }
-function closePreview() {
-  g("previewModal").classList.remove("on");
-  g("prevIframe").srcdoc = "";
-}
+function closePreview() { g("prevModal").classList.remove("on"); g("prevFrame").srcdoc=""; }
 window.closePreview = closePreview;
 
-/* ════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    CHAT UI
-════════════════════════════════════════════════ */
+═══════════════════════════════════════════ */
 function renderWel() {
-  g("msgs").innerHTML =
-    '<div class="wel"><span class="wico">&#x1F4AC;</span>'
+  g("msgs").innerHTML = '<div class="wel">'
+    + '<span class="wico">&#x1F4AC;</span>'
     + '<h3>Ready to Create Posts!</h3>'
-    + '<p>All knowledge files loaded. Tell me what social media post to create, '
-    + 'and I\'ll use the correct template, mapping, and database.</p>'
+    + '<p>All files loaded. Tell me what social media post to create — specify template type, language (English/Sindhi), and any relevant staff names or event details.</p>'
     + '<div class="sugs">'
-    + '<button class="sug" onclick="quickQ(this)">Create English appreciation post</button>'
-    + '<button class="sug" onclick="quickQ(this)">Create Sindhi announcement post</button>'
-    + '<button class="sug" onclick="quickQ(this)">Show all available templates</button>'
-    + '<button class="sug" onclick="quickQ(this)">List staff from database</button>'
-    + '<button class="sug" onclick="quickQ(this)">What are the posting instructions?</button>'
+    + '<button class="sug" onclick="qi(this)">Create Sindhi appreciation post for a teacher</button>'
+    + '<button class="sug" onclick="qi(this)">Create English event announcement post</button>'
+    + '<button class="sug" onclick="qi(this)">Show all 16 available templates</button>'
+    + '<button class="sug" onclick="qi(this)">List all staff from the database</button>'
+    + '<button class="sug" onclick="qi(this)">What are the posting instructions?</button>'
+    + '<button class="sug" onclick="qi(this)">Create a Sindhi result announcement post</button>'
     + '</div>'
     + '<div class="kb-stats">'
-    + '<span class="kb-stat">Instructions: ' + Math.round(S.instructions.length/1024) + 'KB</span>'
-    + '<span class="kb-stat">Templates: ' + Math.round(S.templates.length/1024) + 'KB</span>'
-    + '<span class="kb-stat">Mapping: ' + Math.round(S.mapping.length/1024) + 'KB</span>'
-    + '<span class="kb-stat">Database: ' + Math.round(S.database.length/1024) + 'KB</span>'
+    + '<span class="kb-stat">&#x1F4CB; Inst: ' + Math.round(S.instructions.length/1024*10)/10 + 'KB</span>'
+    + '<span class="kb-stat">&#x1F5C2; Templates: ' + Math.round(S.templates.length/1024*10)/10 + 'KB</span>'
+    + '<span class="kb-stat">&#x1F5FA; Mapping: ' + Math.round(S.mapping.length/1024*10)/10 + 'KB</span>'
+    + '<span class="kb-stat">&#x1F465; Database: ' + Math.round(S.database.length/1024*10)/10 + 'KB</span>'
     + '</div></div>';
 }
 
-function quickQ(btn) {
-  g("uInp").value = btn.textContent;
-  send();
-}
-window.quickQ = quickQ;
+function qi(btn) { g("uInp").value = btn.textContent; send(); }
+window.qi = qi;
 
 function addU(text) {
   var row = document.createElement("div"); row.className = "mrow u";
-  row.innerHTML = '<div class="bw"><div class="bbl u">' + escHtml(text) + '</div><div class="bmeta">'+ now() +'</div></div>'
-    + '<div class="av u">&#x1F9D1;</div>';
+  row.innerHTML = '<div class="bw"><div class="bbl u">' + esc(text) + '</div>'
+    + '<div class="bmeta">' + now() + '</div></div><div class="av u">&#x1F9D1;</div>';
   g("msgs").appendChild(row); sb();
 }
 
 function addBot() {
   S.n++;
-  var bid = "b" + S.n, mid = "m" + S.n;
+  var bid="b"+S.n, mid="m"+S.n, bwid="bw"+S.n;
   var row = document.createElement("div"); row.className = "mrow";
   row.innerHTML = '<div class="av b">&#x1F916;</div>'
-    + '<div class="bw" id="bw'+S.n+'"><div class="bbl b" id="'+bid+'">'
+    + '<div class="bw" id="'+bwid+'"><div class="bbl b" id="'+bid+'">'
     + '<div class="dots"><span></span><span></span><span></span></div>'
     + '</div><div class="bmeta" id="'+mid+'"></div></div>';
   g("msgs").appendChild(row); sb();
 
-  var bel = g(bid), mel = g(mid), bwEl = g("bw"+S.n), raw = "";
+  var bel=g(bid), mel=g(mid), bwel=g(bwid), raw="";
 
   function type(full, done) {
-    bel.innerHTML = ""; bel.classList.add("cur");
-    var i = 0;
-    (function step() {
-      var e = Math.min(i + 8, full.length);
-      raw = full.slice(0, e);
-      bel.innerHTML = renderMd(raw); sb(); i = e;
-      if (i < full.length) setTimeout(step, 6);
+    bel.innerHTML=""; bel.classList.add("cur");
+    var i=0;
+    (function step(){
+      var e=Math.min(i+10, full.length);
+      raw=full.slice(0,e);
+      bel.innerHTML=renderMd(raw); sb(); i=e;
+      if(i<full.length) setTimeout(step,5);
       else { bel.classList.remove("cur"); done(); }
     })();
   }
 
   function setErr() {
-    bel.innerHTML = '<em style="color:var(--err)">Error &#8212; see details below.</em>';
+    bel.innerHTML='<em style="color:var(--err)">Error &#8212; see details in the bar below.</em>';
     bel.classList.remove("cur");
   }
 
   function close(fullText) {
     mel.textContent = now();
-    // If response contains HTML code, add copy-all and preview buttons
     if (fullText) {
-      var html = extractHtmlFromResponse(fullText);
+      var html = extractHtml(fullText);
       if (html) {
         var bar = document.createElement("div");
-        bar.className = "html-copy-bar";
+        bar.className = "html-bar";
 
         var cpBtn = document.createElement("button");
-        cpBtn.className = "copy-all-btn";
+        cpBtn.className = "btn-copy-all";
         cpBtn.innerHTML = "&#x1F4CB; Copy Full HTML";
-        cpBtn.onclick = function() { copyFullHtml(cpBtn, html); };
+        var capturedHtml = html;
+        cpBtn.onclick = function() { cpHtml(cpBtn, capturedHtml); };
 
         var pvBtn = document.createElement("button");
-        pvBtn.className = "preview-btn";
-        pvBtn.innerHTML = "&#x1F441; Preview";
-        pvBtn.onclick = function() { previewHtml(html); };
+        pvBtn.className = "btn-preview";
+        pvBtn.innerHTML = "&#x1F441; Preview in browser";
+        pvBtn.onclick = function() { previewHtml(capturedHtml); };
 
         bar.appendChild(cpBtn);
         bar.appendChild(pvBtn);
-        bwEl.appendChild(bar);
+        bwel.appendChild(bar);
       }
     }
-    sb();
-    return raw;
+    sb(); return raw;
   }
 
   return { type:type, setErr:setErr, close:close };
 }
 
-/* ════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    SEND
-════════════════════════════════════════════════ */
+═══════════════════════════════════════════ */
 async function send() {
   if (!S.ready || S.busy) return;
-  var txt = g("uInp").value.trim();
-  if (!txt) return;
+  var txt = g("uInp").value.trim(); if (!txt) return;
 
   hideErr();
-  g("uInp").value = ""; ar(g("uInp"));
+  g("uInp").value=""; ar(g("uInp"));
   var wc = g("msgs").querySelector(".wel"); if (wc) wc.remove();
-  S.busy = true; g("sndBtn").disabled = true; g("uInp").disabled = true;
+  S.busy=true; g("sndBtn").disabled=true; g("uInp").disabled=true;
 
   addU(txt);
   var ph = addBot();
 
-  // Build messages array
-  // System prompt has ALL knowledge files
-  var messages = [
-    { role: "system", content: buildSystemPrompt() }
-  ];
+  // Decide compression based on provider
+  var needCompress = S.provider === "groq";
+  var sysPr = buildSystemPrompt(needCompress);
 
-  // Add conversation history (last 6 turns max to stay within token limits)
-  var histSlice = S.history.slice(-6);
-  for (var i = 0; i < histSlice.length; i++) {
-    messages.push(histSlice[i]);
-  }
+  var messages = [{ role:"system", content:sysPr }];
 
-  // Add current user message
-  messages.push({ role: "user", content: txt });
+  // Add last 4 turns of history (keep context manageable)
+  var hist = S.history.slice(-4);
+  for (var i=0; i<hist.length; i++) messages.push(hist[i]);
+  messages.push({ role:"user", content:txt });
 
   try {
-    var answer = await callGroq(messages);
+    var callFn = PROVIDERS[S.provider].call;
+    var answer = await callFn(messages);
 
     await new Promise(function(res) { ph.type(answer, res); });
     ph.close(answer);
 
-    // Save to history
-    S.history.push({ role: "user", content: txt });
-    S.history.push({ role: "assistant", content: answer });
-    // Keep history manageable
-    if (S.history.length > 12) S.history.splice(0, 2);
+    S.history.push({role:"user",content:txt},{role:"assistant",content:answer});
+    if (S.history.length > 8) S.history.splice(0, 2);
 
   } catch(err) {
     console.error(err);
     ph.setErr(); ph.close(null);
     showErr([
-      "Model : " + S.mdl,
-      "Time  : " + new Date().toISOString(),
+      "Provider : " + PROVIDERS[S.provider].name,
+      "Model    : " + S.mdl,
+      "Time     : " + new Date().toISOString(),
       "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
       err.message || String(err)
     ].join("\n"));
   }
 
-  S.busy = false; g("sndBtn").disabled = false; g("uInp").disabled = false; g("uInp").focus();
+  S.busy=false; g("sndBtn").disabled=false; g("uInp").disabled=false; g("uInp").focus();
 }
 
 function clrChat() {
   if (!confirm("Clear conversation?")) return;
-  S.history = []; hideErr(); renderWel();
+  S.history=[]; hideErr(); renderWel();
 }
 
-/* ════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    EVENTS
-════════════════════════════════════════════════ */
+═══════════════════════════════════════════ */
 g("uInp").addEventListener("keydown", function(e) {
-  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
+  if (e.key==="Enter" && !e.shiftKey) { e.preventDefault(); send(); }
 });
 g("uInp").addEventListener("input", function() { ar(g("uInp")); });
 g("sndBtn").addEventListener("click", send);
