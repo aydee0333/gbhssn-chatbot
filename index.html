@@ -6,7 +6,6 @@
   <title>GBHSSNaudero AI Assistant</title>
   <script src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js"></script>
   <style>
-    /* ── Reset & Variables ─────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -39,7 +38,6 @@
 
     html, body { height: 100%; font-family: var(--font); background: var(--bg); color: var(--text); overflow: hidden; }
 
-    /* ── Animated Background ───────────────────────────────────────── */
     body::before {
       content: '';
       position: fixed; inset: 0;
@@ -50,9 +48,7 @@
       pointer-events: none; z-index: 0;
     }
 
-    /* ════════════════════════════════════════════════════════════════
-       SETUP SCREEN
-    ════════════════════════════════════════════════════════════════ */
+    /* ══════ SETUP SCREEN ══════ */
     #setup-screen {
       position: fixed; inset: 0;
       display: flex; align-items: center; justify-content: center;
@@ -65,10 +61,9 @@
       background: var(--surface);
       border: 1px solid var(--border2);
       border-radius: 24px;
-      padding: 0;
-      box-shadow: var(--shadow), 0 0 80px rgba(59,130,246,0.08);
       overflow: hidden;
       position: relative; z-index: 1;
+      box-shadow: var(--shadow), 0 0 80px rgba(59,130,246,0.08);
     }
 
     .setup-header {
@@ -87,16 +82,20 @@
       box-shadow: 0 0 32px rgba(59,130,246,0.35);
     }
 
-    .setup-header h1 { font-size: 24px; font-weight: 800; margin-bottom: 6px;
-      background: linear-gradient(135deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .setup-header h1 {
+      font-size: 24px; font-weight: 800; margin-bottom: 6px;
+      background: linear-gradient(135deg, #fff, #94a3b8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
 
     .setup-header p { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
 
     .setup-body { padding: 32px 40px 36px; }
 
-    /* Provider Cards */
-    .provider-label { font-size: 13px; font-weight: 700; color: var(--text-dim);
-      text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 14px; }
+    .provider-label {
+      font-size: 13px; font-weight: 700; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 14px;
+    }
 
     .provider-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
 
@@ -125,8 +124,8 @@
     }
     .provider-card.selected::before { opacity: 1; }
 
-    .provider-card[data-id="google"]   { --p-color1: rgba(234,67,53,0.04);  --p-color2: rgba(251,188,4,0.04);  --p-accent: #ea4335; --p-glow: rgba(234,67,53,0.15); }
-    .provider-card[data-id="github"]   { --p-color1: rgba(255,255,255,0.03);--p-color2: rgba(255,255,255,0.01);--p-accent: #e2e8f0; --p-glow: rgba(255,255,255,0.08); }
+    .provider-card[data-id="google"]    { --p-color1: rgba(234,67,53,0.04);  --p-color2: rgba(251,188,4,0.04);  --p-accent: #ea4335; --p-glow: rgba(234,67,53,0.15); }
+    .provider-card[data-id="github"]    { --p-color1: rgba(255,255,255,0.03);--p-color2: rgba(255,255,255,0.01);--p-accent: #e2e8f0; --p-glow: rgba(255,255,255,0.08); }
     .provider-card[data-id="openrouter"]{ --p-color1: rgba(99,102,241,0.06); --p-color2: rgba(139,92,246,0.06); --p-accent: #6366f1; --p-glow: rgba(99,102,241,0.2); }
 
     .provider-icon {
@@ -145,7 +144,7 @@
       font-size: 10px; font-weight: 700; padding: 3px 8px;
       border-radius: 99px; background: rgba(16,185,129,0.15);
       border: 1px solid rgba(16,185,129,0.3); color: var(--success);
-      position: relative; z-index: 1;
+      position: relative; z-index: 1; white-space: nowrap;
     }
 
     .provider-radio {
@@ -164,10 +163,8 @@
       content: ''; width: 6px; height: 6px; border-radius: 50%; background: white;
     }
 
-    /* Key Input Section */
     .key-section { margin-bottom: 24px; }
-    .key-section label { display: block; font-size: 13px; font-weight: 600;
-      color: var(--text-dim); margin-bottom: 8px; }
+    .key-section label { display: block; font-size: 13px; font-weight: 600; color: var(--text-dim); margin-bottom: 8px; }
 
     .key-input-wrap {
       display: flex; gap: 8px;
@@ -188,14 +185,12 @@
       background: var(--surface3); border: 1px solid var(--border);
       border-radius: var(--radius-xs); color: var(--text-muted);
       padding: 6px 10px; cursor: pointer; font-size: 14px;
-      transition: all 0.2s;
+      transition: all 0.2s; font-family: var(--font);
     }
     #toggle-key-vis:hover { color: var(--text); border-color: var(--border2); }
 
-    /* Model selector */
     .model-section { margin-bottom: 28px; }
-    .model-section label { display: block; font-size: 13px; font-weight: 600;
-      color: var(--text-dim); margin-bottom: 8px; }
+    .model-section label { display: block; font-size: 13px; font-weight: 600; color: var(--text-dim); margin-bottom: 8px; }
 
     #model-select {
       width: 100%; background: var(--surface2); border: 1px solid var(--border2);
@@ -204,8 +199,8 @@
       transition: border-color 0.2s;
     }
     #model-select:focus { border-color: var(--accent); }
+    #model-select option { background: var(--surface2); color: var(--text); }
 
-    /* Info box */
     .info-box {
       display: flex; gap: 10px; align-items: flex-start;
       background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.2);
@@ -216,7 +211,6 @@
     .info-box a { color: var(--accent); text-decoration: none; }
     .info-box a:hover { text-decoration: underline; }
 
-    /* Start Button */
     #start-btn {
       width: 100%; padding: 15px;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
@@ -225,25 +219,21 @@
       cursor: pointer; transition: all 0.2s; letter-spacing: 0.3px;
       box-shadow: 0 4px 20px rgba(59,130,246,0.35);
     }
-    #start-btn:hover { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 6px 28px rgba(59,130,246,0.45); }
+    #start-btn:hover { opacity: 0.92; transform: translateY(-1px); }
     #start-btn:active { transform: translateY(0); }
     #start-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-    .setup-footer { text-align: center; margin-top: 18px;
-      font-size: 12px; color: var(--text-muted); }
-    .setup-footer span { color: var(--success); }
+    .setup-footer { text-align: center; margin-top: 18px; font-size: 12px; color: var(--text-muted); }
 
-    /* ════════════════════════════════════════════════════════════════
-       INIT OVERLAY
-    ════════════════════════════════════════════════════════════════ */
+    /* ══════ INIT OVERLAY ══════ */
     #init-overlay {
       position: fixed; inset: 0;
-      background: rgba(7,11,20,0.93);
-      backdrop-filter: blur(8px);
-      display: flex; align-items: center; justify-content: center;
+      background: rgba(7,11,20,0.93); backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center;
       z-index: 150; transition: opacity 0.5s;
     }
-    #init-overlay.hidden { opacity: 0; pointer-events: none; }
+    #init-overlay.visible { display: flex; }
+    #init-overlay.fading { opacity: 0; }
 
     .init-card {
       background: var(--surface); border: 1px solid var(--border2);
@@ -266,7 +256,7 @@
     }
 
     .init-card h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
-    .init-card p  { font-size: 14px; color: var(--text-muted); margin-bottom: 28px; line-height: 1.6; }
+    .init-card > p { font-size: 14px; color: var(--text-muted); margin-bottom: 28px; line-height: 1.6; }
 
     .progress-track { background: var(--surface2); border-radius: 99px; height: 6px; overflow: hidden; margin-bottom: 10px; }
     #progress-bar { height: 100%; width: 0%; border-radius: 99px;
@@ -286,22 +276,18 @@
     .file-item.fail   { color: var(--error);   border-color: rgba(239,68,68,0.3);  background: rgba(239,68,68,0.05); }
     .file-icon { font-size: 14px; }
 
-    /* ════════════════════════════════════════════════════════════════
-       CHAT APP
-    ════════════════════════════════════════════════════════════════ */
+    /* ══════ CHAT APP ══════ */
     #app {
       display: none; flex-direction: column; height: 100vh;
       max-width: 960px; margin: 0 auto; position: relative; z-index: 1;
     }
     #app.visible { display: flex; }
 
-    /* Header */
     #header {
       display: flex; align-items: center; gap: 14px;
       padding: 14px 24px;
       background: rgba(14,20,32,0.85); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border); flex-shrink: 0;
-      box-shadow: var(--shadow-sm);
     }
 
     .hdr-logo {
@@ -334,7 +320,6 @@
     }
     #switch-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* Messages */
     #messages {
       flex: 1; overflow-y: auto; padding: 28px 22px;
       display: flex; flex-direction: column; gap: 20px;
@@ -342,7 +327,6 @@
     #messages::-webkit-scrollbar { width: 4px; }
     #messages::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
 
-    /* Bubbles */
     .msg-row { display: flex; gap: 12px; animation: fadeUp 0.3s ease; }
     .msg-row.user { flex-direction: row-reverse; }
 
@@ -369,7 +353,6 @@
     .bubble.bot  { background: var(--surface); border: 1px solid var(--border2); border-bottom-left-radius: 4px; }
     .bubble.user { background: var(--user-bg); border: 1px solid rgba(59,130,246,0.3); border-bottom-right-radius: 4px; color: #cce0ff; }
 
-    /* Markdown */
     .bubble strong { font-weight: 700; color: #93c5fd; }
     .bubble em     { font-style: italic; color: #c4b5fd; }
     .bubble code   { background: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 4px;
@@ -384,30 +367,28 @@
     .bubble li     { margin: 3px 0; }
     .bubble hr     { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
     .bubble a      { color: var(--accent); text-decoration: underline; }
-    .bubble table  { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 13px; }
-    .bubble th     { background: var(--surface2); padding: 7px 12px; border: 1px solid var(--border2); color: #93c5fd; }
-    .bubble td     { padding: 6px 12px; border: 1px solid var(--border); }
 
     .bubble-meta { font-size: 11px; color: var(--text-muted); padding: 0 4px; }
 
-    .cursor::after { content: '▋'; animation: blink 0.7s step-end infinite; color: var(--accent); margin-left: 2px; }
+    .cursor::after { content: '\u258B'; animation: blink 0.7s step-end infinite; color: var(--accent); margin-left: 2px; }
     @keyframes blink { 50% { opacity: 0; } }
 
-    /* Sources */
     .sources-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
     .source-tag   { font-size: 11px; padding: 2px 9px; border-radius: 99px;
                     background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25); color: var(--accent); }
 
-    /* Welcome */
     .welcome-card {
       text-align: center; padding: 48px 24px;
       background: var(--surface); border: 1px solid var(--border2);
       border-radius: 22px; margin: auto 0;
     }
     .w-icon { font-size: 56px; margin-bottom: 16px; display: block; }
-    .welcome-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 8px;
-      background: linear-gradient(135deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .welcome-card p  { font-size: 14px; color: var(--text-muted); line-height: 1.65; max-width: 440px; margin: 0 auto; }
+    .welcome-card h3 {
+      font-size: 22px; font-weight: 800; margin-bottom: 8px;
+      background: linear-gradient(135deg, #fff, #94a3b8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .welcome-card p { font-size: 14px; color: var(--text-muted); line-height: 1.65; max-width: 440px; margin: 0 auto; }
 
     .suggestions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 22px; }
     .suggest-btn {
@@ -417,7 +398,6 @@
     }
     .suggest-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,0.08); }
 
-    /* Input bar */
     #input-area {
       padding: 16px 22px 20px;
       background: rgba(14,20,32,0.9); backdrop-filter: blur(12px);
@@ -428,7 +408,7 @@
       display: flex; gap: 10px; align-items: flex-end;
       background: var(--surface2); border: 1px solid var(--border2);
       border-radius: var(--radius); padding: 10px 12px;
-      transition: border-color 0.2s; box-shadow: var(--shadow-sm);
+      transition: border-color 0.2s;
     }
     .input-form:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
 
@@ -453,28 +433,79 @@
       margin-top: 8px; padding: 0 2px; }
     .input-footer span { font-size: 11px; color: var(--text-muted); }
 
-    #clear-btn { font-size: 11px; color: var(--text-muted); background: none; border: none;
-      cursor: pointer; font-family: var(--font); padding: 2px 6px; border-radius: 4px; transition: color 0.2s; }
+    #clear-btn {
+      font-size: 11px; color: var(--text-muted); background: none; border: none;
+      cursor: pointer; font-family: var(--font); padding: 2px 6px; border-radius: 4px;
+      transition: color 0.2s;
+    }
     #clear-btn:hover { color: var(--error); }
 
-    /* Thinking */
     .thinking-dots { display: flex; gap: 5px; padding: 4px 0; }
     .thinking-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted); animation: bounce 1.2s infinite; }
     .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
     .thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
     @keyframes bounce { 0%,80%,100%{transform:scale(0.65);opacity:0.4} 40%{transform:scale(1);opacity:1} }
 
-    /* Error toast */
-    #error-toast {
-      position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px);
-      background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4);
-      color: #fca5a5; padding: 10px 20px; border-radius: 99px;
-      font-size: 13px; z-index: 999; opacity: 0; transition: all 0.3s;
-      pointer-events: none; white-space: nowrap;
+    /* ══════ ERROR FOOTER BAR ══════ */
+    #error-bar {
+      display: none;
+      background: rgba(239,68,68,0.1);
+      border-top: 1px solid rgba(239,68,68,0.3);
+      padding: 10px 16px;
+      flex-shrink: 0;
+      font-size: 12px;
+      color: #fca5a5;
+      line-height: 1.5;
     }
-    #error-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* Responsive */
+    #error-bar.visible { display: block; }
+
+    .error-bar-top {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .error-bar-top strong {
+      color: var(--error);
+      font-size: 12px;
+    }
+
+    .error-bar-actions {
+      display: flex; gap: 8px;
+    }
+
+    .error-bar-actions button {
+      background: rgba(239,68,68,0.15);
+      border: 1px solid rgba(239,68,68,0.3);
+      color: #fca5a5;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: all 0.2s;
+    }
+
+    .error-bar-actions button:hover {
+      background: rgba(239,68,68,0.25);
+      color: #fee2e2;
+    }
+
+    #error-message {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: #f9a8a8;
+      word-break: break-all;
+      max-height: 120px;
+      overflow-y: auto;
+      background: rgba(0,0,0,0.2);
+      padding: 8px 10px;
+      border-radius: 6px;
+      margin-top: 6px;
+      user-select: all;
+      cursor: text;
+    }
+
     @media (max-width: 640px) {
       .setup-container { border-radius: 20px; }
       .setup-header { padding: 28px 24px 22px; }
@@ -489,51 +520,44 @@
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════════════════════════════
-     SETUP SCREEN
-══════════════════════════════════════════════════════════════════ -->
+<!-- ══════ SETUP SCREEN ══════ -->
 <div id="setup-screen">
   <div class="setup-container">
-
     <div class="setup-header">
-      <div class="setup-logo">🤖</div>
+      <div class="setup-logo">&#x1F916;</div>
       <h1>GBHSSNaudero AI Assistant</h1>
-      <p>Knowledge-grounded RAG chatbot · Choose your free AI provider below</p>
+      <p>Knowledge-grounded RAG chatbot &middot; Choose your free AI provider</p>
     </div>
 
     <div class="setup-body">
-
       <div class="provider-label">Choose AI Provider (all free)</div>
       <div class="provider-grid">
 
-        <!-- Google AI Studio -->
         <div class="provider-card selected" data-id="google" onclick="selectProvider('google')">
-          <div class="provider-icon">🔵</div>
+          <div class="provider-icon">&#x1F535;</div>
           <div class="provider-info">
             <h3>Google AI Studio</h3>
-            <p>Gemini 2.0 Flash & 2.5 Flash · Generous free tier · Fast</p>
+            <p>Gemini 2.0 Flash &amp; 2.5 Flash &middot; Generous free tier</p>
           </div>
           <span class="provider-badge">Recommended</span>
           <div class="provider-radio"></div>
         </div>
 
-        <!-- GitHub Models -->
         <div class="provider-card" data-id="github" onclick="selectProvider('github')">
-          <div class="provider-icon">⚫</div>
+          <div class="provider-icon">&#x26AB;</div>
           <div class="provider-info">
             <h3>GitHub Models</h3>
-            <p>GPT-4o, Llama 3, Phi-4 · Free with GitHub account</p>
+            <p>GPT-4o, Llama 3, Phi-4 &middot; Free with GitHub account</p>
           </div>
           <span class="provider-badge">Free</span>
           <div class="provider-radio"></div>
         </div>
 
-        <!-- OpenRouter -->
         <div class="provider-card" data-id="openrouter" onclick="selectProvider('openrouter')">
-          <div class="provider-icon">🟣</div>
+          <div class="provider-icon">&#x1F7E3;</div>
           <div class="provider-info">
             <h3>OpenRouter</h3>
-            <p>Llama 4, Mistral, Gemma · Many free models available</p>
+            <p>Llama 4, Mistral, DeepSeek &middot; Many free models</p>
           </div>
           <span class="provider-badge">Free Tier</span>
           <div class="provider-radio"></div>
@@ -541,113 +565,108 @@
 
       </div>
 
-      <!-- API Key Input -->
       <div class="key-section">
         <label id="key-label">Google AI Studio API Key</label>
         <div class="key-input-wrap">
-          <input type="password" id="api-key-input" placeholder="Paste your API key here…" autocomplete="off" />
-          <button id="toggle-key-vis" title="Show/hide key" onclick="toggleKeyVis()">👁</button>
+          <input type="password" id="api-key-input" placeholder="Paste your API key here..." autocomplete="off" />
+          <button id="toggle-key-vis" onclick="toggleKeyVis()">&#x1F441;</button>
         </div>
       </div>
 
-      <!-- Model Selector -->
       <div class="model-section">
         <label>Model</label>
         <select id="model-select"></select>
       </div>
 
-      <!-- Info Box -->
       <div class="info-box" id="info-box">
-        <span class="i-icon">ℹ️</span>
-        <span id="info-text">
-          Get a free API key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com</a>.
-          Free tier includes 15 requests/min and 1,500 requests/day with Gemini 2.0 Flash.
-          Your key is stored only in your browser's sessionStorage and never sent to any server except Google.
-        </span>
+        <span class="i-icon">&#x2139;&#xFE0F;</span>
+        <span id="info-text"></span>
       </div>
 
-      <button id="start-btn" onclick="startChat()">🚀 &nbsp;Start Chat</button>
+      <button id="start-btn" onclick="startChat()">&#x1F680; Start Chat</button>
 
       <div class="setup-footer">
-        <span>🔒</span> API keys stay in your browser only · Never stored on any server
+        &#x1F512; API keys stay in your browser only &middot; Never stored on any server
       </div>
-
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════════════
-     INIT OVERLAY
-══════════════════════════════════════════════════════════════════ -->
-<div id="init-overlay" class="hidden" style="display:none;">
+<!-- ══════ INIT OVERLAY ══════ -->
+<div id="init-overlay">
   <div class="init-card">
-    <div class="init-spinner">🧠</div>
+    <div class="init-spinner">&#x1F9E0;</div>
     <h2>Building Knowledge Base</h2>
-    <p>Fetching and indexing all knowledge files from GitHub. This only takes a few seconds…</p>
+    <p>Fetching and indexing knowledge files from GitHub...</p>
     <div class="progress-track"><div id="progress-bar"></div></div>
-    <div id="progress-label">Initialising…</div>
+    <div id="progress-label">Initialising...</div>
     <div class="file-list" id="file-list"></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════════════
-     CHAT APP
-══════════════════════════════════════════════════════════════════ -->
+<!-- ══════ CHAT APP ══════ -->
 <div id="app">
 
   <div id="header">
-    <div class="hdr-logo">🤖</div>
+    <div class="hdr-logo">&#x1F916;</div>
     <div class="hdr-info">
       <h1>GBHSSNaudero AI Assistant</h1>
-      <p id="hdr-subtitle">RAG · Knowledge-Grounded Answers</p>
+      <p id="hdr-subtitle">RAG &middot; Knowledge-Grounded Answers</p>
     </div>
     <div class="hdr-right">
       <div id="provider-pill">
         <div id="provider-dot"></div>
         <span id="provider-pill-text">Ready</span>
       </div>
-      <button id="switch-btn" onclick="switchProvider()">⚙ Switch</button>
+      <button id="switch-btn" onclick="switchProvider()">&#x2699; Switch</button>
     </div>
   </div>
 
   <div id="messages"></div>
 
+  <!-- Error bar -->
+  <div id="error-bar">
+    <div class="error-bar-top">
+      <strong>&#x26A0; Error</strong>
+      <div class="error-bar-actions">
+        <button onclick="copyError()">&#x1F4CB; Copy</button>
+        <button onclick="dismissError()">&#x2715; Dismiss</button>
+      </div>
+    </div>
+    <div id="error-message"></div>
+  </div>
+
   <div id="input-area">
     <div class="input-form">
       <textarea id="user-input" rows="1"
-        placeholder="Knowledge base loading…" disabled></textarea>
-      <button id="send-btn" disabled>➤</button>
+        placeholder="Knowledge base loading..." disabled></textarea>
+      <button id="send-btn" disabled>&#x27A4;</button>
     </div>
     <div class="input-footer">
-      <span id="model-label-footer">Model: —</span>
-      <button id="clear-btn">🗑 Clear chat</button>
+      <span id="model-label-footer">Model: -</span>
+      <button id="clear-btn">&#x1F5D1; Clear chat</button>
     </div>
   </div>
 
 </div>
 
-<div id="error-toast"></div>
-
-<!-- ══════════════════════════════════════════════════════════════════
-     JAVASCRIPT
-══════════════════════════════════════════════════════════════════ -->
 <script>
 "use strict";
 
-/* ── 1. PROVIDER DEFINITIONS ──────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════
+   1. PROVIDER DEFINITIONS
+══════════════════════════════════════════════════════════════════ */
 const PROVIDERS = {
   google: {
     name: "Google AI Studio",
     keyLabel: "Google AI Studio API Key",
-    keyPlaceholder: "AIza…",
-    infoHtml: `Get a free API key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com</a>.
-      Free tier: 15 req/min, 1,500 req/day with Gemini 2.0 Flash.
-      Key stored only in your browser's sessionStorage.`,
+    keyPlaceholder: "AIza...",
+    infoHtml: 'Get a free API key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com</a>. Free tier: 15 req/min, 1500 req/day. Key stored only in your browser.',
     models: [
-      { id: "gemini-2.0-flash",        label: "Gemini 2.0 Flash (Free · Recommended)" },
-      { id: "gemini-2.5-flash-preview-05-20", label: "Gemini 2.5 Flash Preview (Free)" },
-      { id: "gemini-1.5-flash",        label: "Gemini 1.5 Flash (Free)" },
-      { id: "gemini-1.5-pro",          label: "Gemini 1.5 Pro (Free · Limited)" }
+      { id: "gemini-2.0-flash",                  label: "Gemini 2.0 Flash (Free, Recommended)" },
+      { id: "gemini-2.5-flash-preview-05-20",    label: "Gemini 2.5 Flash Preview (Free)" },
+      { id: "gemini-1.5-flash",                  label: "Gemini 1.5 Flash (Free)" },
+      { id: "gemini-1.5-pro",                    label: "Gemini 1.5 Pro (Free, Limited)" }
     ],
     defaultModel: "gemini-2.0-flash",
     call: callGoogle
@@ -655,17 +674,14 @@ const PROVIDERS = {
   github: {
     name: "GitHub Models",
     keyLabel: "GitHub Personal Access Token",
-    keyPlaceholder: "ghp_… or github_pat_…",
-    infoHtml: `Create a free token at <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a>
-      (no special scopes needed for GitHub Models).
-      Free usage with any GitHub account.`,
+    keyPlaceholder: "ghp_... or github_pat_...",
+    infoHtml: 'Create a free token at <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a>. No special scopes needed for GitHub Models. Free with any GitHub account.',
     models: [
-      { id: "gpt-4o-mini",                    label: "GPT-4o Mini (Free)" },
-      { id: "gpt-4o",                         label: "GPT-4o (Free · Limited)" },
-      { id: "meta-llama-3.1-70b-instruct",    label: "Llama 3.1 70B Instruct (Free)" },
-      { id: "meta-llama-3.3-70b-instruct",    label: "Llama 3.3 70B Instruct (Free)" },
-      { id: "microsoft-phi-4",                label: "Microsoft Phi-4 (Free)" },
-      { id: "mistral-small",                  label: "Mistral Small (Free)" }
+      { id: "gpt-4o-mini",                     label: "GPT-4o Mini (Free)" },
+      { id: "gpt-4o",                          label: "GPT-4o (Free, Limited)" },
+      { id: "Meta-Llama-3.1-70B-Instruct",     label: "Llama 3.1 70B Instruct (Free)" },
+      { id: "Phi-4",                           label: "Microsoft Phi-4 (Free)" },
+      { id: "Mistral-small",                   label: "Mistral Small (Free)" }
     ],
     defaultModel: "gpt-4o-mini",
     call: callGitHub
@@ -673,25 +689,24 @@ const PROVIDERS = {
   openrouter: {
     name: "OpenRouter",
     keyLabel: "OpenRouter API Key",
-    keyPlaceholder: "sk-or-v1-…",
-    infoHtml: `Get a free key at <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai</a>.
-      Many models have a free tier with no credit card required.
-      Models marked :free are completely free.`,
+    keyPlaceholder: "sk-or-v1-...",
+    infoHtml: 'Get a free key at <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai</a>. Many models with :free suffix are completely free, no credit card needed.',
     models: [
-      { id: "meta-llama/llama-4-scout:free",          label: "Llama 4 Scout (Free)" },
-      { id: "meta-llama/llama-4-maverick:free",       label: "Llama 4 Maverick (Free)" },
-      { id: "meta-llama/llama-3.3-70b-instruct:free", label: "Llama 3.3 70B (Free)" },
-      { id: "google/gemma-3-27b-it:free",             label: "Gemma 3 27B (Free)" },
-      { id: "mistralai/mistral-7b-instruct:free",     label: "Mistral 7B (Free)" },
-      { id: "deepseek/deepseek-r1:free",              label: "DeepSeek R1 (Free)" },
-      { id: "microsoft/phi-4-reasoning:free",         label: "Phi-4 Reasoning (Free)" }
+      { id: "meta-llama/llama-4-scout:free",           label: "Llama 4 Scout (Free)" },
+      { id: "meta-llama/llama-4-maverick:free",        label: "Llama 4 Maverick (Free)" },
+      { id: "meta-llama/llama-3.3-70b-instruct:free",  label: "Llama 3.3 70B (Free)" },
+      { id: "google/gemma-3-27b-it:free",              label: "Gemma 3 27B (Free)" },
+      { id: "mistralai/mistral-7b-instruct:free",      label: "Mistral 7B (Free)" },
+      { id: "deepseek/deepseek-r1:free",               label: "DeepSeek R1 (Free)" }
     ],
     defaultModel: "meta-llama/llama-4-scout:free",
     call: callOpenRouter
   }
 };
 
-/* ── 2. CONFIGURATION ─────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════
+   2. CONFIGURATION
+══════════════════════════════════════════════════════════════════ */
 const CONFIG = {
   repoBase: "https://raw.githubusercontent.com/aydee0333/gbhss-templates/main/",
   knowledgeFiles: [
@@ -703,15 +718,7 @@ const CONFIG = {
   chunkSize: 750,
   chunkOverlap: 130,
   topK: 6,
-  systemPersona: `You are a knowledgeable AI assistant and Social Media Manager for GBHSSNaudero.
-Your job is to answer questions and create HTML social-media post files based ONLY on the provided knowledge-base context and templates.
-
-RULES:
-• Ground EVERY answer strictly in the CONTEXT provided below.
-• If asked to create an HTML post, generate clean, complete HTML using only styles and templates found in the context.
-• If the answer is not present in the context, reply: "I don't have that information in my knowledge base."
-• Be concise, accurate, and professional.
-• When referencing templates or database entries, quote them precisely.`,
+  systemPersona: "You are a knowledgeable AI assistant and Social Media Manager for GBHSSNaudero. Your job is to answer questions and create HTML social-media post files based ONLY on the provided knowledge-base context and templates.\n\nRULES:\n- Ground EVERY answer strictly in the CONTEXT provided below.\n- If asked to create an HTML post, generate clean, complete HTML using only styles and templates found in the context.\n- If the answer is not present in the context, reply: \"I don't have that information in my knowledge base.\"\n- Be concise, accurate, and professional.\n- When referencing templates or database entries, quote them precisely.",
   suggestions: [
     "What templates are available?",
     "Show me the posting instructions",
@@ -720,7 +727,9 @@ RULES:
   ]
 };
 
-/* ── 3. STATE ─────────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════
+   3. STATE
+══════════════════════════════════════════════════════════════════ */
 const state = {
   selectedProvider: "google",
   apiKey: "",
@@ -729,13 +738,48 @@ const state = {
   indexedChunks: [],
   isReady: false,
   isBusy: false,
-  chatHistory: []
+  chatHistory: [],
+  lastError: ""
 };
 
-/* ── 4. DOM REFS ──────────────────────────────────────────────────── */
-const $ = id => document.getElementById(id);
+/* ══════════════════════════════════════════════════════════════════
+   4. DOM REFS
+══════════════════════════════════════════════════════════════════ */
+const $ = (id) => document.getElementById(id);
 
-/* ── 5. SETUP SCREEN LOGIC ────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════
+   5. ERROR BAR (persistent, copyable)
+══════════════════════════════════════════════════════════════════ */
+function showError(msg) {
+  state.lastError = msg;
+  $("error-message").textContent = msg;
+  $("error-bar").classList.add("visible");
+}
+
+function dismissError() {
+  $("error-bar").classList.remove("visible");
+}
+
+function copyError() {
+  navigator.clipboard.writeText(state.lastError).then(() => {
+    const btn = $("error-bar").querySelector("button");
+    const orig = btn.innerHTML;
+    btn.innerHTML = "&#x2705; Copied!";
+    setTimeout(() => { btn.innerHTML = orig; }, 1500);
+  }).catch(() => {
+    // fallback select all
+    const el = $("error-message");
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   6. SETUP SCREEN
+══════════════════════════════════════════════════════════════════ */
 function selectProvider(id) {
   state.selectedProvider = id;
   document.querySelectorAll(".provider-card").forEach(c => {
@@ -746,14 +790,12 @@ function selectProvider(id) {
   $("api-key-input").placeholder = p.keyPlaceholder;
   $("info-text").innerHTML       = p.infoHtml;
 
-  // Populate model dropdown
   const sel = $("model-select");
   sel.innerHTML = p.models.map(m =>
-    `<option value="${m.id}">${m.label}</option>`
+    '<option value="' + m.id + '">' + m.label + '</option>'
   ).join("");
   sel.value = p.defaultModel;
 
-  // Restore saved key for this provider
   const saved = sessionStorage.getItem("key_" + id) || "";
   $("api-key-input").value = saved;
 }
@@ -765,96 +807,102 @@ function toggleKeyVis() {
 
 async function startChat() {
   const key = $("api-key-input").value.trim();
-  if (!key) { showToast("Please enter your API key"); return; }
+  if (!key) { alert("Please enter your API key."); return; }
 
   state.apiKey = key;
   state.model  = $("model-select").value;
   sessionStorage.setItem("key_" + state.selectedProvider, key);
 
   $("start-btn").disabled = true;
-  $("start-btn").textContent = "⏳ Loading…";
+  $("start-btn").textContent = "Loading...";
 
-  // Hide setup, show init overlay
   $("setup-screen").style.display = "none";
-  const overlay = $("init-overlay");
-  overlay.style.display = "flex";
-  overlay.classList.remove("hidden");
+  $("init-overlay").classList.add("visible");
 
   try {
     await loadAndIndex();
-    // Success: show chat
-    overlay.classList.add("hidden");
-    setTimeout(() => { overlay.style.display = "none"; }, 500);
+
+    $("init-overlay").classList.add("fading");
+    setTimeout(() => {
+      $("init-overlay").classList.remove("visible", "fading");
+    }, 500);
 
     $("app").classList.add("visible");
-    $("provider-pill-text").textContent = `${PROVIDERS[state.selectedProvider].name} · ${state.model}`;
-    $("hdr-subtitle").textContent       = `RAG · ${CONFIG.knowledgeFiles.length} files indexed`;
-    $("model-label-footer").textContent = `${PROVIDERS[state.selectedProvider].name} · ${state.model}`;
+    $("provider-pill-text").textContent = PROVIDERS[state.selectedProvider].name;
+    $("hdr-subtitle").textContent = "RAG | " + CONFIG.knowledgeFiles.length + " files indexed | " + state.model;
+    $("model-label-footer").textContent = PROVIDERS[state.selectedProvider].name + " | " + state.model;
 
     state.isReady = true;
     appendWelcome();
-    $("user-input").placeholder = "Ask me anything about GBHSSNaudero…";
-    $("user-input").disabled    = false;
-    $("send-btn").disabled      = false;
+    $("user-input").placeholder = "Ask me anything about GBHSSNaudero...";
+    $("user-input").disabled = false;
+    $("send-btn").disabled = false;
     $("user-input").focus();
 
   } catch (err) {
     console.error(err);
-    $("progress-label").textContent = "❌ " + (err.message || err);
-    $("start-btn").disabled   = false;
-    $("start-btn").textContent = "🚀 Start Chat";
-    $("setup-screen").style.display = "flex";
-    overlay.classList.add("hidden");
-    setTimeout(() => { overlay.style.display = "none"; }, 500);
-    showToast("Initialisation failed: " + (err.message || err));
+    $("progress-label").textContent = "FAILED: " + (err.message || err);
+    setTimeout(() => {
+      $("init-overlay").classList.remove("visible", "fading");
+      $("setup-screen").style.display = "flex";
+      $("start-btn").disabled = false;
+      $("start-btn").textContent = "\u{1F680} Start Chat";
+    }, 2000);
   }
 }
 
 function switchProvider() {
-  // Reset to setup screen
   state.isReady = false;
-  state.isBusy  = false;
+  state.isBusy = false;
+  dismissError();
   $("app").classList.remove("visible");
   $("setup-screen").style.display = "flex";
-  $("start-btn").disabled   = false;
-  $("start-btn").textContent = "🚀 &nbsp;Start Chat";
+  $("start-btn").disabled = false;
+  $("start-btn").textContent = "\u{1F680} Start Chat";
   selectProvider(state.selectedProvider);
 }
 
-// Init setup screen on page load
 selectProvider("google");
 
-/* ── 6. KNOWLEDGE INDEXING ────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════
+   7. KNOWLEDGE INDEXING
+══════════════════════════════════════════════════════════════════ */
 function buildFileListUI() {
-  $("file-list").innerHTML = CONFIG.knowledgeFiles.map(f => `
-    <div class="file-item" id="fi-${CSS.escape(f.replace(/\//g,'_'))}">
-      <span class="file-icon">📄</span>
-      <span>${f}</span>
-    </div>`).join("");
+  $("file-list").innerHTML = CONFIG.knowledgeFiles.map(f => {
+    var safeId = f.replace(/[^a-zA-Z0-9]/g, "_");
+    return '<div class="file-item" id="fi-' + safeId + '">' +
+      '<span class="file-icon">&#x1F4C4;</span>' +
+      '<span>' + f + '</span></div>';
+  }).join("");
 }
 
 function setFileState(file, st) {
-  const el = $("fi-" + CSS.escape(file.replace(/\//g,'_')));
+  var safeId = file.replace(/[^a-zA-Z0-9]/g, "_");
+  var el = $("fi-" + safeId);
   if (!el) return;
   el.className = "file-item " + st;
-  const icon = el.querySelector(".file-icon");
-  const icons = { active:"⏳", done:"✅", fail:"❌" };
-  if (icons[st]) icon.textContent = icons[st];
+  var icon = el.querySelector(".file-icon");
+  if (st === "active") icon.innerHTML = "&#x23F3;";
+  if (st === "done")   icon.innerHTML = "&#x2705;";
+  if (st === "fail")   icon.innerHTML = "&#x274C;";
 }
 
 function setProgress(done, total, label) {
-  $("progress-bar").style.width   = Math.round((done/total)*100) + "%";
+  $("progress-bar").style.width = Math.round((done / total) * 100) + "%";
   $("progress-label").textContent = label;
 }
 
 function chunkText(text, filePath) {
   if (filePath.endsWith(".json")) {
-    try { text = JSON.stringify(JSON.parse(text), null, 2); } catch(_) {}
+    try { text = JSON.stringify(JSON.parse(text), null, 2); } catch(e) {}
   }
-  const chunks = []; let start = 0, id = 0;
+  var chunks = [], start = 0, id = 0;
   while (start < text.length) {
-    const chunk = text.slice(start, start + CONFIG.chunkSize).trim();
-    if (chunk.length > 20) chunks.push({ id: `${filePath}::${id++}`, file: filePath, content: chunk });
+    var chunk = text.slice(start, start + CONFIG.chunkSize).trim();
+    if (chunk.length > 20) {
+      chunks.push({ id: filePath + "::" + id, file: filePath, content: chunk });
+      id++;
+    }
     start += CONFIG.chunkSize - CONFIG.chunkOverlap;
   }
   return chunks;
@@ -862,26 +910,27 @@ function chunkText(text, filePath) {
 
 async function loadAndIndex() {
   buildFileListUI();
-  setProgress(0, CONFIG.knowledgeFiles.length, "Starting…");
+  setProgress(0, CONFIG.knowledgeFiles.length, "Starting...");
 
   state.miniSearch = new MiniSearch({
     fields: ["content"],
-    storeFields: ["file","content"],
+    storeFields: ["file", "content"],
     searchOptions: { fuzzy: 0.25, prefix: true }
   });
 
-  const allChunks = [];
-  let done = 0;
+  var allChunks = [];
+  var done = 0;
 
-  for (const filePath of CONFIG.knowledgeFiles) {
+  for (var i = 0; i < CONFIG.knowledgeFiles.length; i++) {
+    var filePath = CONFIG.knowledgeFiles[i];
     setFileState(filePath, "active");
-    setProgress(done, CONFIG.knowledgeFiles.length, `Fetching ${filePath}…`);
+    setProgress(done, CONFIG.knowledgeFiles.length, "Fetching " + filePath + "...");
     try {
-      const resp = await fetch(CONFIG.repoBase + filePath);
-      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-      const text = await resp.text();
-      const chunks = chunkText(text, filePath);
-      allChunks.push(...chunks);
+      var resp = await fetch(CONFIG.repoBase + filePath);
+      if (!resp.ok) throw new Error("HTTP " + resp.status + " for " + filePath);
+      var text = await resp.text();
+      var chunks = chunkText(text, filePath);
+      allChunks = allChunks.concat(chunks);
       setFileState(filePath, "done");
     } catch(e) {
       console.error("Failed:", filePath, e);
@@ -890,67 +939,123 @@ async function loadAndIndex() {
     done++;
     setProgress(done, CONFIG.knowledgeFiles.length,
       done === CONFIG.knowledgeFiles.length
-        ? `✅ Indexed ${allChunks.length} chunks from ${done} files`
-        : `Loaded ${done}/${CONFIG.knowledgeFiles.length}`);
+        ? "Indexed " + allChunks.length + " chunks from " + done + " files"
+        : "Loaded " + done + "/" + CONFIG.knowledgeFiles.length);
   }
 
   if (allChunks.length > 0) state.miniSearch.addAll(allChunks);
   state.indexedChunks = allChunks;
-  await new Promise(r => setTimeout(r, 800));
+  await new Promise(function(r) { setTimeout(r, 700); });
 }
 
-/* ── 7. AI PROVIDER CALLS ─────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════
+   8. AI PROVIDER CALLS  (non-streaming fallback for CORS safety)
+══════════════════════════════════════════════════════════════════ */
 
-// ── Google AI Studio ────────────────────────────────────────────────
-async function* callGoogle(systemPrompt, userPrompt, model, apiKey) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${apiKey}`;
-  const body = {
+// ── Google AI Studio ────────────────────────────────────────────
+async function callGoogle(systemPrompt, userPrompt, model, apiKey) {
+  // Try streaming first, fall back to non-streaming
+  try {
+    return await callGoogleStreaming(systemPrompt, userPrompt, model, apiKey);
+  } catch(streamErr) {
+    console.warn("Streaming failed, trying non-streaming:", streamErr.message);
+    return await callGoogleNonStreaming(systemPrompt, userPrompt, model, apiKey);
+  }
+}
+
+async function callGoogleStreaming(systemPrompt, userPrompt, model, apiKey) {
+  var url = "https://generativelanguage.googleapis.com/v1beta/models/" + model + ":streamGenerateContent?alt=sse&key=" + apiKey;
+
+  var body = {
     system_instruction: { parts: [{ text: systemPrompt }] },
     contents: [{ role: "user", parts: [{ text: userPrompt }] }],
-    generationConfig: { temperature: 0.3, maxOutputTokens: 4096 }
+    generationConfig: { temperature: 0.3, maxOutputTokens: 8192 }
   };
 
-  const resp = await fetch(url, {
+  var resp = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body)
   });
 
   if (!resp.ok) {
-    const err = await resp.text();
-    throw new Error(`Google API error ${resp.status}: ${err}`);
+    var errText = await resp.text();
+    throw new Error("Google API " + resp.status + ": " + errText.slice(0, 500));
   }
 
-  const reader = resp.body.getReader();
-  const decoder = new TextDecoder();
-  let buffer = "";
+  // Parse SSE stream
+  var reader = resp.body.getReader();
+  var decoder = new TextDecoder();
+  var buffer = "";
+  var fullText = "";
+  var chunks = [];
 
   while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    buffer += decoder.decode(value, { stream: true });
-    const lines = buffer.split("\n");
-    buffer = lines.pop();
+    var result = await reader.read();
+    if (result.done) break;
+    buffer += decoder.decode(result.value, { stream: true });
 
-    for (const line of lines) {
+    var lines = buffer.split("\n");
+    buffer = lines.pop() || "";
+
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i].trim();
       if (!line.startsWith("data: ")) continue;
-      const data = line.slice(6).trim();
-      if (data === "[DONE]") return;
+      var data = line.slice(6).trim();
+      if (data === "[DONE]") continue;
       try {
-        const json = JSON.parse(data);
-        const text = json?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (text) yield text;
-      } catch(_) {}
+        var json = JSON.parse(data);
+        var t = json.candidates && json.candidates[0] &&
+                json.candidates[0].content && json.candidates[0].content.parts &&
+                json.candidates[0].content.parts[0] && json.candidates[0].content.parts[0].text;
+        if (t) {
+          fullText += t;
+          chunks.push(t);
+        }
+      } catch(e) {}
     }
   }
+
+  return { text: fullText, chunks: chunks, streamed: true };
 }
 
-// ── GitHub Models ───────────────────────────────────────────────────
-async function* callGitHub(systemPrompt, userPrompt, model, apiKey) {
-  const url = "https://models.inference.ai.azure.com/chat/completions";
-  const body = {
-    model,
-    stream: true,
+async function callGoogleNonStreaming(systemPrompt, userPrompt, model, apiKey) {
+  var url = "https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent?key=" + apiKey;
+
+  var body = {
+    system_instruction: { parts: [{ text: systemPrompt }] },
+    contents: [{ role: "user", parts: [{ text: userPrompt }] }],
+    generationConfig: { temperature: 0.3, maxOutputTokens: 8192 }
+  };
+
+  var resp = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  });
+
+  if (!resp.ok) {
+    var errText = await resp.text();
+    throw new Error("Google API " + resp.status + ": " + errText.slice(0, 500));
+  }
+
+  var json = await resp.json();
+  var text = "";
+  try {
+    text = json.candidates[0].content.parts[0].text;
+  } catch(e) {
+    throw new Error("Google returned unexpected format: " + JSON.stringify(json).slice(0, 500));
+  }
+
+  return { text: text, chunks: [text], streamed: false };
+}
+
+// ── GitHub Models ───────────────────────────────────────────────
+async function callGitHub(systemPrompt, userPrompt, model, apiKey) {
+  var url = "https://models.inference.ai.azure.com/chat/completions";
+
+  var body = {
+    model: model,
     temperature: 0.3,
     max_tokens: 4096,
     messages: [
@@ -959,50 +1064,37 @@ async function* callGitHub(systemPrompt, userPrompt, model, apiKey) {
     ]
   };
 
-  const resp = await fetch(url, {
+  var resp = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${apiKey}`
+      "Authorization": "Bearer " + apiKey
     },
     body: JSON.stringify(body)
   });
 
   if (!resp.ok) {
-    const err = await resp.text();
-    throw new Error(`GitHub Models error ${resp.status}: ${err}`);
+    var errText = await resp.text();
+    throw new Error("GitHub Models " + resp.status + ": " + errText.slice(0, 500));
   }
 
-  const reader = resp.body.getReader();
-  const decoder = new TextDecoder();
-  let buffer = "";
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    buffer += decoder.decode(value, { stream: true });
-    const lines = buffer.split("\n");
-    buffer = lines.pop();
-
-    for (const line of lines) {
-      if (!line.startsWith("data: ")) continue;
-      const data = line.slice(6).trim();
-      if (data === "[DONE]") return;
-      try {
-        const json = JSON.parse(data);
-        const chunk = json?.choices?.[0]?.delta?.content;
-        if (chunk) yield chunk;
-      } catch(_) {}
-    }
+  var json = await resp.json();
+  var text = "";
+  try {
+    text = json.choices[0].message.content;
+  } catch(e) {
+    throw new Error("GitHub returned unexpected format: " + JSON.stringify(json).slice(0, 500));
   }
+
+  return { text: text, chunks: [text], streamed: false };
 }
 
-// ── OpenRouter ──────────────────────────────────────────────────────
-async function* callOpenRouter(systemPrompt, userPrompt, model, apiKey) {
-  const url = "https://openrouter.ai/api/v1/chat/completions";
-  const body = {
-    model,
-    stream: true,
+// ── OpenRouter ──────────────────────────────────────────────────
+async function callOpenRouter(systemPrompt, userPrompt, model, apiKey) {
+  var url = "https://openrouter.ai/api/v1/chat/completions";
+
+  var body = {
+    model: model,
     temperature: 0.3,
     max_tokens: 4096,
     messages: [
@@ -1011,11 +1103,11 @@ async function* callOpenRouter(systemPrompt, userPrompt, model, apiKey) {
     ]
   };
 
-  const resp = await fetch(url, {
+  var resp = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${apiKey}`,
+      "Authorization": "Bearer " + apiKey,
       "HTTP-Referer": window.location.href,
       "X-Title": "GBHSSNaudero AI Assistant"
     },
@@ -1023,148 +1115,116 @@ async function* callOpenRouter(systemPrompt, userPrompt, model, apiKey) {
   });
 
   if (!resp.ok) {
-    const err = await resp.text();
-    throw new Error(`OpenRouter error ${resp.status}: ${err}`);
+    var errText = await resp.text();
+    throw new Error("OpenRouter " + resp.status + ": " + errText.slice(0, 500));
   }
 
-  const reader = resp.body.getReader();
-  const decoder = new TextDecoder();
-  let buffer = "";
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    buffer += decoder.decode(value, { stream: true });
-    const lines = buffer.split("\n");
-    buffer = lines.pop();
-
-    for (const line of lines) {
-      if (!line.startsWith("data: ")) continue;
-      const data = line.slice(6).trim();
-      if (data === "[DONE]") return;
-      try {
-        const json = JSON.parse(data);
-        const chunk = json?.choices?.[0]?.delta?.content;
-        if (chunk) yield chunk;
-      } catch(_) {}
-    }
+  var json = await resp.json();
+  var text = "";
+  try {
+    text = json.choices[0].message.content;
+  } catch(e) {
+    throw new Error("OpenRouter returned unexpected format: " + JSON.stringify(json).slice(0, 500));
   }
+
+  return { text: text, chunks: [text], streamed: false };
 }
 
-/* ── 8. RAG PIPELINE ──────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════
+   9. RAG PIPELINE
+══════════════════════════════════════════════════════════════════ */
 function retrieveContext(query) {
   if (!state.miniSearch || state.indexedChunks.length === 0) return [];
-  let results = state.miniSearch.search(query, { limit: CONFIG.topK });
+  var results = state.miniSearch.search(query, { limit: CONFIG.topK });
+
+  // Fallback: single word search
   if (results.length === 0) {
-    for (const word of query.trim().split(/\s+/)) {
-      if (word.length < 3) continue;
-      results = state.miniSearch.search(word, { limit: CONFIG.topK });
+    var words = query.trim().split(/\s+/);
+    for (var i = 0; i < words.length; i++) {
+      if (words[i].length < 3) continue;
+      results = state.miniSearch.search(words[i], { limit: CONFIG.topK });
       if (results.length > 0) break;
     }
   }
+
   return results;
 }
 
-function buildPrompt(userQuestion, searchResults) {
-  const contextBlock = searchResults.length > 0
-    ? searchResults.map((r,i) => `[Source ${i+1}: ${r.file}]\n${r.content}`).join("\n\n───\n\n")
-    : "⚠️ No relevant context found in the knowledge base.";
+function buildPrompt(question, searchResults) {
+  var contextBlock;
+  if (searchResults.length > 0) {
+    contextBlock = searchResults.map(function(r, i) {
+      return "[Source " + (i + 1) + ": " + r.file + "]\n" + r.content;
+    }).join("\n\n---\n\n");
+  } else {
+    contextBlock = "No relevant context found in the knowledge base.";
+  }
 
-  return `════════════════════════════════════
-KNOWLEDGE BASE CONTEXT
-════════════════════════════════════
-${contextBlock}
-════════════════════════════════════
-
-USER QUESTION: ${userQuestion}
-
-ANSWER:`;
+  return "KNOWLEDGE BASE CONTEXT:\n" + contextBlock + "\n\nUSER QUESTION: " + question + "\n\nANSWER:";
 }
 
-/* ── 9. CHAT UI ───────────────────────────────────────────────────── */
-
+/* ══════════════════════════════════════════════════════════════════
+   10. CHAT UI
+══════════════════════════════════════════════════════════════════ */
 function renderMarkdown(text) {
-  let html = text
-    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  var html = text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 
-  // Code blocks
-  html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, (_,lang,code) =>
-    `<pre><code class="lang-${lang}">${code.trim()}</code></pre>`);
-
-  // Inline code
-  html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
-
-  // Headers
-  html = html.replace(/^### (.+)$/gm,"<h3>$1</h3>");
-  html = html.replace(/^## (.+)$/gm, "<h2>$1</h2>");
-  html = html.replace(/^# (.+)$/gm,  "<h1>$1</h1>");
-
-  // Bold & italic
-  html = html.replace(/\*\*\*(.+?)\*\*\*/g,"<strong><em>$1</em></strong>");
-  html = html.replace(/\*\*(.+?)\*\*/g,    "<strong>$1</strong>");
-  html = html.replace(/\*(.+?)\*/g,        "<em>$1</em>");
-
-  // HR
-  html = html.replace(/^---$/gm,"<hr>");
-
-  // Tables (simple)
-  html = html.replace(/^\|(.+)\|$/gm, (line) => {
-    if (line.match(/^\|[-| :]+\|$/)) return "";
-    const cells = line.split("|").filter((_,i,a) => i>0 && i<a.length-1);
-    const isHeader = false;
-    return `<tr>${cells.map(c=>`<td>${c.trim()}</td>`).join("")}</tr>`;
+  html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, function(_, lang, code) {
+    return '<pre><code>' + code.trim() + '</code></pre>';
   });
-  html = html.replace(/(<tr>.*<\/tr>)/s, "<table>$1</table>");
 
-  // Lists
-  html = html.replace(/^\s*[-*] (.+)$/gm,"<li>$1</li>");
-  html = html.replace(/^\d+\. (.+)$/gm,  "<li>$1</li>");
-
-  // Links
+  html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+  html = html.replace(/^### (.+)$/gm, "<h3>$1</h3>");
+  html = html.replace(/^## (.+)$/gm,  "<h2>$1</h2>");
+  html = html.replace(/^# (.+)$/gm,   "<h1>$1</h1>");
+  html = html.replace(/\*\*\*(.+?)\*\*\*/g, "<strong><em>$1</em></strong>");
+  html = html.replace(/\*\*(.+?)\*\*/g,     "<strong>$1</strong>");
+  html = html.replace(/\*(.+?)\*/g,         "<em>$1</em>");
+  html = html.replace(/^---$/gm, "<hr>");
+  html = html.replace(/^\s*[-*] (.+)$/gm, "<li>$1</li>");
+  html = html.replace(/^\d+\. (.+)$/gm,   "<li>$1</li>");
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g,
     '<a href="$2" target="_blank" rel="noopener">$1</a>');
 
-  // Line breaks
-  const parts = html.split(/(<pre>[\s\S]*?<\/pre>)/g);
-  html = parts.map((p,i) => i%2===0 ? p.replace(/\n/g,"<br>") : p).join("");
+  var parts = html.split(/(<pre>[\s\S]*?<\/pre>)/g);
+  html = parts.map(function(p, i) {
+    return i % 2 === 0 ? p.replace(/\n/g, "<br>") : p;
+  }).join("");
 
   return html;
 }
 
 function nowTime() {
-  return new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+  return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
 function autoResize(el) {
   el.style.height = "auto";
-  el.style.height = Math.min(el.scrollHeight,140)+"px";
+  el.style.height = Math.min(el.scrollHeight, 140) + "px";
 }
 
 function scrollBottom() {
   $("messages").scrollTop = $("messages").scrollHeight;
 }
 
-function showToast(msg) {
-  const t = $("error-toast");
-  t.textContent = msg; t.classList.add("show");
-  setTimeout(() => t.classList.remove("show"), 4000);
-}
-
 function appendWelcome() {
-  $("messages").innerHTML = `
-    <div class="welcome-card">
-      <span class="w-icon">💬</span>
-      <h3>Knowledge Base Ready!</h3>
-      <p>I've indexed all GBHSSNaudero files. Ask about templates, instructions,
-         mapping, or the database — or ask me to generate an HTML social-media post.</p>
-      <div class="suggestions">
-        ${CONFIG.suggestions.map(s =>
-          `<button class="suggest-btn" data-q="${s}">${s}</button>`
-        ).join("")}
-      </div>
-    </div>`;
-  $("messages").querySelectorAll(".suggest-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
+  $("messages").innerHTML =
+    '<div class="welcome-card">' +
+    '<span class="w-icon">&#x1F4AC;</span>' +
+    '<h3>Knowledge Base Ready!</h3>' +
+    '<p>I\'ve indexed all GBHSSNaudero files. Ask about templates, instructions, ' +
+    'mapping, or the database, or ask me to generate an HTML social-media post.</p>' +
+    '<div class="suggestions">' +
+    CONFIG.suggestions.map(function(s) {
+      return '<button class="suggest-btn" data-q="' + s.replace(/"/g, '&quot;') + '">' + s + '</button>';
+    }).join("") +
+    '</div></div>';
+
+  $("messages").querySelectorAll(".suggest-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
       $("user-input").value = btn.dataset.q;
       handleSend();
     });
@@ -1172,69 +1232,91 @@ function appendWelcome() {
 }
 
 function appendUserMsg(text) {
-  const row = document.createElement("div");
+  var row = document.createElement("div");
   row.className = "msg-row user";
-  row.innerHTML = `
-    <div class="bubble-wrap">
-      <div class="bubble user">${renderMarkdown(text)}</div>
-      <div class="bubble-meta">${nowTime()}</div>
-    </div>
-    <div class="avatar user">🧑</div>`;
+  row.innerHTML =
+    '<div class="bubble-wrap">' +
+    '<div class="bubble user">' + renderMarkdown(text) + '</div>' +
+    '<div class="bubble-meta">' + nowTime() + '</div>' +
+    '</div>' +
+    '<div class="avatar user">&#x1F9D1;</div>';
   $("messages").appendChild(row);
   scrollBottom();
 }
 
 function appendBotPlaceholder() {
-  const row = document.createElement("div");
+  var row = document.createElement("div");
   row.className = "msg-row bot";
-  row.innerHTML = `
-    <div class="avatar bot">🤖</div>
-    <div class="bubble-wrap">
-      <div class="bubble bot" id="stream-bubble">
-        <div class="thinking-dots"><span></span><span></span><span></span></div>
-      </div>
-      <div class="bubble-meta" id="stream-meta"></div>
-    </div>`;
+
+  var bubbleId = "sb-" + Date.now();
+  var metaId   = "sm-" + Date.now();
+
+  row.innerHTML =
+    '<div class="avatar bot">&#x1F916;</div>' +
+    '<div class="bubble-wrap">' +
+    '<div class="bubble bot" id="' + bubbleId + '">' +
+    '<div class="thinking-dots"><span></span><span></span><span></span></div>' +
+    '</div>' +
+    '<div class="bubble-meta" id="' + metaId + '"></div>' +
+    '</div>';
   $("messages").appendChild(row);
   scrollBottom();
 
-  const bubble = $("stream-bubble");
-  const meta   = $("stream-meta");
-  let raw = "", started = false;
+  var bubble  = $(bubbleId);
+  var metaEl  = $(metaId);
+  var rawText = "";
+  var started = false;
 
   function addChunk(chunk) {
     if (!started) { bubble.innerHTML = ""; started = true; }
-    raw += chunk;
-    bubble.innerHTML = renderMarkdown(raw);
+    rawText += chunk;
+    bubble.innerHTML = renderMarkdown(rawText);
     bubble.classList.add("cursor");
+    scrollBottom();
+  }
+
+  function setFullText(text) {
+    bubble.innerHTML = renderMarkdown(text);
+    rawText = text;
+    started = true;
     scrollBottom();
   }
 
   function finalise(sources) {
     bubble.classList.remove("cursor");
-    meta.textContent = nowTime();
+    metaEl.textContent = nowTime();
     if (sources && sources.length > 0) {
-      const files = [...new Set(sources.map(s=>s.file))];
-      const div = document.createElement("div");
+      var files = [];
+      sources.forEach(function(s) {
+        if (files.indexOf(s.file) === -1) files.push(s.file);
+      });
+      var div = document.createElement("div");
       div.className = "sources-wrap";
-      div.innerHTML = files.map(f=>`<span class="source-tag">📎 ${f}</span>`).join("");
+      div.innerHTML = files.map(function(f) {
+        return '<span class="source-tag">&#x1F4CE; ' + f + '</span>';
+      }).join("");
       row.querySelector(".bubble-wrap").appendChild(div);
     }
     scrollBottom();
-    return raw;
+    return rawText;
   }
 
-  return { addChunk, finalise };
+  return { addChunk: addChunk, setFullText: setFullText, finalise: finalise };
 }
 
-/* ── 10. MAIN SEND HANDLER ────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════════
+   11. MAIN SEND HANDLER
+══════════════════════════════════════════════════════════════════ */
 async function handleSend() {
   if (!state.isReady || state.isBusy) return;
-  const text = $("user-input").value.trim();
+  var text = $("user-input").value.trim();
   if (!text) return;
 
-  $("user-input").value = ""; autoResize($("user-input"));
-  const welcome = $("messages").querySelector(".welcome-card");
+  dismissError();
+
+  $("user-input").value = "";
+  autoResize($("user-input"));
+  var welcome = $("messages").querySelector(".welcome-card");
   if (welcome) welcome.remove();
 
   state.isBusy = true;
@@ -1243,29 +1325,47 @@ async function handleSend() {
 
   appendUserMsg(text);
 
-  const searchResults = retrieveContext(text);
-  const userPrompt    = buildPrompt(text, searchResults);
-  const { addChunk, finalise } = appendBotPlaceholder();
+  var searchResults = retrieveContext(text);
+  var userPrompt    = buildPrompt(text, searchResults);
+  var placeholder   = appendBotPlaceholder();
 
   try {
-    const provider  = PROVIDERS[state.selectedProvider];
-    const generator = provider.call(
+    var provider = PROVIDERS[state.selectedProvider];
+    var response = await provider.call(
       CONFIG.systemPersona, userPrompt, state.model, state.apiKey
     );
 
-    for await (const chunk of generator) {
-      addChunk(chunk);
+    // Handle response
+    if (response.streamed && response.chunks && response.chunks.length > 1) {
+      // Already got chunks during streaming, display final
+      placeholder.setFullText(response.text);
+    } else {
+      // Non-streamed: simulate typing effect
+      var words = response.text.split(/(\s+)/);
+      var displayed = "";
+      for (var i = 0; i < words.length; i++) {
+        displayed += words[i];
+        placeholder.addChunk(words[i]);
+        if (i % 4 === 0 && i > 0) {
+          await new Promise(function(r) { setTimeout(r, 15); });
+        }
+      }
     }
 
-    const finalText = finalise(searchResults);
-    state.chatHistory.push({ role:"user", content: text });
-    state.chatHistory.push({ role:"assistant", content: finalText });
-    if (state.chatHistory.length > 12) state.chatHistory.splice(0,2);
+    var finalText = placeholder.finalise(searchResults);
+    state.chatHistory.push({ role: "user", content: text });
+    state.chatHistory.push({ role: "assistant", content: finalText });
+    if (state.chatHistory.length > 12) state.chatHistory.splice(0, 2);
 
   } catch(err) {
     console.error("AI error:", err);
-    finalise([]);
-    showToast("AI error: " + (err.message || err));
+    placeholder.setFullText("Sorry, an error occurred. See the error bar below for details.");
+    placeholder.finalise([]);
+
+    var errorMsg = "Provider: " + PROVIDERS[state.selectedProvider].name +
+                   "\nModel: " + state.model +
+                   "\nError: " + (err.message || String(err));
+    showError(errorMsg);
   }
 
   state.isBusy = false;
@@ -1274,15 +1374,20 @@ async function handleSend() {
   $("user-input").focus();
 }
 
-/* ── 11. EVENTS ───────────────────────────────────────────────────── */
-$("user-input").addEventListener("keydown", e => {
-  if (e.key==="Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); }
+/* ══════════════════════════════════════════════════════════════════
+   12. EVENT LISTENERS
+══════════════════════════════════════════════════════════════════ */
+$("user-input").addEventListener("keydown", function(e) {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); }
 });
-$("user-input").addEventListener("input", () => autoResize($("user-input")));
+
+$("user-input").addEventListener("input", function() { autoResize($("user-input")); });
 $("send-btn").addEventListener("click", handleSend);
-$("clear-btn").addEventListener("click", () => {
-  if (confirm("Clear conversation? (Knowledge base stays indexed.)")) {
+
+$("clear-btn").addEventListener("click", function() {
+  if (confirm("Clear conversation? Knowledge base stays indexed.")) {
     state.chatHistory = [];
+    dismissError();
     appendWelcome();
   }
 });
