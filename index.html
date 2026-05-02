@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GBHSSNaudero AI Assistant</title>
+
+  <!-- Puter.js – free AI, no API key needed -->
+  <script src="https://js.puter.com/v2/"></script>
+
+  <!-- MiniSearch – tiny full-text search engine, runs in the browser -->
+  <script src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js"></script>
+
+  <style>
+    /* ─── Reset & Variables ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0f1117;
+      --surface:     #1a1d27;
+      --surface2:    #22263a;
+      --border:      #2e3350;
+      --accent:      #4f8ef7;
+      --accent-glow: rgba(79,142,247,0.25);
+      --accent2:     #7c5cbf;
+      --user-bg:     #1e3a5f;
+      --bot-bg:      #1a1d27;
+      --text:        #e2e8f0;
+      --text-muted:  #8892a4;
+      --success:     #22c55e;
+      --warn:        #f59e0b;
+      --error:       #ef4444;
+      --radius:      14px;
+      --radius-sm:   8px;
+      --shadow:      0 4px 24px rgba(0,0,0,0.4);
+      --font:        'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    /* ─── Layout ────────────────────────────────────────────────────── */
+    #app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* ─── Header ────────────────────────────────────────────────────── */
+    #header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 24px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+
+    .logo-wrap {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    .header-text h1 {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: var(--text);
+    }
+
+    .header-text p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    #status-badge {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+
+    #status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--warn);
+      transition: background 0.3s;
+    }
+
+    #status-badge.ready   { border-color: var(--success); color: var(--success); }
+    #status-badge.ready   #status-dot { background: var(--success); box-shadow: 0 0 8px var(--success); }
+    #status-badge.error   { border-color: var(--error);   color: var(--error);   }
+    #status-badge.error   #status-dot { background: var(--error); }
+    #status-badge.loading { border-color: var(--warn);    color: var(--warn);    }
+
+    /* ─── Init Overlay ──────────────────────────────────────────────── */
+    #init-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(15,17,23,0.92);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      transition: opacity 0.5s;
+    }
+
+    #init-overlay.hidden { opacity: 0; pointer-events: none; }
+
+    .init-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 44px;
+      max-width: 440px;
+      width: 90%;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .init-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .init-card h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .init-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    /* Progress Bar */
+    .progress-wrap {
+      background: var(--surface2);
+      border-radius: 99px;
+      height: 8px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 0.4s ease;
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    #progress-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      min-height: 16px;
+    }
+
+    .file-list {
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      transition: all 0.3s;
+    }
+
+    .file-item.done  { color: var(--success); border-color: rgba(34,197,94,0.3); }
+    .file-item.fail  { color: var(--error);   border-color: rgba(239,68,68,0.3); }
+    .file-item.active { color: var(--accent); border-color: rgba(79,142,247,0.3); }
+
+    .file-icon { font-size: 15px; flex-shrink: 0; }
+
+    /* ─── Messages Area ─────────────────────────────────────────────── */
+    #messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      scroll-behavior: smooth;
+    }
+
+    #messages::-webkit-scrollbar { width: 5px; }
+    #messages::-webkit-scrollbar-track { background: transparent; }
+    #messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+    /* ─── Message Bubbles ───────────────────────────────────────────── */
+    .msg-row {
+      display: flex;
+      gap: 12px;
+      animation: fadeUp 0.3s ease;
+    }
+
+    .msg-row.user { flex-direction: row-reverse; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .avatar {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+      align-self: flex-end;
+    }
+
+    .avatar.bot  { background: linear-gradient(135deg, var(--accent), var(--accent2)); }
+    .avatar.user { background: var(--user-bg); border: 1px solid rgba(79,142,247,0.4); }
+
+    .bubble-wrap { max-width: 75%; display: flex; flex-direction: column; gap: 4px; }
+    .msg-row.user .bubble-wrap { align-items: flex-end; }
+
+    .bubble {
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 14.5px;
+      line-height: 1.65;
+      word-break: break-word;
+      position: relative;
+    }
+
+    .bubble.bot {
+      background: var(--bot-bg);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 4px;
+    }
+
+    .bubble.user {
+      background: var(--user-bg);
+      border: 1px solid rgba(79,142,247,0.35);
+      border-bottom-right-radius: 4px;
+      color: #cce0ff;
+    }
+
+    /* Markdown-ish rendering */
+    .bubble strong { font-weight: 700; color: #a5c8ff; }
+    .bubble em     { font-style: italic; color: #c4b5fd; }
+    .bubble code {
+      background: rgba(255,255,255,0.08);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 13px;
+      color: #86efac;
+    }
+
+    .bubble pre {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      overflow-x: auto;
+      margin: 8px 0;
+    }
+
+    .bubble pre code {
+      background: none;
+      padding: 0;
+      font-size: 13px;
+    }
+
+    .bubble ul, .bubble ol {
+      padding-left: 20px;
+      margin: 6px 0;
+    }
+
+    .bubble li { margin: 3px 0; }
+
+    .bubble h1, .bubble h2, .bubble h3 {
+      margin: 8px 0 4px;
+      color: #a5c8ff;
+    }
+
+    .bubble h1 { font-size: 18px; }
+    .bubble h2 { font-size: 16px; }
+    .bubble h3 { font-size: 14.5px; }
+
+    .bubble hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 8px 0;
+    }
+
+    .bubble a { color: var(--accent); text-decoration: underline; }
+
+    .bubble-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 0 4px;
+    }
+
+    /* Typing cursor */
+    .cursor::after {
+      content: '▋';
+      animation: blink 0.7s step-end infinite;
+      color: var(--accent);
+      margin-left: 2px;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Sources badge */
+    .sources-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 6px;
+    }
+
+    .source-tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 99px;
+      background: rgba(79,142,247,0.12);
+      border: 1px solid rgba(79,142,247,0.3);
+      color: var(--accent);
+    }
+
+    /* Welcome message */
+    .welcome-msg {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+    }
+
+    .welcome-msg .w-icon { font-size: 52px; margin-bottom: 12px; }
+    .welcome-msg h3 { font-size: 18px; color: var(--text); margin-bottom: 8px; }
+    .welcome-msg p  { font-size: 14px; line-height: 1.6; max-width: 420px; margin: 0 auto; }
+
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .suggest-btn {
+      padding: 8px 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      color: var(--text);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font);
+    }
+
+    .suggest-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(79,142,247,0.08);
+    }
+
+    /* ─── Input Bar ─────────────────────────────────────────────────── */
+    #input-area {
+      padding: 16px 20px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    #input-form {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      transition: border-color 0.2s;
+    }
+
+    #input-form:focus-within { border-color: var(--accent); }
+
+    #user-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14.5px;
+      line-height: 1.5;
+      resize: none;
+      max-height: 140px;
+      min-height: 24px;
+    }
+
+    #user-input::placeholder { color: var(--text-muted); }
+
+    #send-btn {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.2s, transform 0.1s;
+      box-shadow: 0 2px 10px var(--accent-glow);
+    }
+
+    #send-btn:hover:not(:disabled) { opacity: 0.9; transform: scale(1.05); }
+    #send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    #input-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      padding: 0 2px;
+    }
+
+    #input-footer span {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    #clear-btn {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font);
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: color 0.2s;
+    }
+    #clear-btn:hover { color: var(--error); }
+
+    /* ─── Thinking indicator ────────────────────────────────────────── */
+    .thinking-dots {
+      display: flex;
+      gap: 5px;
+      padding: 4px 0;
+    }
+    .thinking-dots span {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      animation: bounce 1.2s infinite;
+    }
+    .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
+      40%           { transform: scale(1);   opacity: 1;   }
+    }
+
+    /* ─── Responsive ────────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      #header { padding: 12px 16px; }
+      #messages { padding: 16px 12px; }
+      #input-area { padding: 12px 14px; }
+      .bubble-wrap { max-width: 90%; }
+      .init-card { padding: 28px 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     INIT OVERLAY  –  shown while downloading & indexing knowledge files
+════════════════════════════════════════════════════════════════════════ -->
+<div id="init-overlay">
+  <div class="init-card">
+    <span class="init-icon">🧠</span>
+    <h2>Building Knowledge Base</h2>
+    <p>Fetching and indexing all knowledge files from GitHub.<br>This only takes a few seconds…</p>
+
+    <div class="progress-wrap">
+      <div id="progress-bar"></div>
+    </div>
+    <div id="progress-label">Initialising…</div>
+
+    <div class="file-list" id="file-list"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     MAIN APP
+════════════════════════════════════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- Header -->
+  <div id="header">
+    <div class="logo-wrap">🤖</div>
+    <div class="header-text">
+      <h1>GBHSSNaudero AI Assistant</h1>
+      <p>Powered by Puter.com · Knowledge-Grounded Answers</p>
+    </div>
+    <div id="status-badge" class="loading">
+      <div id="status-dot"></div>
+      <span id="status-text">Loading…</span>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div id="messages">
+    <!-- Welcome card inserted by JS after indexing -->
+  </div>
+
+  <!-- Input -->
+  <div id="input-area">
+    <div id="input-form">
+      <textarea
+        id="user-input"
+        rows="1"
+        placeholder="Ask me anything… (knowledge base is loading)"
+        disabled
+      ></textarea>
+      <button id="send-btn" disabled title="Send (Enter)">➤</button>
+    </div>
+    <div id="input-footer">
+      <span id="model-label">Model: gpt-4o-mini · RAG enabled</span>
+      <button id="clear-btn" title="Clear conversation">🗑 Clear chat</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════════════════════ -->
+<script>
+"use strict";
+
+/* ── 1. CONFIGURATION ───────────────────────────────────────────────── */
+const CONFIG = {
+  // Raw GitHub base URL for your knowledge repository
+  repoBase: "https://raw.githubusercontent.com/aydee0333/gbhss-templates/main/",
+
+  // Knowledge files to fetch and index (relative to repoBase)
+  knowledgeFiles: [
+    "templates.json",
+    "mapping.txt",
+    "instructions.txt",
+    "database.txt"
+  ],
+
+  // Puter AI model to use
+  model: "gpt-4o-mini",
+
+  // Chunk size (characters) when splitting large files
+  chunkSize: 700,
+
+  // Overlap between consecutive chunks (characters)
+  chunkOverlap: 120,
+
+  // Number of search results to pass to the AI as context
+  topK: 6,
+
+  // System persona
+  systemPersona: `You are a knowledgeable and helpful AI assistant for GBHSSNaudero — 
+a Social Media Manager assistant. Your job is to answer questions and create 
+HTML social-media post files based ONLY on the provided knowledge-base context 
+and any templates found within it. 
+
+Rules:
+• Ground EVERY answer strictly in the provided CONTEXT below.
+• If the user asks to create an HTML post, generate clean, complete HTML using 
+  only the styles/templates found in the context.
+• If the answer is not present in the context, reply exactly: 
+  "I don't have that information in my knowledge base."
+• Be concise, accurate, and professional.
+• When referencing templates or data from the knowledge base, quote them precisely.`,
+
+  // Friendly suggestion prompts shown on the welcome screen
+  suggestions: [
+    "What templates are available?",
+    "Show me the posting instructions",
+    "List all database entries",
+    "Create an HTML post using the first template"
+  ]
+};
+
+/* ── 2. STATE ───────────────────────────────────────────────────────── */
+const state = {
+  miniSearch: null,
+  indexedDocs: [],
+  isReady: false,
+  isBusy: false,
+  chatHistory: [],       // { role, content } for conversation memory
+  rawFileContents: {}    // filePath → full raw text
+};
+
+/* ── 3. DOM REFS ────────────────────────────────────────────────────── */
+const dom = {
+  overlay:       document.getElementById("init-overlay"),
+  progressBar:   document.getElementById("progress-bar"),
+  progressLabel: document.getElementById("progress-label"),
+  fileList:      document.getElementById("file-list"),
+  messages:      document.getElementById("messages"),
+  userInput:     document.getElementById("user-input"),
+  sendBtn:       document.getElementById("send-btn"),
+  statusBadge:   document.getElementById("status-badge"),
+  statusDot:     document.getElementById("status-dot"),
+  statusText:    document.getElementById("status-text"),
+  modelLabel:    document.getElementById("model-label"),
+  clearBtn:      document.getElementById("clear-btn")
+};
+
+/* ── 4. UTILITIES ───────────────────────────────────────────────────── */
+
+/** Auto-resize textarea to fit content */
+function autoResize(el) {
+  el.style.height = "auto";
+  el.style.height = Math.min(el.scrollHeight, 140) + "px";
+}
+
+/** Scroll messages container to bottom */
+function scrollToBottom() {
+  dom.messages.scrollTop = dom.messages.scrollHeight;
+}
+
+/** Format timestamp */
+function nowTime() {
+  return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
+
+/** Minimal Markdown → HTML renderer (handles bold, italic, code, headers, lists, hr) */
+function renderMarkdown(text) {
+  // Escape HTML first (except we'll re-add our own tags)
+  let html = text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+  // Code blocks (``` … ```)
+  html = html.replace(/```([\s\S]*?)```/g, (_, code) =>
+    `<pre><code>${code.trim()}</code></pre>`);
+
+  // Inline code (`…`)
+  html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+
+  // Headers
+  html = html.replace(/^### (.+)$/gm, "<h3>$1</h3>");
+  html = html.replace(/^## (.+)$/gm,  "<h2>$1</h2>");
+  html = html.replace(/^# (.+)$/gm,   "<h1>$1</h1>");
+
+  // Bold & italic
+  html = html.replace(/\*\*\*(.+?)\*\*\*/g, "<strong><em>$1</em></strong>");
+  html = html.replace(/\*\*(.+?)\*\*/g,     "<strong>$1</strong>");
+  html = html.replace(/\*(.+?)\*/g,         "<em>$1</em>");
+
+  // HR
+  html = html.replace(/^---$/gm, "<hr>");
+
+  // Unordered lists
+  html = html.replace(/^\s*[-*] (.+)$/gm, "<li>$1</li>");
+  html = html.replace(/(<li>.*<\/li>)/s,  "<ul>$1</ul>");
+
+  // Ordered lists
+  html = html.replace(/^\d+\. (.+)$/gm, "<li>$1</li>");
+
+  // Links
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+  // Line breaks → <br> (but skip inside pre blocks)
+  const parts = html.split(/(<pre>[\s\S]*?<\/pre>)/g);
+  html = parts.map((part, i) =>
+    i % 2 === 0 ? part.replace(/\n/g, "<br>") : part
+  ).join("");
+
+  return html;
+}
+
+/** Split a long text into overlapping chunks */
+function chunkText(text, filePath) {
+  const chunks = [];
+  let start = 0;
+  let id = 0;
+
+  // For JSON files, try to pretty-print before chunking
+  if (filePath.endsWith(".json")) {
+    try {
+      const parsed = JSON.parse(text);
+      text = JSON.stringify(parsed, null, 2);
+    } catch (_) { /* keep raw */ }
+  }
+
+  while (start < text.length) {
+    const end = Math.min(start + CONFIG.chunkSize, text.length);
+    const chunk = text.slice(start, end).trim();
+
+    if (chunk.length > 20) {   // skip near-empty chunks
+      chunks.push({
+        id: `${filePath}::${id++}`,
+        file: filePath,
+        content: chunk
+      });
+    }
+    start += CONFIG.chunkSize - CONFIG.chunkOverlap;
+  }
+  return chunks;
+}
+
+/* ── 5. KNOWLEDGE INDEXING ──────────────────────────────────────────── */
+
+/** Render the file list items in the overlay */
+function buildFileListUI() {
+  dom.fileList.innerHTML = CONFIG.knowledgeFiles.map(f => `
+    <div class="file-item" id="fi-${CSS.escape(f.replace(/\//g,"_"))}">
+      <span class="file-icon">📄</span>
+      <span>${f}</span>
+    </div>
+  `).join("");
+}
+
+function setFileState(file, state) {
+  const id = "fi-" + CSS.escape(file.replace(/\//g,"_"));
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.className = "file-item " + state;
+  const icon = el.querySelector(".file-icon");
+  if (state === "active") icon.textContent = "⏳";
+  if (state === "done")   icon.textContent = "✅";
+  if (state === "fail")   icon.textContent = "❌";
+}
+
+function setProgress(done, total, label) {
+  dom.progressBar.style.width = Math.round((done / total) * 100) + "%";
+  dom.progressLabel.textContent = label;
+}
+
+async function loadAndIndex() {
+  buildFileListUI();
+  setProgress(0, CONFIG.knowledgeFiles.length, "Starting…");
+
+  // Initialise MiniSearch
+  state.miniSearch = new MiniSearch({
+    fields: ["content"],
+    storeFields: ["file", "content"],
+    searchOptions: {
+      fuzzy: 0.25,
+      prefix: true,
+      boost: { content: 2 }
+    }
+  });
+
+  const allChunks = [];
+  let done = 0;
+
+  for (const filePath of CONFIG.knowledgeFiles) {
+    setFileState(filePath, "active");
+    setProgress(done, CONFIG.knowledgeFiles.length, `Fetching ${filePath}…`);
+
+    try {
+      const url = CONFIG.repoBase + filePath;
+      const resp = await fetch(url);
+
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+      const rawText = await resp.text();
+      state.rawFileContents[filePath] = rawText;
+
+      const chunks = chunkText(rawText, filePath);
+      allChunks.push(...chunks);
+
+      setFileState(filePath, "done");
+    } catch (err) {
+      console.error("Failed to load:", filePath, err);
+      setFileState(filePath, "fail");
+    }
+
+    done++;
+    setProgress(done, CONFIG.knowledgeFiles.length,
+      done === CONFIG.knowledgeFiles.length ? "Indexing…" : `Loaded ${done}/${CONFIG.knowledgeFiles.length}`);
+  }
+
+  // Add all chunks to MiniSearch
+  if (allChunks.length > 0) {
+    state.miniSearch.addAll(allChunks);
+  }
+
+  state.indexedDocs = allChunks;
+  setProgress(CONFIG.knowledgeFiles.length, CONFIG.knowledgeFiles.length,
+    `✅ Indexed ${allChunks.length} chunks from ${done} files`);
+
+  // Short pause so user can see the completion state
+  await new Promise(r => setTimeout(r, 900));
+}
+
+/* ── 6. RAG: SEARCH + PROMPT CONSTRUCTION ───────────────────────────── */
+
+/**
+ * Search the index and return the top-K most relevant text chunks.
+ * Falls back to keyword scan if MiniSearch returns nothing.
+ */
+function retrieveContext(query) {
+  if (!state.miniSearch || state.indexedDocs.length === 0) return [];
+
+  let results = state.miniSearch.search(query, { limit: CONFIG.topK });
+
+  // Fallback: if no results, try a shorter single-word search
+  if (results.length === 0) {
+    const words = query.trim().split(/\s+/);
+    for (const word of words) {
+      if (word.length < 3) continue;
+      results = state.miniSearch.search(word, { limit: CONFIG.topK });
+      if (results.length > 0) break;
+    }
+  }
+
+  return results;
+}
+
+/** Build the full prompt string for the AI */
+function buildPrompt(userQuestion, searchResults) {
+  const contextBlock = searchResults.length > 0
+    ? searchResults.map((r, i) =>
+        `[Source ${i + 1}: ${r.file}]\n${r.content}`
+      ).join("\n\n───\n\n")
+    : "⚠️ No relevant context found in the knowledge base.";
+
+  return `${CONFIG.systemPersona}
+
+════════════════════════════════════
+KNOWLEDGE BASE CONTEXT
+════════════════════════════════════
+${contextBlock}
+════════════════════════════════════
+
+USER QUESTION: ${userQuestion}
+
+ANSWER:`;
+}
+
+/* ── 7. CHAT UI HELPERS ─────────────────────────────────────────────── */
+
+function appendWelcome() {
+  dom.messages.innerHTML = `
+    <div class="welcome-msg">
+      <div class="w-icon">💬</div>
+      <h3>Knowledge Base Ready!</h3>
+      <p>I've indexed all your GBHSSNaudero files. Ask me anything about your 
+         templates, instructions, mapping, or database — or ask me to generate 
+         an HTML social-media post.</p>
+      <div class="suggestions">
+        ${CONFIG.suggestions.map(s =>
+          `<button class="suggest-btn" data-q="${s}">${s}</button>`
+        ).join("")}
+      </div>
+    </div>`;
+
+  // Wire up suggestion buttons
+  dom.messages.querySelectorAll(".suggest-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      dom.userInput.value = btn.dataset.q;
+      handleSend();
+    });
+  });
+}
+
+function appendUserMessage(text) {
+  const row = document.createElement("div");
+  row.className = "msg-row user";
+  row.innerHTML = `
+    <div class="bubble-wrap">
+      <div class="bubble user">${renderMarkdown(text)}</div>
+      <div class="bubble-meta">${nowTime()}</div>
+    </div>
+    <div class="avatar user">🧑</div>`;
+  dom.messages.appendChild(row);
+  scrollToBottom();
+  return row;
+}
+
+/** Creates a bot bubble and returns { row, bubble, addChunk, finalise } */
+function appendBotPlaceholder() {
+  const row = document.createElement("div");
+  row.className = "msg-row bot";
+  row.innerHTML = `
+    <div class="avatar bot">🤖</div>
+    <div class="bubble-wrap">
+      <div class="bubble bot" id="streaming-bubble">
+        <div class="thinking-dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="bubble-meta" id="streaming-meta"></div>
+    </div>`;
+  dom.messages.appendChild(row);
+  scrollToBottom();
+
+  const bubble  = row.querySelector("#streaming-bubble");
+  const metaEl  = row.querySelector("#streaming-meta");
+  let   rawText = "";
+  let   started = false;
+
+  function addChunk(chunk) {
+    if (!started) { bubble.innerHTML = ""; started = true; }
+    rawText += chunk;
+    bubble.innerHTML = renderMarkdown(rawText);
+    bubble.classList.add("cursor");
+    scrollToBottom();
+  }
+
+  function finalise(sources) {
+    bubble.classList.remove("cursor");
+    metaEl.textContent = nowTime();
+
+    if (sources && sources.length > 0) {
+      const uniqueFiles = [...new Set(sources.map(s => s.file))];
+      const tagsHtml = uniqueFiles
+        .map(f => `<span class="source-tag">📎 ${f}</span>`)
+        .join("");
+      const sourcesDiv = document.createElement("div");
+      sourcesDiv.className = "sources-wrap";
+      sourcesDiv.innerHTML = tagsHtml;
+      row.querySelector(".bubble-wrap").appendChild(sourcesDiv);
+    }
+
+    scrollToBottom();
+    return rawText;
+  }
+
+  return { row, bubble, addChunk, finalise };
+}
+
+function appendErrorMessage(msg) {
+  const row = document.createElement("div");
+  row.className = "msg-row bot";
+  row.innerHTML = `
+    <div class="avatar bot">🤖</div>
+    <div class="bubble-wrap">
+      <div class="bubble bot" style="color:var(--error);">
+        ⚠️ ${msg}
+      </div>
+      <div class="bubble-meta">${nowTime()}</div>
+    </div>`;
+  dom.messages.appendChild(row);
+  scrollToBottom();
+}
+
+/* ── 8. MAIN SEND HANDLER ───────────────────────────────────────────── */
+
+async function handleSend() {
+  if (!state.isReady || state.isBusy) return;
+
+  const text = dom.userInput.value.trim();
+  if (!text) return;
+
+  // Clear input
+  dom.userInput.value = "";
+  autoResize(dom.userInput);
+
+  // Remove welcome card on first message
+  const welcome = dom.messages.querySelector(".welcome-msg");
+  if (welcome) welcome.remove();
+
+  // UI: disable input
+  state.isBusy = true;
+  dom.sendBtn.disabled = true;
+  dom.userInput.disabled = true;
+
+  // Render user message
+  appendUserMessage(text);
+
+  // Add to history (for context – optional: we keep last 6 turns)
+  state.chatHistory.push({ role: "user", content: text });
+  if (state.chatHistory.length > 12) state.chatHistory.splice(0, 2);
+
+  // RAG: retrieve relevant chunks
+  const searchResults = retrieveContext(text);
+
+  // Build prompt
+  const fullPrompt = buildPrompt(text, searchResults);
+
+  // Create streaming bot bubble
+  const { addChunk, finalise } = appendBotPlaceholder();
+
+  try {
+    // Call Puter AI with streaming
+    const response = await puter.ai.chat(fullPrompt, {
+      model: CONFIG.model,
+      stream: true
+    });
+
+    // Stream the response chunks into the bubble
+    for await (const part of response) {
+      const chunk = part?.text ?? part?.choices?.[0]?.delta?.content ?? "";
+      if (chunk) addChunk(chunk);
+    }
+
+    // Finalise and attach source tags
+    const finalText = finalise(searchResults);
+
+    // Store assistant reply in history
+    state.chatHistory.push({ role: "assistant", content: finalText });
+
+  } catch (err) {
+    console.error("AI error:", err);
+    finalise([]);
+    appendErrorMessage(
+      "Sorry, the AI request failed. Please check your connection and try again.<br>" +
+      `<small style="opacity:0.6">${err.message || err}</small>`
+    );
+  }
+
+  // Re-enable input
+  state.isBusy = false;
+  dom.sendBtn.disabled = false;
+  dom.userInput.disabled = false;
+  dom.userInput.focus();
+}
+
+/* ── 9. EVENT LISTENERS ─────────────────────────────────────────────── */
+
+// Send on Enter (Shift+Enter = new line)
+dom.userInput.addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    handleSend();
+  }
+});
+
+// Auto-resize textarea
+dom.userInput.addEventListener("input", () => autoResize(dom.userInput));
+
+// Send button click
+dom.sendBtn.addEventListener("click", handleSend);
+
+// Clear chat
+dom.clearBtn.addEventListener("click", () => {
+  if (confirm("Clear the conversation? (Knowledge base stays indexed.)")) {
+    state.chatHistory = [];
+    appendWelcome();
+  }
+});
+
+/* ── 10. INITIALISATION ─────────────────────────────────────────────── */
+
+(async () => {
+  dom.modelLabel.textContent = `Model: ${CONFIG.model} · RAG enabled`;
+
+  try {
+    await loadAndIndex();
+
+    // Mark as ready
+    state.isReady = true;
+
+    // Update status badge
+    dom.statusBadge.className = "ready";
+    dom.statusText.textContent = "Ready";
+
+    // Hide overlay with fade
+    dom.overlay.classList.add("hidden");
+    setTimeout(() => { dom.overlay.style.display = "none"; }, 500);
+
+    // Show welcome screen
+    appendWelcome();
+
+    // Enable input
+    dom.userInput.placeholder = "Ask me anything about GBHSSNaudero…";
+    dom.userInput.disabled = false;
+    dom.sendBtn.disabled   = false;
+    dom.userInput.focus();
+
+  } catch (err) {
+    console.error("Initialisation failed:", err);
+    dom.statusBadge.className = "error";
+    dom.statusText.textContent = "Init Error";
+    dom.progressLabel.textContent = "❌ Failed: " + (err.message || err);
+  }
+})();
+</script>
+</body>
+</html>
