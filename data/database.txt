@@ -1,0 +1,59 @@
+Staff Database:
+Here is Staff database, when any teacher's/staff short name is provided, write its full name from following database, also if class is not mentioned in prompt, analyze prompt and write first class too.
+
+Sir Adnan Katper – JEST, teaches Physics (X-B, X-D, IX-B)
+Sir Adnan Qazi – SST,Mathematics VIII-A, VIII-D 
+Sir Shoaib Ahmed Soomro – JEST, teaches Chemistry (X-B, X-D, IX-D)
+Sir Zahid Hussain Kolachi – HST, Class Teacher and teaches Physics (X-C)
+Sir Assadullah Pahore – HST, Class Teacher and teaches Chemistry (X-A)
+Sir Inam Qadri – HST, Class Teacher, teaches Chemistry (IX-A, X-C)
+Sir Muhammad Azam Khuhro – Subject Specialist (Zoology), teaches Biology (X-B)
+Sir Muhammad Jamil – JEST, teaches Physics (IX-A, IX-B, IX-D)
+Sir Farooq Katper – HST, Class Teacher  (X-D)
+Sir Waseem Soomro – SST, Class Teacher (VIII-D)
+Sir Babar Channo – JEST, Class Teacher and teaches Sindhi to class VIII-D
+Sir Fahad Jamal – JEST, teaches Pak Studies (X-A, X-B, X-C)
+Sir Farooq Unar – Subject Specialist (Economics)
+Sir Rashid Katper – JEST, teaches Pak Studies (X-D)
+Sir Abdul Hameed Khuhro – SST
+Sir Aijaz Jarwar – WI
+Sir Akram Chano – SST
+Sir Amjad Soomro – SST, Class Teacher (IX-D) and teaches Mathematics to (X-A,X-C)
+Sir Ashok Kumar – SST
+Sir Faheem Kandhir – JEST, teaches Computer (VI)
+Sir Hashim Soomro – SST – JEST, teaches Mathematics (VI)
+Sir Imran Pahore – SST
+Sir Irfan Khuhro – JEST, Class Teacher (VI-B)
+Sir Khalid Katper – SST, Class Teacher (VII-A)
+Sir Mashkoor Qazi – AWI
+Sir Satish Kumar – SST
+Sir Taj Mohammad Mangi – JEST, teaches General Science (VIII-D)
+Sir Yaseen Channo – SST, teaches Mathematics to (X-B,X-D)
+Sir Zahid Kolachi – SST, Class Teacher and teaches Physics to (X-C) 
+Sir Zeeshan Khokhar – SST, Class Teacher (IX-C)
+Sir Zubair Channa – JEST, Class Teacher of VII-B and teaches Biology (X-C)
+Sir Akhlaq Mangrio – SST
+Sir Akshay Kumar – SST
+Sir Amjad Bohiro – Subject Specialist (Biology)
+Sir Asadullah Pahore – SST, Class Teacher of (X-A) and teaches Chemistry to IX-B
+Sir Atif Korejo – SST, teaches Biology to class X-C
+Sir Farooq Kalhoro – JEST, teaches Biology (X-A, IX-A)
+Sir Farooque Soomro – EST, teaches Islamic Studies to Class VI-C VI-D VII-B and Social Studies to class VI-A
+Sir Gul Zaman Kalhoro – JEST, teaches Science Class (VI-A,VI-B,VI-D)
+Sir Habibullah Pahore – SST, Class Teacher of (VIII-B)
+Sir Khursheed Junejo – SST, Class Teacher of (X-B) and teaches Mathematics (IX-A)
+Sir Muzafar Ali – Drawing Teacher
+Sir Nasir Soomro – JEST, teaches Mathematics (IX-C, IX-D)
+Sir Naveed Soomro – JEST, teaches Biology (IX-B, IX-D)
+Sir Samiullah Katper – SST
+Sir Shafiq Khuhro – SST, Class Teacher of (VIII-A)
+Sir Talib Jarwar – JEST, Class Teacher (VIII-A) and teaches Sindhi (VIII-B)
+Sir Madah Qazi – AWI
+Sir Abdul Qayoom Mahoto – SST, Class Teacher of (VI-A)
+Sir Parkash Kumar – SST, teaches Mathematics (VI)
+Sir Muhammad Saleem Kandhir - SLT, teaches Arabic and Islamiat to (VIII)
+
+Lower Staff
+Samiullah – Peon
+GM Mohil – Clerk
+Manzoor Khuhro – Clerk
