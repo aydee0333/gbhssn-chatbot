@@ -1,0 +1,9 @@
+name = "school-ai-template-worker"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+[vars]
+GITHUB_RAW_BASE = "https://raw.githubusercontent.com/aydee0333/gbhssn-chatbot/main/data"
+GEMINI_MODEL = "gemini-1.5-flash"
+ALLOWED_ORIGIN = "*"
+CACHE_TTL_SECONDS = "300"
