@@ -1,4 +1,4 @@
-const API_URL = "https://YOUR-WORKER-NAME.YOUR-SUBDOMAIN.workers.dev";
+const API_URL = "https://gbhssn.aydee-0333.workers.dev";
 
 const promptEl = document.getElementById("prompt");
 const generateBtn = document.getElementById("generateBtn");
