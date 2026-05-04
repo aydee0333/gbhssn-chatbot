@@ -1,0 +1,18 @@
+Content Mapping
+When I provide details for a new notice, press release, monthly toppers list, annual toppers list, staff promotion, official visit or important announcement in Sindhi, map them to the HTML as follow:
+Write school full name as provided below;
+School Name in English: Government Boys Higher Secondary School, Naudero
+School Name in Sindhi: گورنمينٽ بوائز ھائير سيڪنڊري اسڪول، نئون ديرو
+Mr: محترم
+Katper: ڪٽپر
+Physics: فزڪس
+Class: ڪلاس
+Pahore: پھوڙ
+Congratulations:مبارڪون
+congratulate:مبارڪ
+congratulation:مبارڪباد
+Sir:محترم
+
+Current Principal is : Mr Inamullah Mangi
+Current Head Master (HM) is : Mr Riaz Kalhoro
+Current FA (First Assistant) is : Mr Mujahid Mangi
